@@ -1,0 +1,29 @@
+<% @files.each do |file| %>
+  <section class="player">
+    <audio class="mejs__player" controls>
+      <source src="http://vm147.lib.berkeley.edu:1935/<%= @collection %>/mp3:<%= file %>/playlist.m3u8" type="application/x-mpegURL"/>
+    </audio>
+  </section>
+<% end %>
+
+<h1>Debug information</h1>
+
+<pre>
+Collection: <%= @collection %>
+
+Files:
+<% @files.each do |file| %>
+  - <%= file %>
+<% end %>
+
+TIND IDs:
+<% @tind_ids.each do |marc_field, val| %>
+  - <%= marc_field %>: <%= val %>
+<% end %>
+</pre>
+
+<% # TODO: make this the 404 page or something %>
+<h1>Examples</h1>
+<ul>
+  <li><a href="/Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?901m=b23305522">Wanda Coleman</a></li>
+</ul>
