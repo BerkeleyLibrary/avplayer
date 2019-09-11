@@ -1,7 +1,7 @@
 class PlayerController < ApplicationController
   TIND_ID_PARAMS = %w[901m 901o].freeze
 
-  def index
+  def show
     @collection = player_params[:collection]
     @files = split_files(player_params[:files])
     @tind_ids = tind_ids(player_params)
