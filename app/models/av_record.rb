@@ -1,0 +1,2 @@
+class AvRecord
+end

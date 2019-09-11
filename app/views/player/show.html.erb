@@ -4,6 +4,18 @@
 
 <main>
 
+  <% if Rails.env.production? %>
+    <!--
+    <%= render(partial: 'debug.txt', formats: :raw) %>
+    -->
+  <% else %>
+    <aside>
+      <pre>
+        <%= render(partial: 'debug.txt', formats: :raw) %>
+      </pre>
+    </aside>
+  <% end %>
+
   <% @files.each do |file| %>
     <section class="player">
       <audio class="mejs__player" controls>
@@ -15,23 +27,3 @@
 
 </main>
 
-<% unless Rails.env.production? %>
-  <aside>
-    <pre>
-      Debug information
-      -----------------
-
-      Collection: <%= @collection %>
-
-      Files:
-      <% @files.each do |file| %>
-      - <%= file %>
-      <% end %>
-
-      TIND IDs:
-      <% @tind_ids.each do |marc_field, val| %>
-      - <%= marc_field %>: <%= val %>
-      <% end %>
-    </pre>
-  </aside>
-<% end %>
