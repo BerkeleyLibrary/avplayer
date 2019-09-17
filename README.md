@@ -18,4 +18,9 @@ The UC Berkeley Library audio/video player.
 
 ### Viewing logs
 
+You can view application output directly in the console by running
+`docker-compose up` without the `-d` (detach) flag, or use:
+
+```sh
 docker-compose logs -f
+```
