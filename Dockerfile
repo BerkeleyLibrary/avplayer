@@ -84,8 +84,6 @@ RUN bundle install --jobs=$(nproc) --deployment --path=/usr/local/bundle
 # Copy the rest of the codebase.
 COPY --chown=$APP_USER . .
 
-RUN yarn install
-
 # =============================================================================
 # Target: production
 #

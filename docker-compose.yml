@@ -4,9 +4,12 @@ services:
       context: .
       target: development
     ports:
-      - 3000:3000
+      - target: 3000
+        published: 3000
     restart: always
     volumes:
+      # Note that this mounts the *entire* repo directory (including
+      # files ignored in .dockerignore when building the image)
       - ./:/opt/app
 
 # TODO: figure out whether we need an updater service, & if not, how to precompile assets
