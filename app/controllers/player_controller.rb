@@ -30,4 +30,15 @@ class PlayerController < ApplicationController
     end.to_h
   end
 
+  def tind_marc_xml(tind_ids)
+    tind_ids.each do |field, id|
+      # TODO: make TIND location configurable
+      url = "https://digicoll.lib.berkeley.edu/search?p=#{id}&of=xm"
+
+      # TODO: get XML
+      #   - iterate over <record/> tags
+      #   - validate field & subfield
+      #   - return first match
+    end
+  end
 end

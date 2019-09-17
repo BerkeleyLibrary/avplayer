@@ -19,6 +19,7 @@
   <% @files.each do |file| %>
     <section class="player">
       <audio class="mejs__player" controls>
+        <%# TODO: make Wowza server location configurable %>
         <source src="http://vm147.lib.berkeley.edu:1935/<%= @collection %>/mp3:<%= file %>/playlist.m3u8" type="application/x-mpegURL"/>
       </audio>
     </section>
