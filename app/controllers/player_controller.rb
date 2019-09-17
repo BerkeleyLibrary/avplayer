@@ -12,7 +12,7 @@ class PlayerController < ApplicationController
   def player_params
     @player_params ||= begin
       # :format is a default parameter added from routes.rb
-      permitted = [:collection, :files, :format] + TIND_ID_PARAMS
+      permitted = %i[collection files format] + TIND_ID_PARAMS
       params.permit(*permitted)
     end
   end
