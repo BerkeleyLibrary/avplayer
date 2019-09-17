@@ -1,24 +1,21 @@
-# README
+# AV Player
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The UC Berkeley Library audio/video player.
 
-Things you may want to cover:
+## Development
 
-* Ruby version
+1. Build the images:
 
-* System dependencies
+    ```sh
+    docker-compose build --pull
+    ```  
 
-* Configuration
+2. Bring up the application container:
 
-* Database creation
+   ```sh
+   docker-compose up -d
+   ```
 
-* Database initialization
+### Viewing logs
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+docker-compose logs -f
