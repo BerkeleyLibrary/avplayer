@@ -25,6 +25,33 @@
     </section>
   <% end %>
 
+  <%
+    if @marc_record
+  %>
+    <table style="margin: 1em; font-family: monospace;">
+      <% @marc_record.each do |field| %>
+        <% next if field.is_a?(MARC::ControlField) %>
+        <tr>
+          <td style="padding: 0.5em; white-space: nowrap;">
+            <%= field.tag %> <%= field.indicator1 || ' ' %><%= field.indicator2 %>
+          </td>
+          <td style="padding: 0.5em;">
+            <%=
+              field.subfields.map do |subfield|
+                subfield.code == 'a' ? subfield.value : "#{subfield.code}#{subfield.value}"
+              end.join("|")
+            %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  <%
+    else
+  %>
+    <!-- no TIND record found -->
+  <%
+    end
+  %>
 
 </main>
 

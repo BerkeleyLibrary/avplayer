@@ -8,6 +8,8 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
+    <%# TODO: move this to player only %>
+    <%# TODO: handle JS errors (e.g. 403/404/CORS issues w/media URL) %>
     <%# TODO: figure out how to load this from node_modules with Webpacker %>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mediaelement@4.2.10/build/mediaelement-and-player.js"></script>
