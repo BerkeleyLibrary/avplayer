@@ -4,9 +4,9 @@ require 'rest-client'
 
 class PlayerController < ApplicationController
   # TODO: make TIND location configurable
-  TIND_SEARCH_URL = "https://digicoll.lib.berkeley.edu/search"
+  TIND_SEARCH_URL = 'https://digicoll.lib.berkeley.edu/search'.freeze
   TIND_ID_PARAMS = %w[901m 901o].freeze
-  MARC_FIELD_RE = /^([0-9]{3})([a-z])$/
+  MARC_FIELD_RE = /^([0-9]{3})([a-z])$/.freeze
 
   def show
     @collection = player_params[:collection]
@@ -19,7 +19,7 @@ class PlayerController < ApplicationController
 
   def player_params
     @player_params ||= begin
-                         # :format is a default parameter added from routes.rb
+      # :format is a default parameter added from routes.rb
       permitted = %i[collection files format] + TIND_ID_PARAMS
       params.permit(*permitted)
     end
@@ -32,7 +32,6 @@ class PlayerController < ApplicationController
     files_param.split(';')
   end
 
-
   def tind_ids(params)
     params.to_h.find_all do |k, _|
       # TODO: validate/sanitize value
@@ -40,16 +39,15 @@ class PlayerController < ApplicationController
     end.to_h
   end
 
-
   def tind_marc_record(tind_ids)
     tind_ids.each do |param, id|
       field, subfield = field_and_subfield(param)
 
-      resp = RestClient.get(TIND_SEARCH_URL, params: {p: id, of: 'xm'})
+      resp = RestClient.get(TIND_SEARCH_URL, params: { p: id, of: 'xm' })
       next unless resp.code == 200
 
       # TODO: stream response https://github.com/rest-client/rest-client#streaming-responses
-      for record in MARC::XMLReader.new(StringIO.new(resp.body))
+      MARC::XMLReader.new(StringIO.new(resp.body)).each do |record|
         return record if record[field][subfield] == id
       end
     end
