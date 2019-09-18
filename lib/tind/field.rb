@@ -11,7 +11,7 @@ module TIND
 
     ATTRS.each { |attr| attr_reader attr }
 
-    # TODO: something smarter than subfields_separator
+    # TODO: something smarter than subfields_separator (typed values?)
     def initialize(order:, marc_tag:, label:, subfields_separator: ' ', subfield_order: nil)
       md = TAG_RE.match(marc_tag)
       raise ArgumentError, "Invalid MARC tag #{marc_tag}" unless md

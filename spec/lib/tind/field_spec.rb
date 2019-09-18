@@ -30,7 +30,7 @@ module TIND
       end
 
       describe :LINKS_HTTP do
-        # TODO: something smarter than subfields_separator
+        # TODO: something smarter than subfields_separator (typed values?)
         it 'extracts the values' do
           field = Formatter::LINKS_HTTP
           values = field.values_from(marc_record)
