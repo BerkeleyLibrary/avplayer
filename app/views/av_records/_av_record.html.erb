@@ -1,0 +1,25 @@
+<section class="av_record">
+  <h1><%= record.title %></h1>
+
+  <% record.files.each do |file| %>
+    <section class="player">
+      <audio class="mejs__player" controls>
+        <source src="<%= wowza_url_for(collection: record.collection, file: file) %>" type="application/x-mpegURL"/>
+      </audio>
+    </section>
+  <% end %>
+
+  <%= render(partial: 'tind/record', locals: {tind_record: record.tind_record}) %>
+</section>
+
+<% if Rails.env.production? %>
+  <!--
+  <%= render(partial: 'av_records/debug.txt', formats: :raw, locals: {record: record}) %>
+  -->
+<% else %>
+  <aside>
+      <pre>
+        <%= render(partial: 'av_records/debug.txt', formats: :raw, locals: {record: record}) %>
+      </pre>
+  </aside>
+<% end %>

@@ -92,4 +92,10 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+  # Search URL for TIND metadata (see app/services/tind)
+  config.tind_search_url = 'https://digicoll.lib.berkeley.edu/search'
+
+  # Wowza server URL
+  config.wowza_base_url = 'http://vm147.lib.berkeley.edu:1935/'
 end

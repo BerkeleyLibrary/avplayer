@@ -1,0 +1,14 @@
+
+Title: <%= record.title %>
+
+Collection: <%= record.collection %>
+
+Files:
+<% record.files.each do |file| %>
+- <%= file %>
+<% end %>
+
+TIND IDs:
+<% record.tind_ids.each do |id| %>
+- <%= id %>
+<% end %>

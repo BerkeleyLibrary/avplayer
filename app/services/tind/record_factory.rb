@@ -23,10 +23,11 @@ module Tind
       return if fields.empty?
 
       title_field = fields.first { |f| f.tag == '245' }
-      title = (title_field && title_field.lines.first) || '(Unknown title)'
+      title = (title_field && title_field.lines.first) || Record::UNKNOWN_TITLE
       Tind::Record.new(title: title, fields: fields)
     end
 
+    # @deprecated use create_record_from_marc() (and parse the XML yourself)
     def create_record_from_xml(marc_xml)
       input = StringIO.new(marc_xml)
       marc_record = MARC::XMLReader.new(input).first

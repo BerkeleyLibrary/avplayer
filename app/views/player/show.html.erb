@@ -3,55 +3,6 @@
 </header>
 
 <main>
-
-  <% if Rails.env.production? %>
-    <!--
-    <%= render(partial: 'debug.txt', formats: :raw) %>
-    -->
-  <% else %>
-    <aside>
-      <pre>
-        <%= render(partial: 'debug.txt', formats: :raw) %>
-      </pre>
-    </aside>
-  <% end %>
-
-  <% @files.each do |file| %>
-    <section class="player">
-      <audio class="mejs__player" controls>
-        <%# TODO: make Wowza server location configurable %>
-        <source src="http://vm147.lib.berkeley.edu:1935/<%= @collection %>/mp3:<%= file %>/playlist.m3u8" type="application/x-mpegURL"/>
-      </audio>
-    </section>
-  <% end %>
-
-  <%
-    if @marc_record
-  %>
-    <table style="margin: 1em; font-family: monospace;">
-      <% @marc_record.each do |field| %>
-        <% next if field.is_a?(MARC::ControlField) %>
-        <tr>
-          <td style="padding: 0.5em; white-space: nowrap;">
-            <%= field.tag %> <%= field.indicator1 || ' ' %><%= field.indicator2 %>
-          </td>
-          <td style="padding: 0.5em;">
-            <%=
-              field.subfields.map do |subfield|
-                subfield.code == 'a' ? subfield.value : "#{subfield.code}#{subfield.value}"
-              end.join("|")
-            %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
-  <%
-    else
-  %>
-    <!-- no TIND record found -->
-  <%
-    end
-  %>
-
+  <%= render(partial: 'av_records/av_record', locals: {record: record}) %>
 </main>
 

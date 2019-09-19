@@ -1,0 +1,6 @@
+<tr>
+  <th><%= field.label %></th>
+  <td>
+    <% field.links.each { |link| %><p><%= link_to(link.body, link.url) %></p><% } %>
+  </td>
+</tr>

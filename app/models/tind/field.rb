@@ -16,6 +16,10 @@ module Tind
       super(tag: tag, label: label)
       @lines = lines
     end
+
+    def to_s
+      "#{label} (#{tag}): #{lines.join(" ")}"
+    end
   end
 
   class LinkField < Field
@@ -24,6 +28,10 @@ module Tind
     def initialize(tag:, label:, links:)
       super(tag: tag, label: label)
       @links = links
+    end
+
+    def to_s
+      "#{label} (#{tag}): #{links.map(&:to_s).join(" ")}"
     end
   end
 

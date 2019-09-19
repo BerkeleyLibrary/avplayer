@@ -48,4 +48,10 @@ Rails.application.configure do
 
   # Disable Webpacker integrity check in development
   config.webpacker.check_yarn_integrity = false
+
+  # Search URL for TIND metadata (see app/services/tind)
+  config.tind_search_url = 'https://digicoll.lib.berkeley.edu/search'
+
+  # Wowza server URL
+  config.wowza_base_url = 'http://vm147.lib.berkeley.edu:1935/'
 end
