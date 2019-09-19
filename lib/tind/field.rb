@@ -104,7 +104,11 @@ module TIND
       raise ArgumentError, "Field has wrong tag: expected #{tag}, was #{data_field.tag}" unless tag == data_field.tag
       return {} if ind_1 && ind_1 != data_field.indicator1
       return {} if ind_2 && ind_2 != data_field.indicator2
-      return {subfield.to_sym => data_field[subfield]} if subfield
+
+      if subfield
+        subfield_value = data_field[subfield]
+        return subfield_value ? {subfield.to_sym => subfield_value} : {}
+      end
 
       subfield_values = {}
       if subfield_order
