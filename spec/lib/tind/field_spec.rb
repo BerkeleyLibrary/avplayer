@@ -13,7 +13,7 @@ module TIND
     describe :default_fields do
       describe :CREATOR_PERSONAL do
         it 'extracts the values' do
-          field = Formatter::CREATOR_PERSONAL
+          field = Parser::CREATOR_PERSONAL
           values = field.values_from(marc_record)
           expected = [
             {a: 'Coleman, Wanda.', e: 'interviewee.'},
@@ -25,7 +25,7 @@ module TIND
 
       describe :CREATOR_CORPORATE do
         it 'extracts the values' do
-          field = Formatter::CREATOR_CORPORATE
+          field = Parser::CREATOR_CORPORATE
           values = field.values_from(marc_record)
           expected = [{a: 'Pacifica Radio Archive.'}, {a: "KPFA (Radio station : Berkeley, Calif.)."}]
           expect(values).to eq(expected)
@@ -34,7 +34,7 @@ module TIND
 
       describe :LINKS_HTTP do
         it 'extracts the values' do
-          field = Formatter::LINKS_HTTP
+          field = Parser::LINKS_HTTP
           values = field.values_from(marc_record)
           expected = [{u: 'http://oskicat.berkeley.edu/record=b23305522', y: "View library catalog record."}]
           expect(values).to eq(expected)

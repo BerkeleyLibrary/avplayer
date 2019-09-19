@@ -1,7 +1,7 @@
 require 'marc'
 
 module TIND
-  class Formatter
+  class Parser
 
     CREATOR_PERSONAL = Field.new(label: 'Creator', marc_tag: '700%%', order: 2)
     CREATOR_CORPORATE = Field.new(label: 'Creator', marc_tag: '710%%', order: 2)
@@ -52,7 +52,7 @@ module TIND
           unique_fields << f unless unique_fields.any? { |u| u.same_field?(f) }
         end
 
-        Formatter.new(unique_fields)
+        Parser.new(unique_fields)
       end
     end
   end
