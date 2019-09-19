@@ -1,4 +1,5 @@
 require 'marc'
+require 'ostruct'
 
 module TIND
   class Field
@@ -11,7 +12,6 @@ module TIND
 
     ATTRS.each { |attr| attr_reader attr }
 
-    # TODO: something smarter than subfields_separator (typed values?)
     def initialize(order:, marc_tag:, label:, subfields_separator: ' ', subfield_order: nil)
       md = TAG_RE.match(marc_tag)
       raise ArgumentError, "Invalid MARC tag #{marc_tag}" unless md
@@ -88,30 +88,37 @@ module TIND
 
     # Finds the values for this MARC query in a MARC record.
     # @param marc_record [MARC::Record]
-    # @return [Array<String>]
+    # @return [Array<Hash{Symbol=>String}>]
     def values_from(marc_record)
       values = []
       marc_record.each_by_tag(tag) do |field|
         value = value_from(field)
-        values << value if value
+        values << value unless value.empty?
       end
       values
     end
 
     # @param data_field MARC::DataField
-    # @return [String, nil]
+    # @return [Hash{Symbol=>String}]
     def value_from(data_field)
       raise ArgumentError, "Field has wrong tag: expected #{tag}, was #{data_field.tag}" unless tag == data_field.tag
-      return if ind_1 && ind_1 != data_field.indicator1
-      return if ind_2 && ind_2 != data_field.indicator2
-      return data_field[subfield] if subfield
+      return {} if ind_1 && ind_1 != data_field.indicator1
+      return {} if ind_2 && ind_2 != data_field.indicator2
+      return {subfield.to_sym => data_field[subfield]} if subfield
 
-      subfield_values = if subfield_order
-                          subfield_order.map { |code| data_field[code] }.compact
-                        else
-                          data_field.subfields.map(&:value)
-                        end
-      subfield_values.join(subfields_separator) unless subfield_values.empty?
+      subfield_values = {}
+      if subfield_order
+        subfield_order.each do |code|
+          subfield_value = data_field[code]
+          subfield_values[code.to_sym] = subfield_value if subfield_value
+        end
+      else
+        data_field.subfields.each do |subfield|
+          subfield_value = subfield.value
+          subfield_values[subfield.code.to_sym] = subfield_value if subfield_value
+        end
+      end
+      subfield_values
     end
 
     class << self
