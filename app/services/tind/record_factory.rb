@@ -47,15 +47,20 @@ module Tind
           fields << field if field
         end
 
-        fields.sort!
-
-        unique_fields = []
-
-        fields.each do |f|
-          unique_fields << f unless unique_fields.any? { |u| u.same_field?(f) }
-        end
-
+        unique_fields = find_uniques(fields)
         RecordFactory.new(unique_fields)
+      end
+
+      private
+
+      def find_uniques(fields)
+        unique_fields = []
+        fields.sort.each do |f|
+          next if unique_fields.any? { |u| u.same_field?(f) }
+
+          unique_fields << f
+        end
+        unique_fields
       end
     end
 

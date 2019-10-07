@@ -3,8 +3,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.4'
 
+gem 'awesome_print', '~> 1.8'
 gem 'jbuilder', '~> 2.7'
+gem 'lograge', '~> 0.11'
 gem 'marc', '~> 1.0'
+gem 'ougai', '~> 1.8'
 gem 'puma', '~> 3.11'
 gem 'rails', '~> 6.0.0'
 gem 'rest-client', '~> 2.1'

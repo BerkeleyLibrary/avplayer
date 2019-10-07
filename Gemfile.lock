@@ -59,6 +59,7 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.0)
+    awesome_print (1.8.0)
     bindex (0.8.1)
     bootsnap (1.4.5)
       msgpack (~> 1.0)
@@ -113,6 +114,11 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
+    lograge (0.11.2)
+      actionpack (>= 4)
+      activesupport (>= 4)
+      railties (>= 4)
+      request_store (~> 1.0)
     loofah (2.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -136,6 +142,9 @@ GEM
     nio4r (2.5.1)
     nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
+    oj (3.9.2)
+    ougai (1.8.2)
+      oj (~> 3.4)
     parallel (1.17.0)
     parser (2.6.4.1)
       ast (~> 2.4.0)
@@ -178,6 +187,8 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     regexp_parser (1.6.0)
+    request_store (1.4.1)
+      rack (>= 1.4)
     rest-client (2.1.0)
       http-accept (>= 1.7.0, < 2.0)
       http-cookie (>= 1.0.2, < 2.0)
@@ -284,6 +295,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print (~> 1.8)
   bootsnap (>= 1.4.2)
   brakeman
   bundle-audit
@@ -294,7 +306,9 @@ DEPENDENCIES
   irb
   jbuilder (~> 2.7)
   listen (>= 3.0.5, < 3.2)
+  lograge (~> 0.11)
   marc (~> 1.0)
+  ougai (~> 1.8)
   puma (~> 3.11)
   rails (~> 6.0.0)
   rest-client (~> 2.1)

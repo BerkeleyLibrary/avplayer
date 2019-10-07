@@ -18,7 +18,7 @@ module Tind
     end
 
     def to_s
-      "#{label} (#{tag}): #{lines.join(" ")}"
+      "#{label} (#{tag}): #{lines.join(' ')}"
     end
   end
 
@@ -31,7 +31,7 @@ module Tind
     end
 
     def to_s
-      "#{label} (#{tag}): #{links.map(&:to_s).join(" ")}"
+      "#{label} (#{tag}): #{links.map(&:to_s).join(' ')}"
     end
   end
 

@@ -2,6 +2,7 @@ require 'marc'
 require 'tind/field'
 
 module Tind
+  # rubocop:disable Metrics/ClassLength
   class FieldFactory
     include Comparable
 
@@ -12,6 +13,7 @@ module Tind
 
     ATTRS.each { |attr| attr_reader attr }
 
+    # rubocop:disable Metrics/AbcSize
     def initialize(order:, marc_tag:, label:, subfields_separator: ' ', subfield_order: nil)
       md = TAG_RE.match(marc_tag)
       raise ArgumentError, "Invalid MARC tag #{marc_tag}" unless md
@@ -20,8 +22,7 @@ module Tind
       @ind_1 = FieldFactory.indicator(md[2])
       @ind_2 = FieldFactory.indicator(md[3])
 
-      subfield = md[4]
-      @subfield = subfield unless subfield.blank? || subfield == '%'
+      @subfield = md[4] unless md[4].blank? || md[4] == '%'
 
       @subfield_order = subfield_order && !subfield_order.blank? ? subfield_order.split(',') : nil
 
@@ -29,6 +30,7 @@ module Tind
       @subfields_separator = subfields_separator
       @order = order
     end
+    # rubocop:enable Metrics/AbcSize
 
     def link?
       tag == '856'
@@ -87,6 +89,7 @@ module Tind
         ind_char if ind_char && ind_char != '%' && ind_char != '_'
       end
 
+      # rubocop:disable Metrics/MethodLength
       def from_json(json_field)
         params = json_field['params']
         return unless params
@@ -108,7 +111,9 @@ module Tind
           subfield_order: params['subfield_order']
         )
       end
+      # rubocop:enable Metrics/MethodLength
 
+      # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       def find_marc_tag(json)
         params = json['params']
 
@@ -134,6 +139,7 @@ module Tind
 
         nil
       end
+      # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
     end
 
@@ -179,6 +185,7 @@ module Tind
 
     # @param data_field MARC::DataField
     # @return [Hash{Symbol=>String}]
+    # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def value_from(data_field)
       raise ArgumentError, "Field has wrong tag: expected #{tag}, was #{data_field.tag}" unless tag == data_field.tag
       return {} if ind_1 && ind_1 != data_field.indicator1
@@ -189,6 +196,12 @@ module Tind
         return subfield_value ? { subfield.to_sym => subfield_value } : {}
       end
 
+      extract_subfield_values(data_field)
+    end
+    # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
+    # rubocop:disable Metrics/MethodLength
+    def extract_subfield_values(data_field)
       subfield_values = {}
       if subfield_order
         subfield_order.each do |code|
@@ -203,6 +216,8 @@ module Tind
       end
       subfield_values
     end
+    # rubocop:enable Metrics/MethodLength
 
   end
+  # rubocop:enable Metrics/ClassLength
 end

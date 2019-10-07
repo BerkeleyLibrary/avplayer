@@ -25,6 +25,6 @@ class AvRecord
     Tind::Record.find_any(tind_ids)
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.warn(e)
-    return Tind::Record::NONE
+    Tind::Record::NONE
   end
 end

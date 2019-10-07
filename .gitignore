@@ -4,6 +4,12 @@
 # github-markdown-preview previews
 *.md.html
 
+# Additional IDEA/RubyMine ignores
+.idea/.rakeTasks
+
+# test and inspection reports
+/test
+
 ############################################################
 # Generated ignores
 

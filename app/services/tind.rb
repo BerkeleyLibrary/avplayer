@@ -17,7 +17,7 @@ module Tind
 
     # @param tind_id [Tind::Id] the TIND ID to find
     def find_marc_record(tind_id)
-      raise "tind_search_url not configured in Rails application" unless tind_search_url
+      raise 'tind_search_url not configured in Rails application' unless tind_search_url
 
       records = find_marc_records(tind_id)
       marc_record = records.first
@@ -38,7 +38,7 @@ module Tind
     end
 
     def get_marc_xml(id_value)
-      tind_search_params = {p: id_value, of: 'xm'}
+      tind_search_params = { p: id_value, of: 'xm' }
       Rails.logger.debug("getting: #{tind_search_uri(tind_search_params)}")
       resp = RestClient.get(tind_search_url, params: tind_search_params)
       if resp.code != 200
