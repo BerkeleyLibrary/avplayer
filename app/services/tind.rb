@@ -19,9 +19,8 @@ module Tind
     def find_marc_record(tind_id)
       raise "tind_search_url not configured in Rails application" unless tind_search_url
 
-      marc_xml = get_marc_xml(tind_id.value)
-      input = StringIO.new(marc_xml)
-      marc_record = MARC::XMLReader.new(input).first
+      records = find_marc_records(tind_id)
+      marc_record = records.first
       marc_record if tind_id.in?(marc_record)
     end
 
@@ -30,6 +29,13 @@ module Tind
     end
 
     private
+
+    # @return [Enumerable<MARC::Record>]
+    def find_marc_records(tind_id)
+      marc_xml = get_marc_xml(tind_id.value)
+      input = StringIO.new(marc_xml)
+      MARC::XMLReader.new(input) # MARC::XMLReader mixes in Enumerable
+    end
 
     def get_marc_xml(id_value)
       tind_search_params = {p: id_value, of: 'xm'}
