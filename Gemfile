@@ -13,6 +13,7 @@ gem 'rails', '~> 6.0.0'
 gem 'rest-client', '~> 2.1'
 gem 'sass-rails', '~> 5'
 gem 'turbolinks', '~> 5'
+gem 'typesafe_enum', '~> 0.1.9'
 gem 'webpacker', '~> 4.0'
 
 gem 'bootsnap', '>= 1.4.2', require: false

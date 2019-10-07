@@ -261,6 +261,7 @@ GEM
     turbolinks (5.2.0)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
+    typesafe_enum (0.1.9)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unf (0.1.4)
@@ -320,6 +321,7 @@ DEPENDENCIES
   simplecov (~> 0.16.1)
   simplecov-rcov
   turbolinks (~> 5)
+  typesafe_enum (~> 0.1.9)
   web-console (>= 3.3.0)
   webdrivers
   webmock

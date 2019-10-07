@@ -18,6 +18,11 @@ class PlayerController < ApplicationController
     }
   end
 
+  def health
+    check = Health::Check.new
+    render json: check, status: check.http_status_code
+  end
+
   private
 
   def player_params
