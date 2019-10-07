@@ -1,6 +1,4 @@
-require 'nokogiri'
-require 'marc'
-require 'rest-client'
+require 'health'
 require 'tind/id'
 
 class PlayerController < ApplicationController

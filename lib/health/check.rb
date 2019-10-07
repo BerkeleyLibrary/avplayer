@@ -6,7 +6,8 @@ module Health
   # @see https://www.consul.io/docs/agent/checks.html StatusCode based on Consul
   class Check
 
-    TEST_PATRON_ID = '012158720'.freeze
+    TIND_CHECK = 'TIND'
+    WOWZA_CHECK = 'Wowza'
 
     attr_reader :status
     attr_reader :details
@@ -35,7 +36,10 @@ module Health
     private
 
     def all_checks
-      { 'tind:find_marc_record' => method(:try_tind_search) }
+      {
+        TIND_CHECK=> method(:try_tind_search),
+        WOWZA_CHECK => method(:try_wowza_url)
+      }
     end
 
     def passing?
@@ -44,7 +48,8 @@ module Health
 
     def try_tind_search
       test_id = Tind::Id.new(field: '901m', value:'b23305522')
-      Tind::find_marc_record(test_id)
+      marc_record = Tind::find_marc_record(test_id)
+      return Result.warn("TIND record not found for ID: " + test_id) unless marc_record
       Result.pass
     rescue StandardError => e
       Result.warn(e.class.name)

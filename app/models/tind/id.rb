@@ -25,5 +25,22 @@ module Tind
       marc_record.each_by_tag(tag) { |field| return true if field[subfield] == value }
       false
     end
+
+    def ==(other)
+      return true if equal?(other)
+      return false unless other
+      return false unless other.is_a?(Id)
+      return false unless other.tag == tag
+      return false unless other.subfield == subfield
+
+      other.value == value
+    end
+
+    def hash
+      [tag, subfield, value].reduce(0) do |r, v|
+        v.hash + (r << 5) - r
+      end
+    end
+
   end
 end

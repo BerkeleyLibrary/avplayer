@@ -25,7 +25,9 @@ module AvPlayer
     # Don't generate system test files.
     config.generators.system_tests = nil
 
+    # ############################################################
     # Customize logging
+
     require 'av_player/logger.rb'
     config.logger = AvPlayer::Logger.new($stdout)
     config.lograge.enabled = true
@@ -41,5 +43,14 @@ module AvPlayer
         { msg: 'Request', request: data }
       end
     end
+
+    # ############################################################
+    # External services
+
+    # Search URL for TIND metadata (see app/services/tind)
+    config.tind_search_url = 'https://digicoll.lib.berkeley.edu/search'
+
+    # Wowza server URL
+    config.wowza_base_url = 'http://vm147.lib.berkeley.edu:1935/'
   end
 end
