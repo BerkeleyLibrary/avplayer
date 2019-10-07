@@ -4,8 +4,7 @@ require 'rest-client'
 require 'tind/id'
 
 class PlayerController < ApplicationController
-  # TODO: make TIND location configurable
-  TIND_SEARCH_URL = 'https://digicoll.services.berkeley.edu/search'.freeze
+
   TIND_ID_PARAMS = %w[901m 901o].freeze
   MARC_FIELD_RE = /^([0-9]{3})([a-z])$/.freeze
 
