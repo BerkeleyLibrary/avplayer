@@ -15,7 +15,4 @@ class AvRecord
   def title
     tind_record.title
   end
-
-  private
-
 end

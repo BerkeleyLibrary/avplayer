@@ -6,6 +6,8 @@ class PlayerController < ApplicationController
   TIND_ID_PARAMS = %w[901m 901o].freeze
   MARC_FIELD_RE = /^([0-9]{3})([a-z])$/.freeze
 
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
   def show
     av_record = AvRecord.new(
       collection: player_params[:collection],
@@ -14,6 +16,12 @@ class PlayerController < ApplicationController
     )
     render locals: {
       record: av_record
+    }
+  end
+
+  def record_not_found
+    render :record_not_found, status: 404, locals: {
+      tind_ids: tind_ids(player_params)
     }
   end
 

@@ -16,13 +16,16 @@ module Tind
     end
 
     def to_s
-      "#{tag}#{subfield}: #{value}"
+      "#{field}: #{value}"
     end
 
     def inspect
-      "#{tag}#{subfield}=#{value}"
+      "#{field}=#{value}"
     end
 
+    def as_field
+      MockField.new(label: field, value: value)
+    end
 
     # @param marc_record [MARC::Record]
     # @return [Boolean] true if this ID is in the MARC record, false otherwise
@@ -47,6 +50,12 @@ module Tind
       [tag, subfield, value].reduce(0) do |r, v|
         v.hash + (r << 5) - r
       end
+    end
+
+    private
+
+    def field
+      "#{tag}#{subfield}"
     end
 
   end

@@ -19,6 +19,7 @@ module Tind
         expect(factory).to be_a(RecordFactory)
       end
 
+      # rubocop:disable Metrics/LineLength
       it 'parses the fields' do
         expected = [
           { order: 1, tag: '245', ind_1: nil, ind_2: nil, subfield: nil, label: 'Title', subfields_separator: ', ', subfield_order: nil },
@@ -95,6 +96,7 @@ module Tind
           end
         end
       end
+      # rubocop:enable Metrics/LineLength
 
       it 'filters out duplicate fields' do
         all_542u = factory.field_factories.find_all { |f| f.tag == '542' && f.subfield == 'u' }
@@ -115,6 +117,7 @@ module Tind
         expect(tind_record.title).to eq('Wanda Coleman')
       end
 
+      # rubocop:disable Metrics/LineLength
       it 'parses the fields' do
         expected = [
           'Title (245): Wanda Coleman',
@@ -136,6 +139,8 @@ module Tind
           expect(f.to_s).to eq(expected[i])
         end
       end
+      # rubocop:enable Metrics/LineLength
+
     end
   end
 end

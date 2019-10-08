@@ -48,7 +48,9 @@ describe PlayerController, type: :system do
     end
 
     it 'displays an error page' do
-
+      expect(page).to have_content('Record not found')
+      expect(page).to have_content('901m')
+      expect(page).to have_content('b23305522')
     end
   end
 

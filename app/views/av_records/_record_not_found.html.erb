@@ -1,0 +1,12 @@
+<section class="av_record">
+  <h1>Record not found</h1>
+
+  <p>No record with any of the specified TIND IDs could be found.</p>
+
+  <table class="tind">
+    <tr><th>Field</th><th>Value</th></tr>
+    <% tind_ids.each do |id| %>
+    <%= render(partial: 'tind/text_field', locals: {field: id.as_field}) %>
+    <% end %>
+  </table>
+</section>

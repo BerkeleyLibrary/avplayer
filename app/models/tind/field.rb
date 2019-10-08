@@ -22,6 +22,12 @@ module Tind
     end
   end
 
+  class MockField < TextField
+    def initialize(label:, value:)
+      super(tag: nil, label: label, lines: [value])
+    end
+  end
+
   class LinkField < Field
     attr_reader :links
 
