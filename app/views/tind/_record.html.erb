@@ -1,6 +1,8 @@
 <table class="tind">
+  <tbody>
   <% tind_record.fields.each do |f| %>
     <% partial = f.respond_to?(:links) ? 'tind/link_field' : 'tind/text_field' %>
     <%= render(partial: partial, locals: {field: f}) %>
   <% end %>
+  </tbody>
 </table>

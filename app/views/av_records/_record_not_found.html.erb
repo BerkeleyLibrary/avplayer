@@ -4,9 +4,13 @@
   <p>No record with any of the specified TIND IDs could be found.</p>
 
   <table class="tind">
-    <tr><th>Field</th><th>Value</th></tr>
+    <thead>
+      <tr><th>Field</th><th>Value</th></tr>
+    </thead>
+    <tbody>
     <% tind_ids.each do |id| %>
-    <%= render(partial: 'tind/text_field', locals: {field: id.as_field}) %>
+      <%= render(partial: 'tind/text_field', locals: {field: id.as_field}) %>
     <% end %>
+    </tbody>
   </table>
 </section>
