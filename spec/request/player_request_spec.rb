@@ -98,7 +98,12 @@ describe PlayerController, type: :request do
     it 'returns WARN if TIND is up and Wowza is down' do
       marc_record = instance_double(MARC::Record)
       expect(Tind).to receive(:find_marc_record).with(tind_id).and_return(marc_record)
-      stub_request(:head, stream_url).to_return(status: 500)
+
+      # In general, RestClient throws exceptions for 4xx, 5xx, etc.,
+      # and follows redirects for 3xx. 206 Partial Content isn't a
+      # legit Wowza response, but let's just make sure we'd treat an
+      # unexpected 'non-error' response as an error.
+      stub_request(:head, stream_url).to_return(status: 206)
 
       get health_path
 

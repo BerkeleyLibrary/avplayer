@@ -61,7 +61,7 @@ module Health
       player_helper = Class.new { include PlayerHelper }.new
       stream_url = player_helper.wowza_url_for(collection: test_collection, file: test_file)
       resp = RestClient.head(stream_url)
-      return Result.pass if resp.code == 200
+      return Result.pass if resp.code == 200 # OK
       Result.warn("HEAD #{stream_url} returned #{resp.code}")
     rescue StandardError => e
       Result.warn(e.class.name)
