@@ -14,7 +14,8 @@ module Tind
     end
 
     UNKNOWN_TITLE = 'Unknown title'.freeze
-    NONE = Record.new(title: UNKNOWN_TITLE, fields: [].freeze)
+    RECORD_NOT_FOUND = 'Record not found'.freeze
+    NONE = Record.new(title: RECORD_NOT_FOUND, fields: [].freeze)
 
     class << self
       def find(tind_id)
@@ -29,7 +30,7 @@ module Tind
           marc_record = Tind.find_marc_record(tind_id)
           return Tind.record_factory.create_record_from_marc(marc_record) if marc_record
         end
-        raise ActiveRecord::RecordNotFound, "No record found for any TIND ID in: #{tind_ids}" unless marc_record
+        raise ActiveRecord::RecordNotFound, "No record found for any TIND ID in: #{tind_ids}"
       end
     end
   end

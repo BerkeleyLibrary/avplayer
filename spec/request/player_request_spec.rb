@@ -57,7 +57,7 @@ describe PlayerController, type: :request do
       expect(response_body['status']).to eq('warn')
 
       details = response_body['details']
-      [Health::Check::TIND_CHECK,  Health::Check::WOWZA_CHECK].each do |check|
+      [Health::Check::TIND_CHECK, Health::Check::WOWZA_CHECK].each do |check|
         expect(details[check]['status']).to eq('warn')
       end
     end
@@ -74,7 +74,7 @@ describe PlayerController, type: :request do
       expect(response_body['status']).to eq('warn')
 
       details = response_body['details']
-      [Health::Check::TIND_CHECK,  Health::Check::WOWZA_CHECK].each do |check|
+      [Health::Check::TIND_CHECK, Health::Check::WOWZA_CHECK].each do |check|
         expect(details[check]['status']).to eq('warn')
       end
     end

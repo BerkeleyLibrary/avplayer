@@ -22,6 +22,8 @@ module Tind
     # @param marc_record [MARC::Record]
     # @return [Boolean] true if this ID is in the MARC record, false otherwise
     def in?(marc_record)
+      return unless marc_record
+
       marc_record.each_by_tag(tag) { |field| return true if field[subfield] == value }
       false
     end

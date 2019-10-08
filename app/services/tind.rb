@@ -21,6 +21,8 @@ module Tind
 
       records = find_marc_records(tind_id)
       marc_record = records.first
+      return unless marc_record
+
       marc_record if tind_id.in?(marc_record)
     end
 

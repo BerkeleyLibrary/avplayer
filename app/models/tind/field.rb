@@ -43,5 +43,9 @@ module Tind
       @body = body
       @url = url
     end
+
+    def to_s
+      "[#{body}](#{url})"
+    end
   end
 end

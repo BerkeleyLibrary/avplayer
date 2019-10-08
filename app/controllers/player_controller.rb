@@ -7,12 +7,13 @@ class PlayerController < ApplicationController
   MARC_FIELD_RE = /^([0-9]{3})([a-z])$/.freeze
 
   def show
+    av_record = AvRecord.new(
+      collection: player_params[:collection],
+      files: split_files(player_params[:files]),
+      tind_ids: tind_ids(player_params)
+    )
     render locals: {
-      record: AvRecord.new(
-        collection: player_params[:collection],
-        files: split_files(player_params[:files]),
-        tind_ids: tind_ids(player_params)
-      )
+      record: av_record
     }
   end
 
