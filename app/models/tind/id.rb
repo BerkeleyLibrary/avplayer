@@ -19,6 +19,11 @@ module Tind
       "#{tag}#{subfield}: #{value}"
     end
 
+    def inspect
+      "#{tag}#{subfield}=#{value}"
+    end
+
+
     # @param marc_record [MARC::Record]
     # @return [Boolean] true if this ID is in the MARC record, false otherwise
     def in?(marc_record)
