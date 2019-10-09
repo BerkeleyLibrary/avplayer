@@ -8,7 +8,7 @@
 .idea/.rakeTasks
 
 # test and inspection reports
-/test
+/test/reports
 
 ############################################################
 # Generated ignores
