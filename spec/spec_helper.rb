@@ -32,7 +32,7 @@ RSpec.configure do |config|
   # System tests
   # cf. https://medium.com/table-xi/a-quick-guide-to-rails-system-tests-in-rspec-b6e9e8a8b5f6
   config.before(:each, type: :system) do
-    driven_by :rack_test
+    driven_by :rack_test, using: :rack_test
     # driven_by :selenium_chrome_headless
   end
 end
