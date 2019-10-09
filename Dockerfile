@@ -28,8 +28,8 @@ RUN apk --no-cache --update upgrade && \
         sqlite-libs \
         tzdata \
         xz-libs \
-        yarn && \
-    rm -rf /var/cache/apk/*
+        yarn \
+    && rm -rf /var/cache/apk/*
 
 # All subsequent commands are executed relative to this directory.
 WORKDIR /opt/app

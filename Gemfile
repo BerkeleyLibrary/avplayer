@@ -21,7 +21,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'colorize'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.9'
   gem 'webmock'
 end
 
@@ -41,5 +41,10 @@ group :test do
   gem 'selenium-webdriver'
   gem 'simplecov', '~> 0.16.1', require: false
   gem 'simplecov-rcov', require: false
-  gem 'webdrivers'
+
+  # Alpine Linux doesn't get along with webdrivers (https://github.com/titusfortner/webdrivers/issues/78),
+  # so we use Rack::Test instead of the Rails 6 default Selenium/Chrome. If/as/when we need JavaScript
+  # testing, we can try to find a more permanent solutino.
+  #
+  # gem 'webdrivers'
 end

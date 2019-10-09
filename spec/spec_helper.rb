@@ -32,7 +32,9 @@ RSpec.configure do |config|
   # System tests
   # cf. https://medium.com/table-xi/a-quick-guide-to-rails-system-tests-in-rspec-b6e9e8a8b5f6
   config.before(:each, type: :system) do
+    # Alpine Linux doesn't get along with webdrivers (https://github.com/titusfortner/webdrivers/issues/78),
+    # so we use Rack::Test instead of the Rails 6 default Selenium/Chrome. If/as/when we need JavaScript
+    # testing, we can try to find a more permanent solutino.
     driven_by :rack_test, using: :rack_test
-    # driven_by :selenium_chrome_headless
   end
 end
