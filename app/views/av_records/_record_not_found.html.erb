@@ -8,7 +8,7 @@
       <tr><th>Field</th><th>Value</th></tr>
     </thead>
     <tbody>
-    <% tind_ids.each do |id| %>
+    <% marc_lookups.each do |id| %>
       <%= render(partial: 'tind/text_field', locals: {field: id.as_field}) %>
     <% end %>
     </tbody>

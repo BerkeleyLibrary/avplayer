@@ -2,10 +2,10 @@ require 'rails_helper'
 
 describe PlayerController, type: :system do
 
-  attr_reader :tind_id
+  attr_reader :marc_lookup
 
   before(:each) do
-    @tind_id = Tind::Id.new(field: '901m', value: 'b23305522')
+    @marc_lookup = Tind::MarcLookup.new(field: '901m', value: 'b23305522')
   end
 
   describe 'success' do
@@ -16,7 +16,7 @@ describe PlayerController, type: :system do
       marc_xml = File.read('spec/data/record-21178.xml')
       @tind_record = Tind.record_factory.create_record_from_xml(marc_xml)
 
-      allow(Tind::Record).to receive(:find_any).with([tind_id]).and_return(tind_record)
+      allow(Tind::Record).to receive(:find_any).with([marc_lookup]).and_return(tind_record)
 
       visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?901m=b23305522'
     end
@@ -43,7 +43,7 @@ describe PlayerController, type: :system do
 
   describe 'failure' do
     before(:each) do
-      allow(Tind::Record).to receive(:find_any).with([tind_id]).and_raise(ActiveRecord::RecordNotFound)
+      allow(Tind::Record).to receive(:find_any).with([marc_lookup]).and_raise(ActiveRecord::RecordNotFound)
       visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?901m=b23305522'
     end
 

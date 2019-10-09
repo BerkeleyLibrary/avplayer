@@ -1,15 +1,15 @@
 require 'active_record/errors'
-require 'tind/id'
+require 'tind/marc_lookup'
 require 'tind/record'
 
 class AvRecord
-  attr_reader :collection, :files, :tind_ids, :tind_record
+  attr_reader :collection, :files, :marc_lookups, :tind_record
 
-  def initialize(collection:, files:, tind_ids:)
+  def initialize(collection:, files:, marc_lookups:)
     @collection = collection
     @files = files
-    @tind_ids = tind_ids
-    @tind_record = Tind::Record.find_any(tind_ids)
+    @marc_lookups = marc_lookups
+    @tind_record = Tind::Record.find_any(marc_lookups)
   end
 
   def title

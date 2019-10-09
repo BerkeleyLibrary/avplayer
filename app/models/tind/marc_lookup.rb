@@ -1,5 +1,5 @@
 module Tind
-  class Id
+  class MarcLookup
     MARC_FIELD_RE = /^([0-9]{3})([a-z0-9])$/.freeze
 
     attr_reader :tag
@@ -39,7 +39,7 @@ module Tind
     def ==(other)
       return true if equal?(other)
       return false unless other
-      return false unless other.is_a?(Id)
+      return false unless other.is_a?(MarcLookup)
       return false unless other.tag == tag
       return false unless other.subfield == subfield
 

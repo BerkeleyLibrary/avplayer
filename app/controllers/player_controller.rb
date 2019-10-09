@@ -1,5 +1,5 @@
 require 'health'
-require 'tind/id'
+require 'tind/marc_lookup'
 
 class PlayerController < ApplicationController
 
@@ -12,7 +12,7 @@ class PlayerController < ApplicationController
     av_record = AvRecord.new(
       collection: player_params[:collection],
       files: split_files(player_params[:files]),
-      tind_ids: tind_ids(player_params)
+      marc_lookups: marc_lookups(player_params)
     )
     render locals: {
       record: av_record
@@ -21,7 +21,7 @@ class PlayerController < ApplicationController
 
   def record_not_found
     render :record_not_found, status: 404, locals: {
-      tind_ids: tind_ids(player_params)
+      marc_lookups: marc_lookups(player_params)
     }
   end
 
@@ -47,10 +47,10 @@ class PlayerController < ApplicationController
     files_param.split(';')
   end
 
-  def tind_ids(params)
+  def marc_lookups(params)
     TIND_ID_PARAMS.map do |p|
       value = params[p]
-      Tind::Id.new(field: p, value: value) if value
+      Tind::MarcLookup.new(field: p, value: value) if value
     end.compact
   end
 end
