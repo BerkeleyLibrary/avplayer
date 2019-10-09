@@ -101,6 +101,31 @@ module Tind
         expect(record).not_to be_nil
         expect(record).to be_a(Tind::Record)
       end
+
+      it 'finds a record even if some lookups raise an error' do
+        ml_missing = MarcLookup.new(field: '901m', value: 'not a real record')
+        search_url = "https://digicoll.lib.berkeley.edu/search?p=#{ml_missing.value}&of=xm"
+        stub_request(:get, search_url).to_return(status: 500)
+
+        record = Record.find_any([ml_missing] + marc_to_tind.keys)
+        expect(record).not_to be_nil
+        expect(record).to be_a(Tind::Record)
+      end
+
+      it "raises #{ActiveRecord::RecordNotFound} if no records can be found" do
+        empty_result = File.read('spec/data/record-empty-result.xml')
+        mls_missing = [
+          MarcLookup.new(field: '901m', value: 'not a real record'),
+          MarcLookup.new(field: '901o', value: 'also not a real record')
+        ]
+        mls_missing.each do |ml|
+          search_url = "https://digicoll.lib.berkeley.edu/search?p=#{ml.value}&of=xm"
+          stub_request(:get, search_url).to_return(status: 200, body: empty_result)
+        end
+
+        expect { Record.find_any(mls_missing) }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+
     end
   end
 end
