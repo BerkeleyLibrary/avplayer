@@ -1,5 +1,7 @@
 #!/usr/bin/env groovy
 
+def repoPath = 'lap/avplayer'
+
 pipeline {
     agent {
         label "docker"
@@ -7,7 +9,7 @@ pipeline {
 
     environment {
         COMPOSE_FILE = "docker-compose.ci.yml"
-        DOCKER_REPO = "containers.lib.berkeley.edu/lap/hello/${env.GIT_BRANCH.toLowerCase()}"
+        DOCKER_REPO = "containers.lib.berkeley.edu/${repoPath}/${env.GIT_BRANCH.toLowerCase()}"
         DOCKER_TAG = "${DOCKER_REPO}:build-${BUILD_NUMBER}"
         DOCKER_TAG_LATEST = "${DOCKER_REPO}:latest"
         REGISTRY_CREDENTIALS = "0A792AEB-FA23-48AC-A824-5FF9066E6CA9"
@@ -29,9 +31,8 @@ pipeline {
                     steps {
                         retry(5) {
                             sh 'docker-compose up -d'
-                            sh 'docker-compose run --rm rails rails assets:precompile'
+                            sh 'docker-compose run --rm rails assets:precompile'
                         }
-                        sh 'docker-compose run --rm rails rails cal:test:ci'
                     }
                 }
                 stage("RSpec") {
