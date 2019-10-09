@@ -45,12 +45,16 @@ h1, h2, h3, h4, h5 {
   color: $color-berkeley-blue;
   font-family: $font-family-serif;
   font-weight: bold;
-  margin-bottom: 1em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
 }
 
 h1 {
   font-size: x-large;
-  margin-top: 2em;
+}
+
+h2 {
+  font-size: large;
 }
 
 pre {
@@ -62,15 +66,32 @@ p {
   margin-top: 0.5em;
 }
 
+ul {
+  list-style-position: outside;
+  list-style-type: square;
+  margin-bottom: 1em;
+  margin-left: 1em;
+  padding-left: 1em;
+}
+
+li {
+  padding-left: 0.25em;
+}
+
 // ////////////////////////////////////////////////////////////
 // Inline elements
 
 a {
-  color: inherit;
+  color: $color-founders-rock;
+  font-weight: bold;
   text-decoration: none;
 
   &:hover {
     text-decoration: underline;
+  }
+
+  &:visited {
+    color: $color-pacific;
   }
 }
 
