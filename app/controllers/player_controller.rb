@@ -14,9 +14,11 @@ class PlayerController < ApplicationController
       files: split_files(player_params[:files]),
       marc_lookups: marc_lookups(player_params)
     )
-    render locals: {
-      record: av_record
-    }
+
+    # TODO: actual IP restriction
+    raise ActiveRecord::RecordNotFound unless av_record.public?
+
+    render locals: { record: av_record }
   end
 
   def record_not_found

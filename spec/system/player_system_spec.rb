@@ -42,16 +42,26 @@ describe PlayerController, type: :system do
   end
 
   describe 'failure' do
-    before(:each) do
+    it 'displays the "Record not found" page when records aren\'t found' do
       allow(Tind::Record).to receive(:find_any).with([marc_lookup]).and_raise(ActiveRecord::RecordNotFound)
       visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?901m=b23305522'
-    end
-
-    it 'displays an error page' do
       expect(page).to have_content('Record not found')
       expect(page).to have_content('901m')
       expect(page).to have_content('b23305522')
     end
-  end
 
+    it 'displays the "Record not found" page for UCB-only records' do
+      marc_lookup = Tind::MarcLookup.new(field: '901m', value: 'b18538031')
+
+      tind_record = instance_double(Tind::Record)
+      allow(tind_record).to receive(:restrictions).and_return(Tind::Restrictions::UCB_IP)
+      allow(Tind::Record).to receive(:find_any).with([marc_lookup]).and_return(tind_record)
+
+      visit root_url + 'City/CA01476a.mp3%3BCA01476b.mp3?901m=b18538031'
+
+      expect(page).to have_content('Record not found')
+      expect(page).to have_content('901m')
+      expect(page).to have_content('b18538031')
+    end
+  end
 end

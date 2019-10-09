@@ -25,4 +25,9 @@ class AvRecord
   def restrictions
     tind_record.restrictions
   end
+
+  # @return [Boolean] True if public, false otherwise
+  def public?
+    restrictions == Tind::Restrictions::PUBLIC
+  end
 end
