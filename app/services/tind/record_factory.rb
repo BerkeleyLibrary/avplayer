@@ -24,7 +24,8 @@ module Tind
 
       title_field = fields.first { |f| f.tag == '245' }
       title = (title_field && title_field.lines.first) || Record::UNKNOWN_TITLE
-      Tind::Record.new(title: title, fields: fields)
+
+      Tind::Record.new(title: title, fields: fields, restrictions: restrictions_from(marc_record))
     end
 
     # @deprecated use create_record_from_marc() (and parse the XML yourself)
@@ -68,6 +69,15 @@ module Tind
 
     def fields_from(marc_record)
       field_factories.map { |f| f.create_field(marc_record) }.compact
+    end
+
+    def restrictions_from(marc_record)
+      marc_record.each_by_tag('856') do |marc_field|
+        subfield_y = marc_field['y']
+        next unless subfield_y
+        return Restrictions::UCB_IP if subfield_y.include?('UCB access')
+      end
+      Restrictions::PUBLIC
     end
   end
 end

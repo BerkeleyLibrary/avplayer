@@ -5,12 +5,15 @@ module Tind
 
     attr_reader :title
     attr_reader :fields
+    attr_reader :restrictions
 
     # @param title [String]
     # @param fields [Array<Tind::Field>]
-    def initialize(title:, fields:)
+    # @param restrictions [Restrictions]
+    def initialize(title:, fields:, restrictions: Restrictions::PUBLIC)
       @title = title
       @fields = fields
+      @restrictions = restrictions
     end
 
     UNKNOWN_TITLE = 'Unknown title'.freeze

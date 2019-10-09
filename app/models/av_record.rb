@@ -12,7 +12,17 @@ class AvRecord
     @tind_record = Tind::Record.find_any(marc_lookups)
   end
 
+  # Gets the title of this record.
+  #
+  # @return [String] The title.
   def title
     tind_record.title
+  end
+
+  # Gets the access restrictions for this record.
+  #
+  # @return [Tind::Restrictions] The restrictions.
+  def restrictions
+    tind_record.restrictions
   end
 end
