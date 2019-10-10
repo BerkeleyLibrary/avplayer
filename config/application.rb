@@ -56,6 +56,9 @@ module AvPlayer
     # Search URL for TIND metadata (see app/services/tind)
     config.tind_search_url = 'https://digicoll.lib.berkeley.edu/search'
 
+    # Search URL for Millennium metadata (see app/services/millennium)
+    config.millennium_search_url = 'http://oskicat.berkeley.edu/search~S1'
+
     # Wowza server URL
     config.wowza_base_url = 'http://vm147.lib.berkeley.edu:1935/'
 
