@@ -10,8 +10,7 @@ class PlayerController < ApplicationController
 
   def show
     av_record = AvRecord.new(
-      collection: player_params[:collection],
-      files: split_files(player_params[:files]),
+      files: av_files,
       marc_lookups: marc_lookups(player_params)
     )
 
@@ -34,19 +33,34 @@ class PlayerController < ApplicationController
 
   private
 
+  def av_files
+    paths.map { |path| AvFile.new(collection: collection, path: path) }
+  rescue ArgumentError => e
+    log.warn("Error parsing path parameters: #{paths}", e)
+    raise ActiveRecord::RecordNotFound
+  end
+
+  def collection
+    @collection = player_params[:collection]
+  end
+
+  def paths
+    @paths ||= split_paths(player_params[:paths])
+  end
+
   def player_params
     @player_params ||= begin
       # :format is a default parameter added from routes.rb
-      permitted = %i[collection files format] + TIND_ID_PARAMS
+      permitted = %i[collection paths format] + TIND_ID_PARAMS
       params.permit(*permitted)
     end
   end
 
-  # @param files_param a semicolon-delimited (%3B-delimited in the URL) list of files
-  def split_files(files_param)
-    return [] unless files_param
+  # @param paths_param a semicolon-delimited (%3B-delimited in the URL) list of paths
+  def split_paths(paths_param)
+    return [] unless paths_param
 
-    files_param.split(';')
+    paths_param.split(';')
   end
 
   def marc_lookups(params)

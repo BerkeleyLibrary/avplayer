@@ -16,11 +16,6 @@ describe PlayerController, type: :request do
       @wowza_file = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'
 
       @stream_url = 'http://vm147.lib.berkeley.edu:1935/Pacifica/mp3:PRA_NHPRC1_AZ1084_00_000_00.mp3/playlist.m3u8'
-      allow_any_instance_of(PlayerHelper).to(
-        receive(:wowza_url_for)
-          .with(collection: wowza_collection, file: wowza_file)
-          .and_return(stream_url)
-      )
     end
 
     it 'returns PASS if TIND and Wowza are both up' do

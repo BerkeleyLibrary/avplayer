@@ -57,10 +57,8 @@ module Health
     end
 
     def try_wowza_url
-      test_collection = 'Pacifica'
-      test_file = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'
-      player_helper = Class.new { include PlayerHelper }.new
-      stream_url = player_helper.wowza_url_for(collection: test_collection, file: test_file)
+      av_file = AvFile.new(collection: 'Pacifica', path: 'PRA_NHPRC1_AZ1084_00_000_00.mp3')
+      stream_url = av_file.streaming_url
       resp = RestClient.head(stream_url)
       return Result.pass if resp.code == 200 # OK
 

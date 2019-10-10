@@ -44,6 +44,12 @@ module AvPlayer
       end
     end
 
+    unless (env = Rails.env) && env.production?
+      readable_logger = Ougai::Logger.new("log/#{env}.log")
+      readable_logger.formatter = Ougai::Formatters::Readable.new
+      config.logger.extend Ougai::Logger.broadcast(readable_logger)
+    end
+
     # ############################################################
     # External services
 
@@ -52,5 +58,9 @@ module AvPlayer
 
     # Wowza server URL
     config.wowza_base_url = 'http://vm147.lib.berkeley.edu:1935/'
+
+    # Video server URL
+    # TODO: move video to Wowza
+    config.video_base_url = 'http://www.lib.berkeley.edu/videosecret/'
   end
 end

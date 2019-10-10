@@ -4,7 +4,7 @@
   <% record.files.each do |file| %>
     <section class="player">
       <audio class="mejs__player" controls>
-        <source src="<%= wowza_url_for(collection: record.collection, file: file) %>" type="application/x-mpegURL"/>
+        <source src="<%= file.streaming_url %>" type="<%= file.mime_type %>"/>
       </audio>
     </section>
   <% end %>

@@ -39,6 +39,16 @@ describe PlayerController, type: :system do
         end
       end
     end
+
+    it 'displays the player' do
+      wowza_base_url = Rails.application.config.wowza_base_url
+      collection = 'Pacifica'
+      path = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'
+      expected_url = "#{wowza_base_url}#{collection}/mp3:#{path}/playlist.m3u8"
+
+      source = find(:xpath, '//source[@src="' + expected_url + '"]')
+      expect(source).not_to be_nil
+    end
   end
 
   describe 'failure' do
@@ -59,6 +69,24 @@ describe PlayerController, type: :system do
 
       visit root_url + 'City/CA01476a.mp3%3BCA01476b.mp3?901m=b18538031'
 
+      expect(page).to have_content('Record not found')
+      expect(page).to have_content('901m')
+      expect(page).to have_content('b18538031')
+    end
+
+    it 'displays the "Record not found" page for an invalid path' do
+      visit root_url + 'City/CA01476b.qt?901m=b18538031'
+
+      # TODO: include paths in error response
+      expect(page).to have_content('Record not found')
+      expect(page).to have_content('901m')
+      expect(page).to have_content('b18538031')
+    end
+
+    it 'displays the "Record not found" page when one of several paths is invalid' do
+      visit root_url + 'City/CA01476a.mp3%3BCA01476b.qt?901m=b18538031'
+
+      # TODO: include paths in error response
       expect(page).to have_content('Record not found')
       expect(page).to have_content('901m')
       expect(page).to have_content('b18538031')

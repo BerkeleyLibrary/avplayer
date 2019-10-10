@@ -20,6 +20,10 @@ header {
   color: $color-white;
   font-weight: bold;
   padding: $padding;
+
+  a {
+    color: $color-white;
+  }
 }
 
 main {
@@ -82,16 +86,12 @@ li {
 // Inline elements
 
 a {
-  color: $color-founders-rock;
+  color: $color-pacific;
   font-weight: bold;
   text-decoration: none;
 
   &:hover {
     text-decoration: underline;
-  }
-
-  &:visited {
-    color: $color-pacific;
   }
 }
 

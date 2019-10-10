@@ -3,10 +3,13 @@ require 'tind/marc_lookup'
 require 'tind/record'
 
 class AvRecord
-  attr_reader :collection, :files, :marc_lookups, :tind_record
+  attr_reader :files, :marc_lookups, :tind_record
 
-  def initialize(collection:, files:, marc_lookups:)
-    @collection = collection
+  # Initializes a new AV record.
+  #
+  # @param files [Array<AvFile>] The AV files
+  # @param marc_lookups [Array<Tind::MarcLookup>] The MARC lookup keys
+  def initialize(files:, marc_lookups:)
     @files = files
     @marc_lookups = marc_lookups
     @tind_record = Tind::Record.find_any(marc_lookups)

@@ -28,7 +28,7 @@ describe AvRecord do
     }
     aggregate_failures 'restrictions' do
       expected_restrictions.each do |ml, expected|
-        record = AvRecord.new(collection: nil, files: [], marc_lookups: [ml])
+        record = AvRecord.new(files: [], marc_lookups: [ml])
         expect(record.restrictions).to eq(expected)
       end
     end

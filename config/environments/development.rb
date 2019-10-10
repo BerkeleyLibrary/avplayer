@@ -48,5 +48,4 @@ Rails.application.configure do
 
   # Disable Webpacker integrity check in development
   config.webpacker.check_yarn_integrity = false
-
 end

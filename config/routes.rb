@@ -3,12 +3,12 @@ Rails.application.routes.draw do
       to: 'player#index',
       as: :root
 
-  get '/:collection/:files',
+  get '/:collection/:paths',
       to: 'player#show',
       as: 'show',
       format: false,
       defaults: { format: 'html' },
-      constraints: { files: /.*/ }
+      constraints: { paths: /.*/ }
 
   get '/health', to: 'player#health', format: false, defaults: { format: 'json' }
 end
