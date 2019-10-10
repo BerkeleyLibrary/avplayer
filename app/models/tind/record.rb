@@ -1,4 +1,5 @@
 require 'active_record/errors'
+require 'millennium'
 
 module Tind
   class Record
@@ -45,6 +46,18 @@ module Tind
           return Tind.record_factory.create_record_from_marc(marc_record) if marc_record
         end
         raise ActiveRecord::RecordNotFound, "No record found for any TIND ID in: #{marc_lookups}"
+      end
+
+      # Searches for the specified Millennium record and wraps it to look like a TIND record.
+      #
+      # @param bib_number [String] The Millennium bib number to find
+      # @return [Tind::Record] The record
+      # @raise [ActiveRecord::RecordNotFound] if the record could not be found
+      def find_millennium(bib_number)
+        marc_record = Millennium.find_marc_record(bib_number)
+        raise ActiveRecord::RecordNotFound, "No record found for Millennium bib number #{bib_number}" unless marc_record
+
+        Tind.record_factory.create_record_from_marc(marc_record)
       end
 
       private

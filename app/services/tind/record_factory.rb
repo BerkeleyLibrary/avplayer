@@ -4,10 +4,11 @@ require 'tind/record'
 
 module Tind
   class RecordFactory
+    TITLE = FieldFactory.new(label: 'Title', marc_tag: '245%%', order: 1, subfield_order: 'a')
     CREATOR_PERSONAL = FieldFactory.new(label: 'Creator', marc_tag: '700%%', order: 2)
     CREATOR_CORPORATE = FieldFactory.new(label: 'Creator', marc_tag: '710%%', order: 2)
     LINKS_HTTP = FieldFactory.new(label: 'Linked Resources', marc_tag: '85641', order: 11)
-    DEFAULT_FIELDS = [CREATOR_PERSONAL, CREATOR_CORPORATE, LINKS_HTTP].freeze
+    DEFAULT_FIELDS = [TITLE, CREATOR_PERSONAL, CREATOR_CORPORATE, LINKS_HTTP].freeze
 
     # @return [Array<FieldFactory>] the configured fields
     attr_reader :field_factories
@@ -23,7 +24,7 @@ module Tind
       return if fields.empty?
 
       title_field = fields.first { |f| f.tag == '245' }
-      title = (title_field && title_field.lines.first) || Record::UNKNOWN_TITLE
+      title = title_from(title_field)
 
       Tind::Record.new(title: title, fields: fields, restrictions: restrictions_from(marc_record))
     end
@@ -43,6 +44,9 @@ module Tind
         fields = *DEFAULT_FIELDS
         json['config'].each do |json_field|
           next unless json_field['visible']
+
+          # Suppress extra title field in favor of RecordFactory::TITLE
+          next if json_field['machine_name'] == 'local_245_880_linking'
 
           field = FieldFactory.from_json(json_field)
           fields << field if field
@@ -66,6 +70,12 @@ module Tind
     end
 
     private
+
+    def title_from(title_field)
+      return Record::UNKNOWN_TITLE unless title_field
+
+      title_field.lines.first
+    end
 
     def fields_from(marc_record)
       field_factories.map { |f| f.create_field(marc_record) }.compact

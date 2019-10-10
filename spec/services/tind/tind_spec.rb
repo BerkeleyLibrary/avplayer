@@ -24,11 +24,11 @@ module Tind
 
     describe :find_marc_record do
       it 'finds a MARC record by Millennium bib number' do
-        marc_record = Tind.find_marc_record(ml_walker)
+        marc_record = Tind.find_marc_record(ml_coleman)
         expect(marc_record).not_to be_nil
         expect(marc_record).to be_a(MARC::Record)
 
-        expected_001 = marc_to_tind[ml_walker]
+        expected_001 = marc_to_tind[ml_coleman]
         fields_001 = marc_record.fields('001')
         expect(fields_001.size).to eq(1)
         expect(fields_001[0].value).to eq(expected_001)
