@@ -12,6 +12,7 @@ class AvRecord
   def initialize(files:, marc_lookups:)
     @files = files
     @marc_lookups = marc_lookups
+    # TODO: support looking up Millennium records
     @tind_record = Tind::Record.find_any(marc_lookups)
   end
 

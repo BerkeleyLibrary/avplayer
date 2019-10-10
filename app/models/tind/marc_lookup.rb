@@ -1,4 +1,5 @@
 module Tind
+  # TODO: generalize this to cover either TIND or Millennium
   class MarcLookup
     MARC_FIELD_RE = /^([0-9]{3})([a-z0-9])$/.freeze
 
