@@ -1,0 +1,23 @@
+<section class="av_record">
+  <h1><%= record.title %></h1>
+
+  <% record.files.each do |file| %>
+    <section class="player">
+      <%= render(partial: file.type.player_tag, locals: {file: file}) %>
+    </section>
+  <% end %>
+
+  <%= render(partial: 'metadata/record', locals: {metadata_record: record.metadata_record}) %>
+</section>
+
+<% if Rails.env.production? %>
+  <!--
+  <%= render(partial: 'debug.txt', formats: :raw, locals: {record: record}) %>
+  -->
+<% else %>
+  <aside>
+      <pre>
+        <%= render(partial: 'debug.txt', formats: :raw, locals: {record: record}) %>
+      </pre>
+  </aside>
+<% end %>

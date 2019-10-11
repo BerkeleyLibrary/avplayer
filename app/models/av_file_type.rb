@@ -6,11 +6,19 @@ class AvFileType < TypesafeEnum::Base
     def mime_type
       'application/x-mpegURL'
     end
+
+    def player_tag
+      'audio'
+    end
   end
 
   new(:MP4, 'mp4') do
     def mime_type
       'video/mp4'
+    end
+
+    def player_tag
+      'video'
     end
   end
 
