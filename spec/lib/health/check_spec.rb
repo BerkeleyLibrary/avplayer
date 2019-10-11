@@ -44,28 +44,37 @@ module Health
     end
 
     describe 'failure' do
+      invalid_states = {
+        207 => '207', # We use status 207 as a proxy for "something weird RestClient thinks is not an error"
+        500 => RestClient::InternalServerError.name
+      }
+
       Check.all_checks.keys.each do |c|
-        it "returns WARN if #{c} is down" do
-          passing_checks = (all_checks.keys - [c])
+        invalid_states.each do |invalid_state, expected_details|
+          it "returns WARN if #{c} returns #{invalid_state}" do
+            passing_checks = (all_checks.keys - [c])
 
-          passing_checks.each do |p|
-            stub_request(:head, all_checks[p]).to_return(status: 200)
-          end
-          stub_request(:head, all_checks[c]).to_return(status: 500)
-
-          check = Check.new
-          aggregate_failures('check') do
-            expect(check.http_status_code).to eq(429)
-
-            check_json = check.as_json
-            expect(check_json[:status]).to eq(Status::WARN)
-
-            details = check_json[:details]
             passing_checks.each do |p|
-              expect(details[p]).to eq(Result.pass.as_json)
+              stub_request(:head, all_checks[p]).to_return(status: 200)
             end
+            stub_request(:head, all_checks[c]).to_return(status: invalid_state)
 
-            expect(details[c]).to eq(Result.warn(RestClient::InternalServerError.name).as_json)
+            check = Check.new
+            aggregate_failures('check') do
+              expect(check.http_status_code).to eq(429)
+
+              check_json = check.as_json
+              expect(check_json[:status]).to eq(Status::WARN)
+
+              details = check_json[:details]
+              passing_checks.each do |p|
+                expect(details[p]).to eq(Result.pass.as_json)
+              end
+
+              failure_details = details[c]
+              expect(failure_details[:status]).to eq(Status::WARN.as_json)
+              expect(failure_details[:output]).to include(expected_details)
+            end
           end
         end
       end

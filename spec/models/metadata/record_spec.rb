@@ -2,31 +2,27 @@ require 'rails_helper'
 
 module Metadata
   describe Record do
-    attr_reader :mk_coleman, :mk_walker, :marc_to_tind
+    attr_reader :mk_communists, :mk_walker, :marc_to_tind, :expected_titles
 
     before(:each) do
       @mk_walker = Key.new(source: Source::TIND, bib_number: '947286769')
-      @mk_coleman = Key.new(source: Source::TIND, bib_number: 'b23305522')
+      @mk_communists = Key.new(source: Source::MILLENNIUM, bib_number: 'b22139658')
 
-      @marc_to_tind = {
-        mk_walker => '19816',
-        mk_coleman => '21178'
+      @expected_titles = {
+        mk_walker => 'Author Alice Walker reads the short story, Roselily',
+        mk_communists => 'Communists on campus'
       }
-      marc_to_tind.each do |mk, tind_001|
-        search_url = "https://digicoll.lib.berkeley.edu/search?p=#{mk.bib_number}&of=xm"
-        marc_xml = File.read("spec/data/record-#{tind_001}.xml")
-        stub_request(:get, search_url).to_return(status: 200, body: marc_xml)
-      end
+
+      walker_marc_xml = File.read('spec/data/record-19816.xml')
+      stub_request(:get, Tind.marc_url_for(mk_walker.bib_number)).to_return(status: 200, body: walker_marc_xml)
+
+      communists_marc_html = File.read('spec/data/b22139658.html')
+      stub_request(:get, Millennium.marc_url_for(mk_communists.bib_number)).to_return(status: 200, body: communists_marc_html)
     end
 
     describe :find do
       it 'finds records' do
-        expected_titles = {
-          mk_walker => 'Author Alice Walker reads the short story, Roselily',
-          mk_coleman => 'Wanda Coleman'
-        }
-
-        marc_to_tind.keys.each do |metadata_key|
+        expected_titles.keys.each do |metadata_key|
           rec = Record.find(metadata_key)
           expect(rec).not_to be_nil
           expect(rec).to be_a(Metadata::Record)
@@ -34,6 +30,12 @@ module Metadata
           expected_title = expected_titles[metadata_key]
           expect(rec.title).to eq(expected_title)
         end
+      end
+
+      it "raises #{ArgumentError} for a bogus metadata source" do
+        source = instance_double(Source)
+        key = Key.new(source: source, bib_number: '12345')
+        expect { Record.find(key) }.to raise_error(ArgumentError)
       end
 
       it "raises #{ActiveRecord::RecordNotFound} if no record can be found" do

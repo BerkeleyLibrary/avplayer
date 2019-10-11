@@ -71,19 +71,6 @@ module Metadata
           RecordFactory.from_json(json)
         end
       end
-
-      private
-
-      def log
-        Rails.logger
-      end
-
-      def find_quietly(metadata_key)
-        Tind.find_marc_record(metadata_key)
-      rescue ActiveRecord::RecordNotFound => e
-        log.trace("Ignoring #{e} in find_quietly(#{metadata_key})")
-        nil
-      end
     end
   end
 end

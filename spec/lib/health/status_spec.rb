@@ -26,5 +26,17 @@ module Health
         expect(status).to eq(Status::WARN)
       end
     end
+
+    describe :http_status_code do
+      it 'returns a unique, ascending int status' do
+        last_status = 0
+        Status.each do |s|
+          status = s.http_status_code
+          expect(status).to be_a(Integer)
+          expect(status).to be > last_status
+          last_status = status
+        end
+      end
+    end
   end
 end
