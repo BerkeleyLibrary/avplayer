@@ -1,7 +1,8 @@
 require 'marc'
-require 'tind/field'
 
-module Tind
+require 'metadata/field'
+
+module Metadata
   # rubocop:disable Metrics/ClassLength
   class FieldFactory
     include Comparable
@@ -38,7 +39,7 @@ module Tind
     end
 
     # @param marc_record [MARC::Record]
-    # @return [Tind::Field]
+    # @return [Metadata::Field]
     def create_field(marc_record)
       values = values_from(marc_record)
       return if values.empty?

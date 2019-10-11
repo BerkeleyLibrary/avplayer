@@ -8,8 +8,8 @@ module Tind
     attr_reader :ml_coleman, :ml_walker, :marc_to_tind
 
     before(:each) do
-      @ml_walker = MarcLookup.new(field: '901o', value: '947286769')
-      @ml_coleman = MarcLookup.new(field: '901m', value: 'b23305522')
+      @ml_walker = Metadata::Key.new(field: '901o', value: '947286769')
+      @ml_coleman = Metadata::Key.new(field: '901m', value: 'b23305522')
 
       @marc_to_tind = {
         ml_walker => '19816',

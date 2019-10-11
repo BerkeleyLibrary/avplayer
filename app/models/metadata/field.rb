@@ -1,4 +1,4 @@
-module Tind
+module Metadata
   class Field
     attr_reader :tag
     attr_reader :label

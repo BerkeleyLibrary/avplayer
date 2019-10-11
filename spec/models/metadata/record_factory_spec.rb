@@ -1,9 +1,8 @@
 require 'rails_helper'
 require 'marc'
 require 'json'
-require 'tind'
 
-module Tind
+module Metadata
   describe RecordFactory do
     attr_reader :factory
 
@@ -110,17 +109,19 @@ module Tind
       end
     end
 
-    describe :create_record_from_xml do
-      attr_reader :tind_record
+    describe :from_marc do
+      attr_reader :metadata_record
 
       before(:all) do
         marc_xml = File.read('spec/data/record-21178.xml')
-        @tind_record = factory.create_record_from_xml(marc_xml)
+        input = StringIO.new(marc_xml)
+        marc_record = MARC::XMLReader.new(input).first
+        @metadata_record = factory.from_marc(marc_record)
       end
 
       it 'creates a record' do
-        expect(tind_record).not_to be_nil
-        expect(tind_record.title).to eq('Wanda Coleman')
+        expect(metadata_record).not_to be_nil
+        expect(metadata_record.title).to eq('Wanda Coleman')
       end
 
       # rubocop:disable Metrics/LineLength
@@ -139,7 +140,7 @@ module Tind
           'Usage Statement (540): RESTRICTED.  Permissions, licensing requests, and all other inquiries should be directed in writing to: Director of the Archives, Pacifica Radio Archives, 3729 Cahuenga Blvd. West, North Hollywood, CA 91604, 800-735-0230 x 263, fax 818-506-1084, info@pacificaradioarchives.org, http://www.pacificaradioarchives.org',
           'Collection (982): Pacifica Radio Archives'
         ]
-        fields = tind_record.fields
+        fields = metadata_record.fields
         expect(fields.size).to eq(expected.size)
         fields.each_with_index do |f, i|
           expect(f.to_s.gsub('|', '')).to eq(expected[i])

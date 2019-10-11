@@ -47,7 +47,7 @@ module Health
     end
 
     def try_tind_search
-      test_id = Tind::MarcLookup.new(field: '901m', value: 'b23305522')
+      test_id = Metadata::Key.new(field: '901m', value: 'b23305522')
       marc_record = Tind.find_marc_record(test_id)
       return Result.warn('TIND record not found for ID: ' + test_id) unless marc_record
 

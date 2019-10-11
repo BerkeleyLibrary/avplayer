@@ -4,9 +4,9 @@ describe AvRecord do
   attr_reader :ml_coleman, :ml_walker, :ml_spellingbee, :marc_to_tind
 
   before(:each) do
-    @ml_walker = Tind::MarcLookup.new(field: '901o', value: '947286769')
-    @ml_coleman = Tind::MarcLookup.new(field: '901m', value: 'b23305522')
-    @ml_spellingbee = Tind::MarcLookup.new(field: '901m', value: 'b18538031')
+    @ml_walker = Metadata::Key.new(field: '901o', value: '947286769')
+    @ml_coleman = Metadata::Key.new(field: '901m', value: 'b23305522')
+    @ml_spellingbee = Metadata::Key.new(field: '901m', value: 'b18538031')
 
     @marc_to_tind = {
       ml_walker => '19816',
@@ -22,9 +22,9 @@ describe AvRecord do
 
   it 'extracts the restrictions from the 856 field' do
     expected_restrictions = {
-      # ml_walker => Tind::Restrictions::PUBLIC,
-      # ml_coleman => Tind::Restrictions::PUBLIC,
-      ml_spellingbee => Tind::Restrictions::UCB_IP
+      # ml_walker => Restrictions::PUBLIC,
+      # ml_coleman => Restrictions::PUBLIC,
+      ml_spellingbee => Restrictions::UCB_IP
     }
     aggregate_failures 'restrictions' do
       expected_restrictions.each do |ml, expected|

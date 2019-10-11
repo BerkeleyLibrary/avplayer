@@ -1,8 +1,7 @@
 require 'rails_helper'
 require 'marc'
-require 'tind'
 
-module Tind
+module Metadata
   describe FieldFactory do
     attr_reader :marc_record
 
@@ -34,7 +33,7 @@ module Tind
         it 'extracts the values' do
           factory = RecordFactory::CREATOR_PERSONAL
           field = factory.create_field(marc_record)
-          expect(field).to be_a(Tind::TextField)
+          expect(field).to be_a(Metadata::TextField)
           expected = ['Coleman, Wanda. interviewee.', 'Adisa, Opal Palmer. interviewer.']
           expect(field.lines).to eq(expected)
         end
@@ -44,7 +43,7 @@ module Tind
         it 'extracts the values' do
           factory = RecordFactory::CREATOR_CORPORATE
           field = factory.create_field(marc_record)
-          expect(field).to be_a(Tind::TextField)
+          expect(field).to be_a(Metadata::TextField)
           expected = ['Pacifica Radio Archive.', 'KPFA (Radio station : Berkeley, Calif.).']
           expect(field.lines).to eq(expected)
         end
@@ -54,7 +53,7 @@ module Tind
         it 'extracts the values' do
           factory = RecordFactory::LINKS_HTTP
           field = factory.create_field(marc_record)
-          expect(field).to be_a(Tind::LinkField)
+          expect(field).to be_a(Metadata::LinkField)
 
           links = field.links
           expect(links.size).to eq(1)

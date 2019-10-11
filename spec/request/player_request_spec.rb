@@ -10,7 +10,7 @@ describe PlayerController, type: :request do
     attr_reader :stream_url
 
     before(:each) do
-      @marc_lookup = Tind::MarcLookup.new(field: '901m', value: 'b23305522')
+      @marc_lookup = Metadata::Key.new(field: '901m', value: 'b23305522')
 
       @wowza_collection = 'Pacifica'
       @wowza_file = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'

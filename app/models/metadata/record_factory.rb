@@ -1,8 +1,6 @@
 require 'marc'
-require 'tind/field'
-require 'tind/record'
 
-module Tind
+module Metadata
   class RecordFactory
     TITLE = FieldFactory.new(label: 'Title', marc_tag: '245%%', order: 1, subfield_order: 'a')
     CREATOR_PERSONAL = FieldFactory.new(label: 'Creator', marc_tag: '700%%', order: 2)
@@ -19,24 +17,14 @@ module Tind
     end
 
     # @param marc_record [MARC::Record]
-    def create_record_from_marc(marc_record)
+    def from_marc(marc_record)
       fields = fields_from(marc_record)
       return if fields.empty?
 
       title_field = fields.first { |f| f.tag == '245' }
       title = title_from(title_field)
 
-      Tind::Record.new(title: title, fields: fields, restrictions: restrictions_from(marc_record))
-    end
-
-    # @deprecated use create_record_from_marc() (and parse the XML yourself)
-    def create_record_from_xml(marc_xml)
-      input = StringIO.new(marc_xml)
-      marc_record = MARC::XMLReader.new(input).first
-      return unless marc_record
-
-      # noinspection RubyYardParamTypeMatch
-      create_record_from_marc(marc_record)
+      Metadata::Record.new(title: title, fields: fields, restrictions: restrictions_from(marc_record))
     end
 
     class << self

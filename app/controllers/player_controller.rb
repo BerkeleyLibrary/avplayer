@@ -1,5 +1,6 @@
+require 'active_record'
 require 'health'
-require 'tind/marc_lookup'
+require 'metadata/key'
 
 class PlayerController < ApplicationController
 
@@ -66,7 +67,7 @@ class PlayerController < ApplicationController
   def marc_lookups(params)
     TIND_ID_PARAMS.map do |p|
       value = params[p]
-      Tind::MarcLookup.new(field: p, value: value) if value
+      Metadata::Key.new(field: p, value: value) if value
     end.compact
   end
 end
