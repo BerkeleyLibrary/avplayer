@@ -7,7 +7,7 @@ module Millennium
   class << self
 
     def find_marc_record(bib_number)
-      uri = marc_uri_for(bib_number)
+      uri = marc_url_for(bib_number)
       html = do_get(uri)
       MarcExtractor.new(html).extract_marc_record
     rescue RestClient::Exception => e
@@ -22,14 +22,14 @@ module Millennium
       Rails.application.config.millennium_search_url
     end
 
+    def marc_url_for(bib_number)
+      "#{millennium_search_url}?/.#{bib_number}/.#{bib_number}/1%2C1%2C1%2CB/marc~#{bib_number}"
+    end
+
     private
 
     def log
       Rails.logger
-    end
-
-    def marc_uri_for(bib_number)
-      "#{millennium_search_url}?/.#{bib_number}/.#{bib_number}/1%2C1%2C1%2CB/marc~#{bib_number}"
     end
 
     def do_get(uri)

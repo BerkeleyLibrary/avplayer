@@ -19,5 +19,12 @@ module Health
     def as_json(*)
       value.downcase
     end
+
+    def http_status_code
+      return 200 if self == PASS
+      return 429 if self == WARN
+
+      raise "Unimplemented status: #{self}"
+    end
   end
 end

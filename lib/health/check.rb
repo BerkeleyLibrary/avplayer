@@ -11,13 +11,17 @@ module Health
     WOWZA_CHECK = 'Wowza'.freeze
     MILLENNIUM_CHECK = 'Millennium'.freeze
 
+    TEST_BIB_NUMBER = 'b23305522'.freeze
+    TEST_WOWZA_COLLECTION = 'Pacifica'.freeze
+    TEST_WOWZA_PATH = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'.freeze
+
     attr_reader :status
     attr_reader :details
 
     def initialize
       status = Status::PASS
       details = {}
-      all_checks.each do |name, check_method|
+      Check.all_checks.each do |name, check_method|
         result = check_method.call
         details[name] = result.as_json
         status &= result.status
@@ -32,52 +36,46 @@ module Health
     end
 
     def http_status_code
-      passing? ? 200 : 429
+      status.http_status_code
     end
 
-    private
+    class << self
+      def all_checks
+        {
+          MILLENNIUM_CHECK => method(:try_millennium),
+          TIND_CHECK => method(:try_tind),
+          WOWZA_CHECK => method(:try_wowza)
+        }
+      end
 
-    def all_checks
-      {
-        TIND_CHECK => method(:try_tind_search),
-        MILLENNIUM_CHECK => method(:try_millennium_search),
-        WOWZA_CHECK => method(:try_wowza_url)
-      }
-    end
+      private
 
-    def passing?
-      status == Status::PASS
-    end
+      def try_millennium
+        make_head_request(Millennium.marc_url_for(TEST_BIB_NUMBER))
+      end
 
-    def try_millennium_search
-      test_id = 'b23305522'
-      marc_record = Millennium.find_marc_record(test_id)
-      return Result.warn('Millennium record not found for ID: ' + test_id) unless marc_record
+      def try_tind
+        make_head_request(Tind.marc_url_for(TEST_BIB_NUMBER))
+      end
 
-      Result.pass
-    rescue StandardError => e
-      Result.warn(e.class.name)
-    end
+      def try_wowza
+        av_file = AvFile.new(collection: TEST_WOWZA_COLLECTION, path: TEST_WOWZA_PATH)
+        make_head_request(av_file.streaming_url)
+      end
 
-    def try_tind_search
-      test_id = 'b23305522'
-      marc_record = Tind.find_marc_record(test_id)
-      return Result.warn('TIND record not found for ID: ' + test_id) unless marc_record
+      def make_head_request(url)
+        resp = RestClient.head(url)
+        return Result.pass if resp.code == 200 # OK
 
-      Result.pass
-    rescue StandardError => e
-      Result.warn(e.class.name)
-    end
+        Result.warn("HEAD #{url} returned #{resp.code}")
+      rescue StandardError => e
+        log.warn(e)
+        Result.warn(e.class.name)
+      end
 
-    def try_wowza_url
-      av_file = AvFile.new(collection: 'Pacifica', path: 'PRA_NHPRC1_AZ1084_00_000_00.mp3')
-      stream_url = av_file.streaming_url
-      resp = RestClient.head(stream_url)
-      return Result.pass if resp.code == 200 # OK
-
-      Result.warn("HEAD #{stream_url} returned #{resp.code}")
-    rescue StandardError => e
-      Result.warn(e.class.name)
+      def log
+        Rails.logger
+      end
     end
 
   end

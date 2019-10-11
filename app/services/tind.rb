@@ -22,6 +22,10 @@ module Tind
       Rails.application.config.tind_search_url
     end
 
+    def marc_url_for(bib_number)
+      loggable_search_url(tind_params_for(bib_number))
+    end
+
     private
 
     # @return [Enumerable<MARC::Record>]
@@ -31,29 +35,33 @@ module Tind
       MARC::XMLReader.new(input) # MARC::XMLReader mixes in Enumerable
     end
 
-    def get_marc_xml(id_value)
-      tind_search_params = { p: id_value, of: 'xm' }
+    def get_marc_xml(bib_number)
+      tind_search_params = tind_params_for(bib_number)
       begin
         return do_get(tind_search_params)
       rescue RestClient::Exception => e
-        uri = loggable_search_uri(tind_search_params)
+        uri = marc_url_for(bib_number)
         log.error("GET #{uri} returned #{e}", e)
-        raise ActiveRecord::RecordNotFound, "No TIND record found for p=#{id_value}; TIND returned #{e.http_code}"
+        raise ActiveRecord::RecordNotFound, "No TIND record found for p=#{bib_number}; TIND returned #{e.http_code}"
       end
+    end
+
+    def tind_params_for(bib_number)
+      { p: bib_number, of: 'xm' }
+    end
+
+    def loggable_search_url(tind_search_params)
+      uri = URI.parse(tind_search_url)
+      uri.query = tind_search_params.to_query
+      uri.to_s
     end
 
     def log
       Rails.logger
     end
 
-    def loggable_search_uri(tind_search_params)
-      uri = URI.parse(tind_search_url)
-      uri.query = tind_search_params.to_query
-      uri
-    end
-
     def do_get(tind_search_params)
-      uri = loggable_search_uri(tind_search_params)
+      uri = loggable_search_url(tind_search_params)
       log.debug("GET #{uri}")
 
       resp = RestClient.get(tind_search_url, params: tind_search_params)
