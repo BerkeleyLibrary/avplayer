@@ -3,17 +3,16 @@ require 'metadata/key'
 require 'metadata/record'
 
 class AvRecord
-  attr_reader :files, :marc_lookups, :metadata_record
+  attr_reader :files, :metadata_key, :metadata_record
 
   # Initializes a new AV record.
   #
   # @param files [Array<AvFile>] The AV files
-  # @param marc_lookups [Array<Metadata::Key>] The MARC lookup keys
-  def initialize(files:, marc_lookups:)
+  # @param metadata_key [Key] The metadata lookup key
+  def initialize(files:, metadata_key:)
     @files = files
-    @marc_lookups = marc_lookups
-    # TODO: support looking up Millennium records
-    @metadata_record = Metadata::Record.find_any(marc_lookups)
+    @metadata_record = Metadata::Record.find(metadata_key)
+    @metadata_key = metadata_key
   end
 
   # Gets the title of this record.

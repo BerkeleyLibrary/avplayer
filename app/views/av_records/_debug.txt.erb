@@ -1,12 +1,10 @@
 
 Title: <%= record.title %>
 
+Metadata key: <%= record.metadata_key %>
+
 Files:
 <% record.files.each do |file| %>
 - <%= file %>
 <% end %>
 
-TIND IDs:
-<% record.marc_lookups.each do |id| %>
-- <%= id %>
-<% end %>

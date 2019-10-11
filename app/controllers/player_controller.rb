@@ -4,15 +4,13 @@ require 'metadata/key'
 
 class PlayerController < ApplicationController
 
-  TIND_ID_PARAMS = %w[901m 901o].freeze
-  MARC_FIELD_RE = /^([0-9]{3})([a-z])$/.freeze
-
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from ActionController::ParameterMissing, with: :bad_request
 
   def show
     av_record = AvRecord.new(
       files: av_files,
-      marc_lookups: marc_lookups(player_params)
+      metadata_key: metadata_key
     )
 
     # TODO: actual IP restriction
@@ -23,8 +21,14 @@ class PlayerController < ApplicationController
 
   def record_not_found
     render :record_not_found, status: 404, locals: {
-      marc_lookups: marc_lookups(player_params)
+      paths: paths,
+      record_id: record_id
     }
+  end
+
+  def bad_request(e)
+    log.error(e)
+    render :bad_request, status: 400
   end
 
   def health
@@ -41,6 +45,21 @@ class PlayerController < ApplicationController
     raise ActiveRecord::RecordNotFound
   end
 
+  def player_params
+    @player_params ||= begin
+      required = %i[collection paths record_id]
+
+      # :format is a default parameter added from routes.rb
+      permitted_params = params.permit(required + %i[format])
+
+      # You'd think require() would behave like permit(), but you'd be wrong
+      values = required.map do |k|
+        [k, permitted_params.require(k)]
+      end.to_h
+      ActionController::Parameters.new(values)
+    end
+  end
+
   def collection
     @collection = player_params[:collection]
   end
@@ -49,12 +68,21 @@ class PlayerController < ApplicationController
     @paths ||= split_paths(player_params[:paths])
   end
 
-  def player_params
-    @player_params ||= begin
-      # :format is a default parameter added from routes.rb
-      permitted = %i[collection paths format] + TIND_ID_PARAMS
-      params.permit(*permitted)
+  def metadata_key
+    @metadata_key ||= begin
+      source_val, bib_number = record_id.split(':')
+      source = Metadata::Source.find_by_value(source_val)
+      if source
+        Metadata::Key.new(source: source, bib_number: bib_number)
+      else
+        log.warn("Unknown metadata source #{source_val}")
+        nil
+      end
     end
+  end
+
+  def record_id
+    @record_id = player_params[:record_id]
   end
 
   # @param paths_param a semicolon-delimited (%3B-delimited in the URL) list of paths
@@ -64,10 +92,4 @@ class PlayerController < ApplicationController
     paths_param.split(';')
   end
 
-  def marc_lookups(params)
-    TIND_ID_PARAMS.map do |p|
-      value = params[p]
-      Metadata::Key.new(field: p, value: value) if value
-    end.compact
-  end
 end

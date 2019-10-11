@@ -6,8 +6,10 @@ module Health
   # @see https://www.consul.io/docs/agent/checks.html StatusCode based on Consul
   class Check
 
+    # TODO: use Typesafe::Enum
     TIND_CHECK = 'TIND'.freeze
     WOWZA_CHECK = 'Wowza'.freeze
+    MILLENNIUM_CHECK = 'Millennium'.freeze
 
     attr_reader :status
     attr_reader :details
@@ -38,6 +40,7 @@ module Health
     def all_checks
       {
         TIND_CHECK => method(:try_tind_search),
+        MILLENNIUM_CHECK => method(:try_millennium_search),
         WOWZA_CHECK => method(:try_wowza_url)
       }
     end
@@ -46,8 +49,18 @@ module Health
       status == Status::PASS
     end
 
+    def try_millennium_search
+      test_id = 'b23305522'
+      marc_record = Millennium.find_marc_record(test_id)
+      return Result.warn('Millennium record not found for ID: ' + test_id) unless marc_record
+
+      Result.pass
+    rescue StandardError => e
+      Result.warn(e.class.name)
+    end
+
     def try_tind_search
-      test_id = Metadata::Key.new(field: '901m', value: 'b23305522')
+      test_id = 'b23305522'
       marc_record = Tind.find_marc_record(test_id)
       return Result.warn('TIND record not found for ID: ' + test_id) unless marc_record
 

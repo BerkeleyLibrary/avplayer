@@ -1,16 +1,19 @@
 <section class="av_record">
   <h1>Record not found</h1>
 
-  <p>No record with any of the specified TIND IDs could be found.</p>
+  <p>The specified record could not be found.</p>
 
-  <table class="tind">
-    <thead>
-      <tr><th>Field</th><th>Value</th></tr>
-    </thead>
+  <table class="metadata">
     <tbody>
-    <% marc_lookups.each do |id| %>
-      <%= render(partial: 'tind/text_field', locals: {field: id.as_field}) %>
-    <% end %>
+    <tr>
+      <th>Files</th>
+      <td><%= paths.join(", ") %></td>
+    </tr>
+    <tr>
+      <th>Record ID</th>
+      <td><%= record_id %></td>
+    </tr>
     </tbody>
   </table>
+
 </section>

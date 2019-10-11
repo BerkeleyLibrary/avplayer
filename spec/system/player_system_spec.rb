@@ -2,10 +2,10 @@ require 'rails_helper'
 
 describe PlayerController, type: :system do
 
-  attr_reader :marc_lookup
+  attr_reader :metadata_key
 
   before(:each) do
-    @marc_lookup = Metadata::Key.new(field: '901m', value: 'b23305522')
+    @metadata_key = Metadata::Key.new(source: Metadata::Source::TIND, bib_number: 'b23305522')
   end
 
   describe 'success' do
@@ -18,9 +18,9 @@ describe PlayerController, type: :system do
       marc_record = MARC::XMLReader.new(input).first
       @metadata_record = Metadata::Record.factory.from_marc(marc_record)
 
-      allow(Metadata::Record).to receive(:find_any).with([marc_lookup]).and_return(metadata_record)
+      allow(Metadata::Record).to receive(:find).with(metadata_key).and_return(metadata_record)
 
-      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?901m=b23305522'
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?record_id=tind:b23305522'
     end
 
     it 'displays the metadata' do
@@ -55,42 +55,42 @@ describe PlayerController, type: :system do
 
   describe 'failure' do
     it 'displays the "Record not found" page when records aren\'t found' do
-      allow(Metadata::Record).to receive(:find_any).with([marc_lookup]).and_raise(ActiveRecord::RecordNotFound)
-      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?901m=b23305522'
+      allow(Metadata::Record).to receive(:find).with(metadata_key).and_raise(ActiveRecord::RecordNotFound)
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?record_id=tind:b23305522'
       expect(page).to have_content('Record not found')
-      expect(page).to have_content('901m')
+      expect(page).to have_content('tind')
       expect(page).to have_content('b23305522')
     end
 
     it 'displays the "Record not found" page for UCB-only records' do
-      marc_lookup = Metadata::Key.new(field: '901m', value: 'b18538031')
+      metadata_key = Metadata::Key.new(source: Metadata::Source::TIND, bib_number: 'b18538031')
 
       metadata_record = instance_double(Metadata::Record)
       allow(metadata_record).to receive(:restrictions).and_return(Restrictions::UCB_IP)
-      allow(Metadata::Record).to receive(:find_any).with([marc_lookup]).and_return(metadata_record)
+      allow(Metadata::Record).to receive(:find).with(metadata_key).and_return(metadata_record)
 
-      visit root_url + 'City/CA01476a.mp3%3BCA01476b.mp3?901m=b18538031'
+      visit root_url + 'City/CA01476a.mp3%3BCA01476b.mp3?record_id=tind:b18538031'
 
       expect(page).to have_content('Record not found')
-      expect(page).to have_content('901m')
+      expect(page).to have_content('tind')
       expect(page).to have_content('b18538031')
     end
 
     it 'displays the "Record not found" page for an invalid path' do
-      visit root_url + 'City/CA01476b.qt?901m=b18538031'
+      visit root_url + 'City/CA01476b.qt?record_id=tind:b18538031'
 
       # TODO: include paths in error response
       expect(page).to have_content('Record not found')
-      expect(page).to have_content('901m')
+      expect(page).to have_content('tind')
       expect(page).to have_content('b18538031')
     end
 
     it 'displays the "Record not found" page when one of several paths is invalid' do
-      visit root_url + 'City/CA01476a.mp3%3BCA01476b.qt?901m=b18538031'
+      visit root_url + 'City/CA01476a.mp3%3BCA01476b.qt?record_id=tind:b18538031'
 
       # TODO: include paths in error response
       expect(page).to have_content('Record not found')
-      expect(page).to have_content('901m')
+      expect(page).to have_content('tind')
       expect(page).to have_content('b18538031')
     end
   end

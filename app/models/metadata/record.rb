@@ -23,29 +23,30 @@ module Metadata
 
     class << self
 
-      # Searches for a TIND record matching the specified MARC lookup key
-      #
-      # @param @marc_lookup [Metadata::Key] The key to look up
-      # @return [Metadata::Record] The record
-      # @raise [ActiveRecord::RecordNotFound] if the record could not be found
-      def find(marc_lookup)
-        marc_record = Tind.find_marc_record(marc_lookup)
-        raise ActiveRecord::RecordNotFound, "No record found for TIND ID #{marc_lookup}" unless marc_record
-
-        factory.from_marc(marc_record)
-      end
-
       # Searches for a TIND record matching any one of several MARC lookup keys
       #
-      # @param @marc_lookups [Array<Metadata::Key>] The keys to look up
+      # @param key [Metadata::Key] The key to look up
       # @return [Metadata::Record] The first record found
       # @raise [ActiveRecord::RecordNotFound] if the record could not be found
-      def find_any(marc_lookups)
-        marc_lookups.each do |marc_lookup|
-          marc_record = find_quietly(marc_lookup)
-          return factory.from_marc(marc_record) if marc_record
-        end
-        raise ActiveRecord::RecordNotFound, "No record found for any TIND ID in: #{marc_lookups}"
+      def find(key)
+        return find_tind(key.bib_number) if key.source == Source::TIND
+        return find_millennium(key.bib_number) if key.source == Source::MILLENNIUM
+
+        raise ArgumentError, "Unsupported metadata source: #{key.source}"
+      end
+
+      # Searches for a TIND record matching the specified MARC lookup key
+      #
+      # @param bib_number [String] The bib number to look up
+      # @return [Metadata::Record] The record
+      # @raise [ActiveRecord::RecordNotFound] if the record could not be found
+      def find_tind(bib_number)
+        raise ArgumentError, "#{bib_number} is not a string" unless bib_number.is_a?(String)
+
+        marc_record = Tind.find_marc_record(bib_number)
+        raise ActiveRecord::RecordNotFound, "No TIND record found for bib number #{bib_number}" unless marc_record
+
+        factory.from_marc(marc_record)
       end
 
       # Searches for the specified Millennium record and wraps it to look like a TIND record.
@@ -54,8 +55,10 @@ module Metadata
       # @return [Metadata::Record] The record
       # @raise [ActiveRecord::RecordNotFound] if the record could not be found
       def find_millennium(bib_number)
+        raise ArgumentError, "#{bib_number} is not a string" unless bib_number.is_a?(String)
+
         marc_record = Millennium.find_marc_record(bib_number)
-        raise ActiveRecord::RecordNotFound, "No record found for Millennium bib number #{bib_number}" unless marc_record
+        raise ActiveRecord::RecordNotFound, "No Millennium record found for bib number #{bib_number}" unless marc_record
 
         factory.from_marc(marc_record)
       end
@@ -75,10 +78,10 @@ module Metadata
         Rails.logger
       end
 
-      def find_quietly(marc_lookup)
-        Tind.find_marc_record(marc_lookup)
+      def find_quietly(metadata_key)
+        Tind.find_marc_record(metadata_key)
       rescue ActiveRecord::RecordNotFound => e
-        log.trace("Ignoring #{e} in find_quietly(#{marc_lookup})")
+        log.trace("Ignoring #{e} in find_quietly(#{metadata_key})")
         nil
       end
     end

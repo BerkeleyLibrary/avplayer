@@ -6,19 +6,16 @@ Dir.glob(File.expand_path('tind/*.rb', __dir__)).sort.each(&method(:require))
 module Tind
   class << self
 
-    # @param marc_lookup [Metadata::Key] the TIND ID to find
+    # @param bib_number [String] the bib number to look up
     # @return [MARC::Record, nil]
-    def find_marc_record(marc_lookup)
+    def find_marc_record(bib_number)
+      raise ArgumentError, "#{bib_number} is not a string" unless bib_number.is_a?(String)
       raise 'tind_search_url not configured in Rails application' unless tind_search_url
 
-      records = find_marc_records(marc_lookup)
+      records = find_marc_records(bib_number)
       return unless records
 
-      records.each do |marc_record|
-        return marc_record if marc_lookup.in?(marc_record)
-      end
-
-      nil
+      records.first
     end
 
     def tind_search_url
@@ -28,8 +25,8 @@ module Tind
     private
 
     # @return [Enumerable<MARC::Record>]
-    def find_marc_records(marc_lookup)
-      marc_xml = get_marc_xml(marc_lookup.value)
+    def find_marc_records(bib_number)
+      marc_xml = get_marc_xml(bib_number)
       input = StringIO.new(marc_xml)
       MARC::XMLReader.new(input) # MARC::XMLReader mixes in Enumerable
     end

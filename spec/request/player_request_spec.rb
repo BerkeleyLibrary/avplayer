@@ -4,23 +4,26 @@ require 'webmock'
 
 describe PlayerController, type: :request do
   describe :health do
-    attr_reader :marc_lookup
+    attr_reader :metadata_key
     attr_reader :wowza_collection
     attr_reader :wowza_file
     attr_reader :stream_url
+    attr_reader :marc_record
 
     before(:each) do
-      @marc_lookup = Metadata::Key.new(field: '901m', value: 'b23305522')
+      @metadata_key = Metadata::Key.new(source: Metadata::Source::TIND, bib_number: 'b23305522')
 
       @wowza_collection = 'Pacifica'
       @wowza_file = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'
 
       @stream_url = 'http://vm147.lib.berkeley.edu:1935/Pacifica/mp3:PRA_NHPRC1_AZ1084_00_000_00.mp3/playlist.m3u8'
+
+      @marc_record = instance_double(MARC::Record)
     end
 
+    # TODO: include Millennium checks
     it 'returns PASS if TIND and Wowza are both up' do
-      marc_record = instance_double(MARC::Record)
-      expect(Tind).to receive(:find_marc_record).with(marc_lookup).and_return(marc_record)
+      expect(Tind).to receive(:find_marc_record).with(metadata_key.bib_number).and_return(marc_record)
 
       stub_request(:head, stream_url).to_return(status: 200)
 
@@ -41,7 +44,7 @@ describe PlayerController, type: :request do
     end
 
     it 'returns WARN if TIND and Wowza are both down' do
-      expect(Tind).to receive(:find_marc_record).with(marc_lookup).and_return(nil)
+      expect(Tind).to receive(:find_marc_record).with(metadata_key.bib_number).and_return(nil)
       stub_request(:head, stream_url).to_return(status: 500)
 
       get health_path
@@ -58,7 +61,7 @@ describe PlayerController, type: :request do
     end
 
     it 'returns WARN if TIND and Wowza raise errors' do
-      expect(Tind).to receive(:find_marc_record).with(marc_lookup).and_raise(StandardError)
+      expect(Tind).to receive(:find_marc_record).with(metadata_key.bib_number).and_raise(StandardError)
       expect(RestClient).to receive(:head).with(stream_url).and_raise(StandardError)
 
       get health_path
@@ -75,7 +78,7 @@ describe PlayerController, type: :request do
     end
 
     it 'returns WARN if TIND is down and Wowza is up' do
-      expect(Tind).to receive(:find_marc_record).with(marc_lookup).and_return(nil)
+      expect(Tind).to receive(:find_marc_record).with(metadata_key.bib_number).and_return(nil)
       stub_request(:head, stream_url).to_return(status: 200)
 
       get health_path
@@ -91,8 +94,7 @@ describe PlayerController, type: :request do
     end
 
     it 'returns WARN if TIND is up and Wowza is down' do
-      marc_record = instance_double(MARC::Record)
-      expect(Tind).to receive(:find_marc_record).with(marc_lookup).and_return(marc_record)
+      expect(Tind).to receive(:find_marc_record).with(metadata_key.bib_number).and_return(marc_record)
 
       # In general, RestClient throws exceptions for 4xx, 5xx, etc.,
       # and follows redirects for 3xx. 206 Partial Content isn't a

@@ -1,62 +1,33 @@
 module Metadata
-  # TODO: generalize this to cover either TIND or Millennium
   class Key
-    MARC_FIELD_RE = /^([0-9]{3})([a-z0-9])$/.freeze
 
-    attr_reader :tag
-    attr_reader :subfield
-    attr_reader :value
+    attr_reader :source
+    attr_reader :bib_number
 
-    def initialize(field:, value:)
-      match_data = MARC_FIELD_RE.match(field)
-      raise ArgumentError, "MARC field '#{field}' must be in format XXXx" unless match_data
-
-      @tag = match_data[1]
-      @subfield = match_data[2]
-      @value = value
+    # @param bib_number [String]
+    # @param source [Source]
+    def initialize(source:, bib_number:)
+      @bib_number = bib_number
+      @source = source
     end
 
     def to_s
-      "#{field}: #{value}"
-    end
-
-    def inspect
-      "#{field}=#{value}"
-    end
-
-    def as_field
-      MockField.new(label: field, value: value)
-    end
-
-    # @param marc_record [MARC::Record]
-    # @return [Boolean] true if this ID is in the MARC record, false otherwise
-    def in?(marc_record)
-      return unless marc_record
-
-      marc_record.each_by_tag(tag) { |field| return true if field[subfield] == value }
-      false
+      "#{source.value}:#{bib_number}"
     end
 
     def ==(other)
       return true if equal?(other)
       return false unless other
       return false unless other.is_a?(Key)
-      return false unless other.tag == tag
-      return false unless other.subfield == subfield
+      return false unless other.source == source
 
-      other.value == value
+      other.bib_number == bib_number
     end
 
     def hash
-      [tag, subfield, value].reduce(0) do |r, v|
+      [source, bib_number].reduce(0) do |r, v|
         v.hash + (r << 5) - r
       end
-    end
-
-    private
-
-    def field
-      "#{tag}#{subfield}"
     end
 
   end
