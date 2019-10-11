@@ -96,6 +96,24 @@ a {
 }
 
 // ////////////////////////////////////////////////////////////
+// Media
+
+/*
+ Browsers and/or MediaElement.js don't seem to honor these,
+ but let's be consistent.
+*/
+
+video {
+  width: 768px;
+  height: 576px;
+}
+
+audio {
+  width: 768px;
+  height: 40px;
+}
+
+// ////////////////////////////////////////////////////////////
 // Tables
 
 table {

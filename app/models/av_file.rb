@@ -31,6 +31,10 @@ class AvFile
     type.mime_type
   end
 
+  def to_s
+    "#{type}:#{collection}/#{path}"
+  end
+
   private
 
   # TODO: find some path-joining code that's smart about //s

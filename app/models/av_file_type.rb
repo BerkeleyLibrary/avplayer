@@ -26,6 +26,10 @@ class AvFileType < TypesafeEnum::Base
     ".#{value}"
   end
 
+  def to_s
+    value.to_s
+  end
+
   class << self
     # @param path [String]
     # @return [AvFileType, nil] The file type, or nil if it cannot be determined
