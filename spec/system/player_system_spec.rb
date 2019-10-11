@@ -53,7 +53,29 @@ describe PlayerController, type: :system do
     end
   end
 
-  describe 'failure' do
+  describe 'bad request' do
+    it 'displays the "Bad request" page when no record ID is provided' do
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3'
+      expect(page).to have_content('Bad request')
+    end
+
+    it 'displays the "Bad request" page for a record ID with no source' do
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?record_id=b23305522'
+      expect(page).to have_content('Bad request')
+    end
+
+    it 'displays the "Bad request" page for an invalid metadata source' do
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?record_id=oclc:b23305522'
+      expect(page).to have_content('Bad request')
+    end
+
+    it 'displays the "Bad request" page for an invalid bib number' do
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?record_id=tind'
+      expect(page).to have_content('Bad request')
+    end
+  end
+
+  describe 'record not found' do
     it 'displays the "Record not found" page when records aren\'t found' do
       allow(Metadata::Record).to receive(:find).with(metadata_key).and_raise(ActiveRecord::RecordNotFound)
       visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?record_id=tind:b23305522'

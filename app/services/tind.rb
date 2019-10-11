@@ -9,7 +9,7 @@ module Tind
     # @param bib_number [String] the bib number to look up
     # @return [MARC::Record, nil]
     def find_marc_record(bib_number)
-      raise ArgumentError, "#{bib_number} is not a string" unless bib_number.is_a?(String)
+      raise ArgumentError, "#{bib_number || 'nil'} is not a string" unless bib_number.is_a?(String)
       raise 'tind_search_url not configured in Rails application' unless tind_search_url
 
       records = find_marc_records(bib_number)

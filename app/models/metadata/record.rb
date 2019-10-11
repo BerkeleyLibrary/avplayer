@@ -41,7 +41,7 @@ module Metadata
       # @return [Metadata::Record] The record
       # @raise [ActiveRecord::RecordNotFound] if the record could not be found
       def find_tind(bib_number)
-        raise ArgumentError, "#{bib_number} is not a string" unless bib_number.is_a?(String)
+        raise ArgumentError, "#{bib_number || 'nil'} is not a string" unless bib_number.is_a?(String)
 
         marc_record = Tind.find_marc_record(bib_number)
         raise ActiveRecord::RecordNotFound, "No TIND record found for bib number #{bib_number}" unless marc_record

@@ -69,16 +69,7 @@ class PlayerController < ApplicationController
   end
 
   def metadata_key
-    @metadata_key ||= begin
-      source_val, bib_number = record_id.split(':')
-      source = Metadata::Source.find_by_value(source_val)
-      if source
-        Metadata::Key.new(source: source, bib_number: bib_number)
-      else
-        log.warn("Unknown metadata source #{source_val}")
-        nil
-      end
-    end
+    @metadata_key ||= parse_record_id
   end
 
   def record_id
@@ -92,4 +83,13 @@ class PlayerController < ApplicationController
     paths_param.split(';')
   end
 
+  def parse_record_id
+    source_val, bib_number = record_id.split(':')
+    raise ActionController::ParameterMissing, "No bib number found in record_id '#{record_id}'" unless bib_number
+
+    source = Metadata::Source.find_by_value(source_val)
+    raise ActionController::ParameterMissing, "Unknown metadata source '#{source_val}' in record_id '#{record_id}'" unless source
+
+    Metadata::Key.new(source: source, bib_number: bib_number)
+  end
 end
