@@ -28,6 +28,8 @@ module Metadata
       description_field = fields.find { |f| f.tag == '520' }
       description = description_field && description_field.lines.join("\n")
 
+      # TODO: check restrictions here
+
       Metadata::Record.new(title: title, description: description, fields: fields, restrictions: restrictions_from(marc_record))
     end
 
