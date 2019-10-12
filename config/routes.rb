@@ -3,6 +3,7 @@ Rails.application.routes.draw do
       to: 'player#index',
       as: :root
 
+  # TODO: don't end with .mp3/.mp4, so Safari doesn't get confused
   get '/:collection/:paths',
       to: 'player#show',
       as: 'show',
