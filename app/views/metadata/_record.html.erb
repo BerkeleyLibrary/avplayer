@@ -1,6 +1,31 @@
+<% content_for(:title, metadata_record.title) %>
+
+<% if metadata_record.description %>
 <table class="metadata">
+  <thead>
+  <tr>
+    <th colspan="2">Description</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>
+      <p><%= metadata_record.description %></p>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<% end %>
+
+<table class="metadata">
+  <thead>
+  <tr>
+    <th colspan="2">Details</th>
+  </tr>
+  </thead>
   <tbody>
   <% metadata_record.fields.each do |f| %>
+    <% next if f.tag == '520' # skip description displayed above %>
     <% partial = f.respond_to?(:links) ? 'metadata/link_field' : 'metadata/text_field' %>
     <%= render(partial: partial, locals: {field: f}) %>
   <% end %>

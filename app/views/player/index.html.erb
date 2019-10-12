@@ -1,43 +1,64 @@
+<% content_for(:title, 'Home') %>
+
 <!--suppress HtmlUnknownTarget -->
 <main>
-  <h1>Examples</h1>
 
-  <h2>Audio</h2>
+  <section class="av_record">
 
-  <h3>Public</h3>
+    <h1>Examples</h1>
 
-  <ul>
-    <li>
-      Pacifica Radio Archives: <a href="/Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?record_id=tind:b23305522">Wanda Coleman</a>
-    </li>
-    <li>
-      Pacifica Radio Archives: <a href="/Pacifica/PRA_NHPRC1_AZ1010_00_000_00.mp3?record_id=tind:b23305516">Author Alice Walker reads the short story, Roselily.</a>
-    </li>
-  </ul>
+    <table class="metadata">
+      <thead>
+      <tr>
+        <th colspan="2">Public</th>
+      </tr>
+      </thead>
 
-  <h3>Restricted to UC Berkeley IPs</h3>
+      <tbody>
+      <tr>
+        <th>Audio</th>
+        <td>
+          <p><a href="/Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?record_id=millennium:b23305522">Wanda Coleman</a></p>
+        </td>
+      </tr>
+      <tr>
+        <th>Audio</th>
+        <td>
+          <p><a href="/Pacifica/PRA_NHPRC1_AZ1010_00_000_00.mp3?record_id=millennium:b23305516">Author Alice Walker reads the short story, Roselily.</a></p>
+        </td>
+      </tr>
+      <tr>
+        <th>Video</th>
+        <td>
+          <p><a href="/MRC/mrc/6927.mp4?record_id=millennium:b22139658">Communists on campus</a></p>
+        </td>
+      </tr>
+      </tbody>
+    </table>
 
-  <%# TODO: Handle IP restrictions properly %>
-  <p>(Currently locked out for all users.)</p>
+    <table class="metadata">
+      <thead>
+      <tr>
+        <th colspan="2">Restricted</th>
+      </tr>
+      </thead>
 
-  <ul>
-    <li>
-      City Arts &amp; Lectures: <a href="/City/CA01693.mp3?record_id=tind:b24071548">Interview with Joyce Carol Oates, January 26, 2016</a>
-    </li>
-    <li>
-      City Arts &amp; Lectures: <a href="/City/CA01476a.mp3%3BCA01476b.mp3?record_id=tind:b18538031">Spelling Bee for Cheaters</a>
-      (2 files)
-    </li>
-  </ul>
+      <tbody>
+      <tr>
+        <th>Audio</th>
+        <td>
+          <p><a href="/City/CA01693.mp3?record_id=millennium:b24071548">Interview with Joyce Carol Oates, January 26, 2016</a></p>
+        </td>
+      </tr>
+      <tr>
+        <th>Audio</th>
+        <td>
+          <p><a href="/City/CA01476a.mp3%3BCA01476b.mp3?record_id=millennium:b18538031">Spelling Bee for Cheaters</a> (2 files)</p>
+        </td>
+      </tr>
+      </tbody>
+    </table>
 
-  <h2>Video</h2>
-
-  <h3>Public</h3>
-
-  <ul>
-    <li>
-      MRC: <a href="/MRC/mrc/6927.mp4?record_id=millennium:b22139658">Communists on campus</a>
-    </li>
-  </ul>
+  </section>
 
 </main>

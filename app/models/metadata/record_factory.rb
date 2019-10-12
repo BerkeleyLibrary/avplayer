@@ -3,10 +3,11 @@ require 'marc'
 module Metadata
   class RecordFactory
     TITLE = FieldFactory.new(label: 'Title', marc_tag: '245%%', order: 1, subfield_order: 'a')
+    DESCRIPTION = FieldFactory.new(label: 'Description', marc_tag: '520%%', order: 2, subfield_order: 'a')
     CREATOR_PERSONAL = FieldFactory.new(label: 'Creator', marc_tag: '700%%', order: 2)
     CREATOR_CORPORATE = FieldFactory.new(label: 'Creator', marc_tag: '710%%', order: 2)
     LINKS_HTTP = FieldFactory.new(label: 'Linked Resources', marc_tag: '85641', order: 11)
-    DEFAULT_FIELDS = [TITLE, CREATOR_PERSONAL, CREATOR_CORPORATE, LINKS_HTTP].freeze
+    DEFAULT_FIELDS = [TITLE, DESCRIPTION, CREATOR_PERSONAL, CREATOR_CORPORATE, LINKS_HTTP].freeze
 
     # @return [Array<FieldFactory>] the configured fields
     attr_reader :field_factories
@@ -21,10 +22,13 @@ module Metadata
       fields = fields_from(marc_record)
       return if fields.empty?
 
-      title_field = fields.first { |f| f.tag == '245' }
+      title_field = fields.find { |f| f.tag == '245' }
       title = title_from(title_field)
 
-      Metadata::Record.new(title: title, fields: fields, restrictions: restrictions_from(marc_record))
+      description_field = fields.find { |f| f.tag == '520' }
+      description = description_field && description_field.lines.join("\n")
+
+      Metadata::Record.new(title: title, description: description, fields: fields, restrictions: restrictions_from(marc_record))
     end
 
     class << self

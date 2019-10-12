@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>AV Player</title>
+    <title>AV Player: <%= yield(:title) %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,700&display=swap&subset=latin-ext" rel="stylesheet">
 
     <%# TODO: move this to player only %>
     <%# TODO: handle JS errors (e.g. 403/404/CORS issues w/media URL) %>
@@ -17,6 +20,16 @@
   </head>
 
   <body>
-    <%= yield %>
+  <header>
+    <nav><a href="/">AV Player Home</a></nav>
+  </header>
+
+  <%= yield %>
+
+  <footer>
+    <p>
+    Copyright &copy; <%= Date.today.year %> The Regents of the University of California. All rights reserved.
+    </p>
+  </footer>
   </body>
 </html>

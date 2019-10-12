@@ -12,17 +12,35 @@ body {
   background-color: $color-background-grey;
   color: $color-black;
   font-family: $font-family-sans;
-  line-height: 1.2em;
+  font-size: 14px;
+  line-height: 1.5em;
+  height: 100%;
+  min-height: min-content;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
   background: $color-berkeley-blue;
   color: $color-white;
-  font-weight: bold;
+  font-weight: $font-weight-bold;
   padding: $padding;
 
   a {
     color: $color-white;
+    font-weight: inherit;
+  }
+}
+
+footer {
+  background: $color-berkeley-blue;
+  color: $color-white;
+  font-weight: $font-weight-medium;
+  padding: $padding;
+
+  a {
+    color: $color-white;
+    font-weight: inherit;
   }
 }
 
@@ -30,17 +48,28 @@ main {
   position: relative;
   background: $color-white;
   padding: $padding;
+  width: calc(100% - 100px); // TODO: something responsive
+  margin-right: auto;
+  margin-left: auto;
+  flex-grow: 999;
+}
 
-  aside {
-    background: $color-pacific;
-    color: $color-bay-fog;
-    padding: $padding;
-    position: absolute;
-    right: 0;
-    top: 0;
+section.av_record {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: auto;
+  margin-left: auto;
+  width: 768px; // TODO: something responsive
+
+  h1 {
+    margin-right: auto;
   }
 }
 
+section.player {
+  margin-bottom: 1em;
+}
 
 // ////////////////////////////////////////////////////////////
 // Block elements
@@ -48,13 +77,14 @@ main {
 h1, h2, h3, h4, h5 {
   color: $color-berkeley-blue;
   font-family: $font-family-serif;
-  font-weight: bold;
+  font-weight: $font-weight-bold;
   margin-top: 1em;
   margin-bottom: 0.5em;
 }
 
 h1 {
-  font-size: x-large;
+  font-size: xx-large;
+  margin-bottom: 0.75em;
 }
 
 h2 {
@@ -86,8 +116,8 @@ li {
 // Inline elements
 
 a {
-  color: $color-pacific;
-  font-weight: bold;
+  color: $color-lawrence;
+  font-weight: $font-weight-medium;
   text-decoration: none;
 
   &:hover {
@@ -118,16 +148,30 @@ audio {
 
 table {
   table-layout: auto;
-  margin-top: 0.5em;
-  max-width: 640px; // TODO: something responsive
+  margin-top: 1em;
+  width: 768px; // TODO: something responsive
+
+  thead {
+    th {
+      background-color: $color-founders-rock;
+      color: $color-white;
+    }
+  }
+
+  tr:not(:last-child) {
+    border-bottom: 1px solid $color-bay-fog;
+  }
 
   th {
-    font-weight: bold;
-    padding: 0.25em;
+    font-weight: $font-weight-medium;
+    padding: 0.25em 0.5em 0.25em 0.5em;
+    color: $color-pacific;
   }
 
   td {
     padding: 0.25em;
+    font-weight: $font-weight-light;
+    color: $color-pacific;
   }
 
   thead {

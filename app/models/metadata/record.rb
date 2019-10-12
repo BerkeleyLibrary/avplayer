@@ -5,21 +5,24 @@ module Metadata
   class Record
 
     attr_reader :title
+    attr_reader :description
     attr_reader :fields
     attr_reader :restrictions
 
     # @param title [String]
+    # @param description [String]
     # @param fields [Array<Metadata::Field>]
     # @param restrictions [Restrictions]
-    def initialize(title:, fields:, restrictions: Restrictions::PUBLIC)
+    def initialize(title:, description:, fields:, restrictions: Restrictions::PUBLIC)
       @title = title
+      @description = description
       @fields = fields
       @restrictions = restrictions
     end
 
     UNKNOWN_TITLE = 'Unknown title'.freeze
     RECORD_NOT_FOUND = 'Record not found'.freeze
-    NONE = Record.new(title: RECORD_NOT_FOUND, fields: [].freeze)
+    NONE = Record.new(title: RECORD_NOT_FOUND, description: '', fields: [].freeze)
 
     class << self
 
