@@ -25,6 +25,5 @@ services:
 version: "3.7"
 
 volumes:
-  # TODO: do we need 'public'?
   public: {}
   tmp: {}
