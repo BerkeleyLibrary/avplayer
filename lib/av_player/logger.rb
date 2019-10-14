@@ -1,3 +1,6 @@
+require 'active_support'
+require 'ougai/logger'
+
 module AvPlayer
   module Logging
 
@@ -6,9 +9,11 @@ module AvPlayer
       #
       # @param config [Application::Configuration] the application configuration
       def configure(config)
-        config.lograge.enabled = true
-        config.lograge.custom_options = method(:extract_event_data)
-        config.lograge.formatter = LogrageRequestFormatter.new
+        # noinspection RubyResolve
+        lograge = config.lograge
+        lograge.enabled = true
+        lograge.custom_options = method(:extract_event_data)
+        lograge.formatter = LogrageRequestFormatter.new
 
         logger = new_custom_logger
         config.logger = logger
@@ -16,11 +21,13 @@ module AvPlayer
       end
 
       def new_custom_logger
-        return Logger.new if ((env = Rails.env) && env.production?)
+        return Logger.new($stdout) if (env = Rails.env) && env.production?
 
-        readable_logger = Ougai::Logger.new("log/#{env}.log")
-        readable_logger.formatter = Ougai::Formatters::Readable.new
         logger = Logger.new($stdout)
+
+        readable_logger = Logger.new("log/#{env}.log")
+        readable_logger.formatter = TaggableReadableFormatter.new
+        # noinspection RubyResolve
         logger.extend Ougai::Logger.broadcast(readable_logger)
         logger
       end
@@ -41,12 +48,53 @@ module AvPlayer
         event_data
       end
 
+      def ensure_hash(message)
+        return {} unless message
+        return message if message.is_a?(Hash)
+
+        { msg: message }
+      end
+
     end
 
     class LogrageRequestFormatter
       def call(data)
-        { msg: 'Request', request: data}
+        { msg: 'Request', request: data }
       end
+    end
+
+    module TaggableFormatter
+      class << self
+        def included(mod)
+          # Get around ActiveSupport::TaggedLogging::Formatter#call
+          mod.alias_method :call_original, :call
+        end
+      end
+
+      def call(severity, timestamp, progname, msg)
+        return super unless respond_to?(:tags_text)
+
+        message = { tags: tags_text }.merge(Logging.ensure_hash(msg))
+        call_original(severity, timestamp, progname, message)
+      end
+
+    end
+
+    class TaggableBunyanFormatter < Ougai::Formatters::Bunyan
+      include AvPlayer::Logging::TaggableFormatter
+      include Ougai::Logging::Severity
+
+      def dump(data)
+        # TODO: this is bananas, just override _call
+        return super unless data.key?(:severity)
+
+        data = { severity: data[:severity] }.merge(data)
+        super(data)
+      end
+    end
+
+    class TaggableReadableFormatter < Ougai::Formatters::Readable
+      include AvPlayer::Logging::TaggableFormatter
     end
 
     class Logger < Ougai::Logger
@@ -58,8 +106,7 @@ module AvPlayer
       end
 
       def create_formatter
-        # TODO: intercept TaggedLogging auto-injection (tagged_logging.rb #L73)
-        Ougai::Formatters::Bunyan.new
+        TaggableBunyanFormatter.new
       end
 
       def add(severity, message = nil, progname = nil)
@@ -76,16 +123,9 @@ module AvPlayer
       # @param severity [String]
       # @return [Hash] a message hash including the severity
       def include_severity(message, severity)
-        severity_label = to_label(severity)
-        ensure_hash(message).merge(severity: severity_label)
+        { severity: to_label(severity) }.merge(Logging.ensure_hash(message))
       end
 
-      def ensure_hash(message)
-        return {} unless message
-        return message if message.is_a?(Hash)
-
-        {msg: message}
-      end
     end
   end
 
