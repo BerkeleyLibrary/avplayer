@@ -12,13 +12,4 @@ services:
       # files ignored in .dockerignore when building the image)
       - ./:/opt/app
 
-# TODO: figure out whether we need an updater service, & if not, how to precompile assets
-
-#  updater:
-#    <<: *services-rails
-#    command:
-#      - assets:precompile
-#    ports: []
-#    restart: "no"
-
 version: "3.7"
