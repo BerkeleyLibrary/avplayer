@@ -29,8 +29,8 @@ pipeline {
       stages {
         stage("Run") {
           steps {
-            sh 'docker-compose up -d'
             sh 'docker-compose run --rm rails assets:precompile'
+            sh 'docker-compose up -d'
           }
         }
         stage("Tests") {
