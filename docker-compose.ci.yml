@@ -13,9 +13,8 @@ services:
       RAILS_ENV: test
     image: "${DOCKER_TAG}"
     volumes:
-      # TODO: do we need 'public'?
       - public:/opt/app/public
-      - tests:/opt/app/test
+      - tmp:/opt/app/tmp
 
   updater:
     <<: *rails
@@ -28,4 +27,4 @@ version: "3.7"
 volumes:
   # TODO: do we need 'public'?
   public: {}
-  tests: {}
+  tmp: {}
