@@ -7,9 +7,6 @@
 # Additional IDEA/RubyMine ignores
 .idea/.rakeTasks
 
-# test and inspection reports
-/test/reports
-
 ############################################################
 # Generated ignores
 
