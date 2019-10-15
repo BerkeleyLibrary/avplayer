@@ -143,7 +143,6 @@ module Metadata
           'Collection (982): Pacifica Radio Archives'
         ]
         fields = metadata_record.fields
-        puts fields[1].to_s
         expect(fields.size).to eq(expected.size)
         fields.each_with_index do |f, i|
           expect(f.to_s.gsub('|', '')).to eq(expected[i])
@@ -151,6 +150,53 @@ module Metadata
       end
       # rubocop:enable Metrics/LineLength
 
+    end
+
+    describe :restrictions do
+      attr_reader :expected
+
+      before(:each) do
+        @expected = {
+          'b22139658' => Restrictions::PUBLIC,
+          'b23305516' => Restrictions::PUBLIC,
+          'b23305522' => Restrictions::PUBLIC,
+          'b18538031' => Restrictions::UCB_IP,
+          'b24071548' => Restrictions::UCB_IP
+        }
+      end
+
+      it 'determines restrictions correctly for Millennium records' do
+        aggregate_failures 'Millennium records' do
+          expected.each do |bib, r_expected|
+            marc_url = Millennium.marc_url_for(bib)
+            record_html = "spec/data/#{bib}.html"
+            stub_request(:get, marc_url).to_return(status: 200, body: File.read(record_html))
+            record = Record.find_millennium(bib)
+            r_actual = record.restrictions
+            expect(r_actual).to eq(r_expected), "#{bib}: expected #{r_actual}, got #{r_expected}"
+          end
+        end
+      end
+
+      it 'determines restrictions correctly for TIND records' do
+        tind_ids = {
+          # Note we don't have a TIND record for b22139658
+          'b18538031' => 'spec/data/record-4188.xml',
+          'b23305516' => 'spec/data/record-19816.xml',
+          'b23305522' => 'spec/data/record-21178.xml',
+          'b24071548' => 'spec/data/record-4959.xml'
+        }
+        aggregate_failures 'TIND records' do
+          tind_ids.each do |bib, record_xml|
+            marc_url = Tind.marc_url_for(bib)
+            stub_request(:get, marc_url).to_return(status: 200, body: File.read(record_xml))
+            record = Record.find_tind(bib)
+            r_actual = record.restrictions
+            r_expected = expected[bib]
+            expect(r_actual).to eq(r_expected), "#{bib}: expected #{r_actual}, got #{r_expected}"
+          end
+        end
+      end
     end
   end
 end

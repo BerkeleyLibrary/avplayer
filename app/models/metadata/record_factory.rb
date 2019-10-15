@@ -28,9 +28,9 @@ module Metadata
       description_field = fields.find { |f| f.tag == '520' }
       description = description_field && description_field.lines.join("\n")
 
-      # TODO: check restrictions here
+      restrictions = restrictions_from(marc_record)
 
-      Metadata::Record.new(title: title, description: description, fields: fields, restrictions: restrictions_from(marc_record))
+      Metadata::Record.new(title: title, description: description, fields: fields, restrictions: restrictions)
     end
 
     class << self
@@ -77,9 +77,8 @@ module Metadata
 
     def restrictions_from(marc_record)
       marc_record.each_by_tag('856') do |marc_field|
-        subfield_y = marc_field['y']
-        next unless subfield_y
-        return Restrictions::UCB_IP if subfield_y.include?('UCB access')
+        subfields = marc_field.subfields
+        return Restrictions::UCB_IP if subfields.find { |sf| sf.value.include?('UCB access') }
       end
       Restrictions::PUBLIC
     end

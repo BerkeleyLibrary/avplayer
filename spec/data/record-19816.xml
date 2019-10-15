@@ -14,7 +14,7 @@
             <subfield code="a">Author Alice Walker reads the short story, Roselily</subfield>
         </datafield>
         <datafield tag="260" ind1=" " ind2=" ">
-            <subfield code="a">Los Angeles</subfield>
+            <subfield code="a">Los Angeles </subfield>
             <subfield code="b">Pacifica Radio Archives</subfield>
             <subfield code="c">1994.</subfield>
         </datafield>
@@ -28,26 +28,13 @@
             <subfield code="a">Audio</subfield>
         </datafield>
         <datafield tag="520" ind1=" " ind2=" ">
-            <subfield code="a">Pulitzer Prize-winning author Alice Walker (1944 - ) reads her short story "Roselily"
-                (written ca. 1967). Walker then talks with KPFA's Ginny Z. Berson about the story, how she wrote it
-                about her first marriage to a civil rights attorney and how it questions the dominance of Christianity
-                over all religions in the US. The story was dropped from a 10th grade English test by California state
-                educators based on complaints from Christian conservatives in early 1994. The Traditional Values
-                Coalition applied pressure based on what they read as "anti-religious" elements in the story.
-            </subfield>
+            <subfield code="a">Pulitzer Prize-winning author Alice Walker (1944 - ) reads her short story "Roselily" (written ca. 1967). Walker then talks with KPFA's Ginny Z. Berson about the story, how she wrote it about her first marriage to a civil rights attorney and how it questions the dominance of Christianity over all religions in the US. The story was dropped from a 10th grade English test by California state educators based on complaints from Christian conservatives in early 1994. The Traditional Values Coalition applied pressure based on what they read as "anti-religious" elements in the story.</subfield>
         </datafield>
         <datafield tag="536" ind1=" " ind2=" ">
-            <subfield code="a">Sponsored by the National Historical Publications and Records Commission at the National
-                Archives and Records Administration as part of Pacifica's American Women Making History and Culture:
-                1963-1982 grant preservation project.
-            </subfield>
+            <subfield code="a">Sponsored by the National Historical Publications and Records Commission at the National Archives and Records Administration as part of Pacifica's American Women Making History and Culture: 1963-1982 grant preservation project.</subfield>
         </datafield>
         <datafield tag="540" ind1=" " ind2=" ">
-            <subfield code="a">RESTRICTED. Permissions, licensing requests, and all other inquiries should be directed
-                in writing to: Director of the Archives, Pacifica Radio Archives, 3729 Cahuenga Blvd. West, North
-                Hollywood, CA 91604, 800-735-0230 x 263, fax 818-506-1084, info@pacificaradioarchives.org,
-                http://www.pacificaradioarchives.org
-            </subfield>
+            <subfield code="a">RESTRICTED.  Permissions, licensing requests, and all other inquiries should be directed in writing to: Director of the Archives, Pacifica Radio Archives, 3729 Cahuenga Blvd. West, North Hollywood, CA 91604, 800-735-0230 x 263, fax 818-506-1084, info@pacificaradioarchives.org, http://www.pacificaradioarchives.org</subfield>
         </datafield>
         <datafield tag="700" ind1="1" ind2=" ">
             <subfield code="a">Berson, Ginny Z.</subfield>
@@ -72,9 +59,7 @@
         </datafield>
         <datafield tag="856" ind1="4" ind2="2">
             <subfield code="u">http://servlet1.lib.berkeley.edu:8080/audio/stream.play.logic?coll=pacifica&amp;group=b23305516</subfield>
-            <subfield code="y">Play Audio for American Women Making History and Culture. Freely available for
-                streaming.
-            </subfield>
+            <subfield code="y">Play Audio for American Women Making History and Culture. Freely available for streaming.</subfield>
         </datafield>
         <datafield tag="901" ind1=" " ind2=" ">
             <subfield code="m">b23305516</subfield>
@@ -92,5 +77,5 @@
         </datafield>
     </record>
 
-
+    
 </collection>
