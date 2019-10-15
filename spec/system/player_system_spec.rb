@@ -16,7 +16,7 @@ describe PlayerController, type: :system do
 
       allow(Metadata::Record).to receive(:find).with(metadata_key).and_return(metadata_record)
 
-      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?record_id=tind:b23305522'
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3/show?record_id=tind:b23305522'
     end
 
     it 'displays the metadata' do
@@ -62,7 +62,7 @@ describe PlayerController, type: :system do
 
       allow(Metadata::Record).to receive(:find).with(metadata_key).and_return(metadata_record)
 
-      visit root_url + 'MRC/mrc/6927.mp4?record_id=millennium:b22139658'
+      visit root_url + 'MRC/mrc/6927.mp4/show?record_id=millennium:b22139658'
     end
 
     it 'displays the metadata' do
@@ -96,22 +96,22 @@ describe PlayerController, type: :system do
 
   describe 'bad request' do
     it 'displays the "Bad request" page when no record ID is provided' do
-      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3'
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3/show'
       expect(page).to have_content('Bad request')
     end
 
     it 'displays the "Bad request" page for a record ID with no source' do
-      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?record_id=b23305522'
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3/show?record_id=b23305522'
       expect(page).to have_content('Bad request')
     end
 
     it 'displays the "Bad request" page for an invalid metadata source' do
-      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?record_id=oclc:b23305522'
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3/show?record_id=oclc:b23305522'
       expect(page).to have_content('Bad request')
     end
 
     it 'displays the "Bad request" page for an invalid bib number' do
-      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?record_id=tind'
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3/show?record_id=tind'
       expect(page).to have_content('Bad request')
     end
   end
@@ -125,7 +125,7 @@ describe PlayerController, type: :system do
 
     it 'displays the "Record not found" page when records aren\'t found' do
       allow(Metadata::Record).to receive(:find).with(metadata_key).and_raise(ActiveRecord::RecordNotFound)
-      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3?record_id=tind:b23305522'
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3/show?record_id=tind:b23305522'
       expect(page).to have_content('Record not found')
       expect(page).to have_content('tind')
       expect(page).to have_content('b23305522')
@@ -138,7 +138,7 @@ describe PlayerController, type: :system do
       allow(metadata_record).to receive(:restrictions).and_return(Restrictions::UCB_IP)
       allow(Metadata::Record).to receive(:find).with(metadata_key).and_return(metadata_record)
 
-      visit root_url + 'City/CA01476a.mp3%3BCA01476b.mp3?record_id=tind:b18538031'
+      visit root_url + 'City/CA01476a.mp3%3BCA01476b.mp3/show?record_id=tind:b18538031'
 
       expect(page).to have_content('Record not found')
       expect(page).to have_content('tind')
@@ -146,7 +146,7 @@ describe PlayerController, type: :system do
     end
 
     it 'displays the "Record not found" page for an invalid path' do
-      visit root_url + 'City/CA01476b.qt?record_id=tind:b18538031'
+      visit root_url + 'City/CA01476b.qt/show?record_id=tind:b18538031'
 
       # TODO: include paths in error response
       expect(page).to have_content('Record not found')
@@ -155,7 +155,7 @@ describe PlayerController, type: :system do
     end
 
     it 'displays the "Record not found" page when one of several paths is invalid' do
-      visit root_url + 'City/CA01476a.mp3%3BCA01476b.qt?record_id=tind:b18538031'
+      visit root_url + 'City/CA01476a.mp3%3BCA01476b.qt/show?record_id=tind:b18538031'
 
       # TODO: include paths in error response
       expect(page).to have_content('Record not found')
