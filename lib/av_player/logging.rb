@@ -1,4 +1,21 @@
-Dir.glob(File.expand_path('logging/*.rb', __dir__)).sort.each(&method(:require))
+require 'active_support/tagged_logging'
+require 'ougai/formatters/bunyan'
+
+# Monkey-patch ActiveSupport::TaggedLogging::Formatter
+# not to produce garbage by prepending tags to hashes.
+module ActiveSupport
+  module TaggedLogging
+    module Formatter
+      def call(severity, time, progname, data)
+        return super unless current_tags.present?
+
+        original_data = AvPlayer::Logging.ensure_hash(data)
+        merged_data = { tags: current_tags }.merge(original_data)
+        super(severity, time, progname, merged_data)
+      end
+    end
+  end
+end
 
 module AvPlayer
   module Logging
@@ -46,6 +63,13 @@ module AvPlayer
         event_data
       end
 
+      def ensure_hash(message)
+        return {} unless message
+        return message if message.is_a?(Hash)
+
+        { msg: message }
+      end
+
       private
 
       def new_stdout_logger(formatter)
@@ -59,7 +83,43 @@ module AvPlayer
         logger.formatter = formatter
         logger
       end
+    end
+
+    class Logger < Ougai::Logger
+      include ActiveSupport::LoggerThreadSafeLevel
+      include ActiveSupport::LoggerSilence
+    end
+
+    module Formatters
+
+      class << self
+        def json
+          Bunyan.new
+        end
+
+        def readable
+          Ougai::Formatters::Readable.new
+        end
+
+      end
+
+      class Bunyan < Ougai::Formatters::Bunyan
+        def _call(severity, time, progname, data)
+          # Ougai::Formatters::Bunyan replaces the human-readable severity string
+          # with a numeric level, so we add it here as a separate attribute
+          original_data = Logging.ensure_hash(data)
+          merged_data = { severity: severity }.merge(original_data)
+          super(severity, time, progname, merged_data)
+        end
+      end
+
+      class Lograge
+        def call(data)
+          { msg: 'Request', request: Logging.ensure_hash(data) }
+        end
+      end
 
     end
+
   end
 end

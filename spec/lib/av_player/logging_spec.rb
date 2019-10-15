@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 module AvPlayer
-  describe Logging do
+  module Logging
     describe :ensure_hash do
       it 'returns an empty hash for nil' do
         expect(Logging.ensure_hash(nil)).to eq({})
@@ -53,6 +53,29 @@ module AvPlayer
           # TODO: come up with a succinct way to test broadcast to file
         ensure
           Rails.env = env_original
+        end
+      end
+    end
+
+    module Formatters
+      describe :json do
+        it 'supports tagged logging' do
+          out = StringIO.new
+          logger = Logger.new(out)
+          logger.formatter = Formatters.json
+
+          logger = ActiveSupport::TaggedLogging.new(logger)
+
+          expected_tag = 'hello'
+          expected_msg = 'this is a test'
+
+          logger.tagged(expected_tag) do
+            logger.info(expected_msg)
+          end
+
+          logged_json = JSON.parse(out.string)
+          expect(logged_json['msg']).to eq(expected_msg)
+          expect(logged_json['tags']).to eq([expected_tag])
         end
       end
     end
