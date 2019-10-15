@@ -28,29 +28,8 @@ module AvPlayer
     # ############################################################
     # Customize logging
 
-    require 'av_player/logger.rb'
+    require 'av_player/logging.rb'
     AvPlayer::Logging.configure(config)
-
-    # config.logger = AvPlayer::Logger.new($stdout)
-    # config.lograge.enabled = true
-    # config.lograge.custom_options = ->(event) do
-    #   {
-    #     time: Time.now,
-    #     request_id: event.payload[:headers].env['action_dispatch.request_id'],
-    #     remote_ip: event.payload[:headers][:REMOTE_ADDR]
-    #   }
-    # end
-    # config.lograge.formatter = Class.new do |fmt|
-    #   def fmt.call(data)
-    #     { msg: 'Request', request: data }
-    #   end
-    # end
-    #
-    # unless (env = Rails.env) && env.production?
-    #   readable_logger = Ougai::Logger.new("log/#{env}.log")
-    #   readable_logger.formatter = Ougai::Formatters::Readable.new
-    #   config.logger.extend Ougai::Logger.broadcast(readable_logger)
-    # end
 
     # ############################################################
     # External services
