@@ -1,6 +1,5 @@
 require 'rest-client'
 
-# TODO: consider pulling this out into a gem
 Dir.glob(File.expand_path('tind/*.rb', __dir__)).sort.each(&method(:require))
 
 module Tind
@@ -65,14 +64,11 @@ module Tind
       log.debug("GET #{uri}")
 
       resp = RestClient.get(tind_search_url, params: tind_search_params)
-      if resp.code != 200
-        id_value = tind_search_params[:p]
-        log.error("GET #{uri} returned #{resp.code}: #{resp.body}")
-        raise ActiveRecord::RecordNotFound, "No TIND record found for p=#{id_value}; TIND returned #{resp.code}"
-      end
+      return resp.body if resp.code == 200
 
-      # TODO: stream response https://github.com/rest-client/rest-client#streaming-responses
-      resp.body
+      log.error("GET #{uri} returned #{resp.code}: #{resp.body}")
+      msg = "No TIND record found for p=#{tind_search_params[:p]}; TIND returned #{resp.code}"
+      raise ActiveRecord::RecordNotFound, msg
     end
 
   end

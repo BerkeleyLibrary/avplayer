@@ -13,7 +13,8 @@ class PlayerController < ApplicationController
       metadata_key: metadata_key
     )
 
-    # TODO: actual IP restriction
+    # Until we have everything migrated to Wowza and we're using
+    # secure tokens, it's safest just to never expose the URLs.
     raise ActiveRecord::RecordNotFound unless av_record.public?
 
     render locals: { record: av_record }
