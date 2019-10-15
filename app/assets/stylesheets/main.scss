@@ -54,23 +54,6 @@ main {
   flex-grow: 999;
 }
 
-section.av_record {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: auto;
-  margin-left: auto;
-  width: 768px; // TODO: something responsive
-
-  h1 {
-    margin-right: auto;
-  }
-}
-
-section.player {
-  margin-bottom: 1em;
-}
-
 // ////////////////////////////////////////////////////////////
 // Block elements
 
@@ -149,12 +132,14 @@ audio {
 table {
   table-layout: auto;
   margin-top: 1em;
+  margin-bottom: 1em;
   width: 768px; // TODO: something responsive
 
   thead {
     th {
       background-color: $color-founders-rock;
       color: $color-white;
+      text-align: left;
     }
   }
 
@@ -163,7 +148,7 @@ table {
   }
 
   th {
-    font-weight: $font-weight-medium;
+    font-weight: $font-weight-bold;
     padding: 0.25em 0.5em 0.25em 0.5em;
     color: $color-pacific;
   }
@@ -174,20 +159,35 @@ table {
     color: $color-pacific;
   }
 
-  thead {
-    th {
-      text-align: left;
-    }
-  }
-
   tbody {
     th {
       text-align: right;
       white-space: nowrap;
       width: min-content;
     }
+
     td {
       text-align: left;
     }
   }
+}
+
+// ////////////////////////////////////////////////////////////
+// Section classes
+
+section.av_record {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: auto;
+  margin-left: auto;
+  width: 768px; // TODO: something responsive
+
+  h1 {
+    margin-right: auto;
+  }
+}
+
+section.player {
+  margin-bottom: 1em;
 }

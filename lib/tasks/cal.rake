@@ -20,6 +20,8 @@ namespace :cal do
       cop.options = ['--out', 'tmp/reports/rubocop/index.html']
     end
 
+    # TODO: Figure out how to wrap stylelint in a Rake task
+
     desc 'Run the test suite in Jenkins CI (including test coverage)'
     task ci: %w[environment ci:setup:rspec cal:test:coverage]
   end
