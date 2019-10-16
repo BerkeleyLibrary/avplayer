@@ -1,6 +1,6 @@
 <% content_for(:title, record.title) %>
 
-<section class="av_record">
+<section class="record">
 
   <h1><%= record.title %></h1>
 
@@ -10,32 +10,41 @@
     </section>
   <% end %>
 
-  <table class="metadata">
-    <% if record.description %>
+  <% if record.description %>
+    <table>
       <thead>
       <tr>
-        <th class="subhead" colspan="2">Description</th>
+        <th>Description</th>
       </tr>
+      </thead>
+      <tbody>
       <tr>
-        <td colspan="2">
+        <td class="description">
           <p><%= record.description %></p>
         </td>
       </tr>
-      </thead>
-    <% end %>
-    <tbody>
+      </tbody>
+    </table>
+  <% end %>
+
+  <table>
+    <thead>
     <tr>
-      <th class="subhead" colspan="2">Details</th>
+      <th colspan="2">Details</th>
     </tr>
+    </thead>
+    <tbody>
     <% record.fields.each do |f| %>
       <% next if f.tag == '520' # skip description displayed above %>
       <tr>
         <th><p><%= f.label %></p></th>
         <td>
           <% if f.respond_to?(:lines) %>
-            <% f.lines.each { |line| %><p><%= line %></p><% } %>
+            <% f.lines.each { |line| %><p><%= line %></p>
+            <% } %>
           <% elsif f.respond_to?(:links) %>
-            <% f.links.each { |link| %><p><%= link_to(link.body, link.url) %></p><% } %>
+            <% f.links.each { |link| %><p><%= link_to(link.body, link.url) %></p>
+            <% } %>
           <% end %>
         </td>
       </tr>

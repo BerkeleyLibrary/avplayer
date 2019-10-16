@@ -1,5 +1,5 @@
-@import "includes/reset";
-@import "includes/globals";
+@import 'includes/reset';
+@import 'includes/globals';
 
 // ////////////////////////////////////////////////////////////
 // Structural elements
@@ -54,8 +54,27 @@ main {
   width: calc(100% - 100px); // TODO: something responsive
 }
 
+section {
+  &.player {
+    margin-bottom: 1em;
+  }
+
+  &.record {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    width: 768px; // TODO: something responsive
+
+    h1 {
+      margin-right: auto;
+    }
+  }
+}
+
 // ////////////////////////////////////////////////////////////
-// Block elements
+// General block elements
 
 h1, h2, h3, h4, h5 {
   color: $color-berkeley-blue;
@@ -83,18 +102,6 @@ p {
   &:not(:last-child) {
     margin-bottom: 0.25em;
   }
-}
-
-ul {
-  list-style-position: outside;
-  list-style-type: square;
-  margin-bottom: 1em;
-  margin-left: 1em;
-  padding-left: 1em;
-}
-
-li {
-  padding-left: 0.25em;
 }
 
 // ////////////////////////////////////////////////////////////
@@ -132,54 +139,58 @@ audio {
 // Tables
 
 table {
+  display: grid;
+  grid-template-columns: min-content 1fr;
   margin-bottom: 1em;
   margin-top: 1em;
-  table-layout: auto;
   width: 768px; // TODO: something responsive
 
-  tr:not(:last-child) {
-    border-bottom: 1px solid $color-bay-fog;
-  }
+  thead {
+    display: contents;
 
-  th {
-    color: $color-pacific;
-    font-weight: $font-weight-bold;
-    padding: 0.5em 0.5em 0.25em 0.5em;
-    text-align: right;
-    white-space: nowrap;
-
-    &.subhead {
+    th {
       background-color: $color-founders-rock;
+      border: 0;
       color: $color-white;
+      grid-column: 1 / 3;
       text-align: left;
     }
   }
 
+  tbody {
+    display: contents;
+  }
+
+  tr {
+    display: contents;
+
+    &:last-child {
+      th, td {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  th {
+    border-bottom: 1px solid $color-bay-fog;
+    color: $color-pacific;
+    font-weight: $font-weight-bold;
+    grid-column: 1;
+    padding: 0.5em 0.5em 0.25em 0.5em;
+    text-align: right;
+    white-space: nowrap;
+  }
+
   td {
+    border-bottom: 1px solid $color-bay-fog;
     color: $color-pacific;
     font-weight: $font-weight-light;
+    grid-column: 2;
     padding: 0.5em;
     text-align: left;
-    // TODO: Figure out how to get <td/> to use up available width
+
+    &.description {
+      grid-column: 1 / 3;
+    }
   }
-}
-
-// ////////////////////////////////////////////////////////////
-// Section classes
-
-section.av_record {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  margin-left: auto;
-  margin-right: auto;
-  width: 768px; // TODO: something responsive
-
-  h1 {
-    margin-right: auto;
-  }
-}
-
-section.player {
-  margin-bottom: 1em;
 }

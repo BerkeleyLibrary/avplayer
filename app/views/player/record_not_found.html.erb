@@ -1,15 +1,18 @@
 <% content_for(:title, 'Record not found') %>
 
 <main>
-  <section class="av_record">
+  <section class="record">
     <h1>Record not found</h1>
 
     <p style="margin-right: auto;">The specified record could not be found.</p>
 
-    <table class="metadata">
+    <table>
+      <thead>
       <tr>
-        <th class="subhead" colspan="2">Details</th>
+        <th colspan="2">Details</th>
       </tr>
+      </thead>
+      <tbody>
       <tr>
         <th>Collection</th>
         <td><p><%= collection %></p></td>
@@ -25,6 +28,7 @@
         <th>Record ID</th>
         <td><p><%= record_id %></p></td>
       </tr>
+      </tbody>
     </table>
 
   </section>
