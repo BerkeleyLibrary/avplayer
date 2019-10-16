@@ -14,12 +14,18 @@
       </thead>
       <tbody>
       <tr>
+        <th>Collection</th>
+        <td><p><%= collection %></p></td>
+      </tr>
+      <tr>
         <th>Files</th>
-        <td><%= paths.join(", ") %></td>
+        <td><% paths.each do|path| %>
+            <p><%= path %></p>
+          <% end %></td>
       </tr>
       <tr>
         <th>Record ID</th>
-        <td><%= record_id %></td>
+        <td><p><%= record_id %></p></td>
       </tr>
       </tbody>
     </table>

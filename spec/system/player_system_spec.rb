@@ -141,26 +141,31 @@ describe PlayerController, type: :system do
       visit root_url + 'City/CA01476a.mp3%3BCA01476b.mp3/show?record_id=tind:b18538031'
 
       expect(page).to have_content('Record not found')
-      expect(page).to have_content('tind')
-      expect(page).to have_content('b18538031')
+      expect(page).to have_content('City')
+      expect(page).to have_content('CA01476a.mp3')
+      expect(page).to have_content('CA01476b.mp3')
+      expect(page).to have_content('tind:b18538031')
     end
 
     it 'displays the "Record not found" page for an invalid path' do
-      visit root_url + 'City/CA01476b.qt/show?record_id=tind:b18538031'
+      visit root_url + 'City/CA01476b.qt/show?record_id=millennium:b18538031'
 
-      # TODO: include paths in error response
       expect(page).to have_content('Record not found')
-      expect(page).to have_content('tind')
-      expect(page).to have_content('b18538031')
+      expect(page).to have_content('City')
+      expect(page).to have_content('CA01476b.qt')
+      expect(page).to have_content('millennium:b18538031')
     end
 
     it 'displays the "Record not found" page when one of several paths is invalid' do
       visit root_url + 'City/CA01476a.mp3%3BCA01476b.qt/show?record_id=tind:b18538031'
 
-      # TODO: include paths in error response
       expect(page).to have_content('Record not found')
-      expect(page).to have_content('tind')
-      expect(page).to have_content('b18538031')
+      expect(page).to have_content('City')
+      %w[CA01476a.mp3 CA01476b.qt].each do |path|
+        expect(page).to have_content(path)
+      end
+
+      expect(page).to have_content('tind:b18538031')
     end
   end
 end

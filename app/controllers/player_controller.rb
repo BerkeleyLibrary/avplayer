@@ -22,6 +22,7 @@ class PlayerController < ApplicationController
 
   def record_not_found
     render :record_not_found, status: 404, locals: {
+      collection: collection,
       paths: paths,
       record_id: record_id
     }
