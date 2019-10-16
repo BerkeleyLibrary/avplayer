@@ -102,6 +102,20 @@ pipeline {
         }
       }
     }
+
+    stage("Deploy") {
+      when {
+        branch "master"
+      }
+      parallel {
+        stage("Staging") {
+          steps {
+            // staging/avplayer_rails
+            httpRequest(httpMode: 'POST', url: "https://portainer.swarm-ewh-prod.devlib.berkeley.edu/api/webhooks/4d15fcd2-17fb-4225-9ca3-dedca42ea2dc")
+          }
+        }
+      }
+    }
   }
 
   options {
