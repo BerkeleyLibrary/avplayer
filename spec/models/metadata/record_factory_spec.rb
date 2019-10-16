@@ -181,16 +181,17 @@ module Metadata
       it 'determines restrictions correctly for TIND records' do
         tind_ids = {
           # Note we don't have a TIND record for b22139658
-          'b18538031' => 'spec/data/record-4188.xml',
-          'b23305516' => 'spec/data/record-19816.xml',
-          'b23305522' => 'spec/data/record-21178.xml',
-          'b24071548' => 'spec/data/record-4959.xml'
+          'b18538031' => 4188,
+          'b23305516' => 19_816,
+          'b23305522' => 21_178,
+          'b24071548' => 4959
         }
         aggregate_failures 'TIND records' do
-          tind_ids.each do |bib, record_xml|
-            marc_url = Tind.marc_url_for(bib)
+          tind_ids.each do |bib, tind_id|
+            record_xml = "spec/data/record-#{tind_id}.xml"
+            marc_url = Tind.marc_url_for(tind_id)
             stub_request(:get, marc_url).to_return(status: 200, body: File.read(record_xml))
-            record = Record.find_tind(bib)
+            record = Record.find_tind(tind_id)
             r_actual = record.restrictions
             r_expected = expected[bib]
             expect(r_actual).to eq(r_expected), "#{bib}: expected #{r_actual}, got #{r_expected}"

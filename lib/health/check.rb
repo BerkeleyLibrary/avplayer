@@ -12,6 +12,7 @@ module Health
     MILLENNIUM_CHECK = 'Millennium'.freeze
 
     TEST_BIB_NUMBER = 'b23305522'.freeze
+    TEST_TIND_ID = 21_178
     TEST_WOWZA_COLLECTION = 'Pacifica'.freeze
     TEST_WOWZA_PATH = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'.freeze
 
@@ -55,7 +56,7 @@ module Health
       end
 
       def try_tind
-        make_head_request(Tind.marc_url_for(TEST_BIB_NUMBER))
+        make_head_request(Tind.marc_url_for(TEST_TIND_ID))
       end
 
       def try_wowza

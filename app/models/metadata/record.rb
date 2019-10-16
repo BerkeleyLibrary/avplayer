@@ -32,22 +32,22 @@ module Metadata
       # @return [Metadata::Record] The first record found
       # @raise [ActiveRecord::RecordNotFound] if the record could not be found
       def find(key)
-        return find_tind(key.bib_number) if key.source == Source::TIND
         return find_millennium(key.bib_number) if key.source == Source::MILLENNIUM
+        return find_tind(key.tind_id) if key.source == Source::TIND
 
         raise ArgumentError, "Unsupported metadata source: #{key.source}"
       end
 
       # Searches for a TIND record matching the specified MARC lookup key
       #
-      # @param bib_number [String] The bib number to look up
+      # @param tind_id [Integer] The bib number to look up
       # @return [Metadata::Record] The record
       # @raise [ActiveRecord::RecordNotFound] if the record could not be found
-      def find_tind(bib_number)
-        raise ArgumentError, "#{bib_number || 'nil'} is not a string" unless bib_number.is_a?(String)
+      def find_tind(tind_id)
+        raise ArgumentError, "#{tind_id || 'nil'} is not an integer" unless tind_id.is_a?(Integer)
 
-        marc_record = Tind.find_marc_record(bib_number)
-        raise ActiveRecord::RecordNotFound, "No TIND record found for bib number #{bib_number}" unless marc_record
+        marc_record = Tind.find_marc_record(tind_id)
+        raise ActiveRecord::RecordNotFound, "No TIND record found for ID #{tind_id}" unless marc_record
 
         factory.from_marc(marc_record)
       end

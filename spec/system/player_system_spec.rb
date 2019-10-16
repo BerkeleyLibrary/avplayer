@@ -7,16 +7,13 @@ describe PlayerController, type: :system do
     attr_reader :metadata_record
 
     before(:each) do
-      @metadata_key = Metadata::Key.new(source: Metadata::Source::TIND, bib_number: 'b23305522')
+      @metadata_key = Metadata::Key.new(source: Metadata::Source::MILLENNIUM, bib_number: 'b23305522')
 
-      marc_xml = File.read('spec/data/record-21178.xml')
-      input = StringIO.new(marc_xml)
-      marc_record = MARC::XMLReader.new(input).first
-      @metadata_record = Metadata::Record.factory.from_marc(marc_record)
+      marc_url = Millennium.marc_url_for('b23305522')
+      stub_request(:get, marc_url).to_return(status: 200, body: File.read('spec/data/b23305522.html'))
 
-      allow(Metadata::Record).to receive(:find).with(metadata_key).and_return(metadata_record)
-
-      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3/show?record_id=tind:b23305522'
+      @metadata_record = Metadata::Record.find_millennium('b23305522')
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3/show?record_id=millennium:b23305522'
     end
 
     it 'displays the metadata' do
@@ -110,41 +107,42 @@ describe PlayerController, type: :system do
       expect(page).to have_content('Bad request')
     end
 
-    it 'displays the "Bad request" page for an invalid bib number' do
-      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3/show?record_id=tind'
+    it 'displays the "Bad request" page for a record ID with no ID value' do
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3/show?record_id=millennium'
       expect(page).to have_content('Bad request')
     end
+
+    it 'displays the "Bad request" page for an invalid TIND ID' do
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3/show?record_id=tind:abcdefg'
+      expect(page).to have_content('Bad request')
+    end
+
   end
 
   describe 'record not found' do
-    attr_reader :metadata_key
-
-    before(:each) do
-      @metadata_key = Metadata::Key.new(source: Metadata::Source::TIND, bib_number: 'b23305522')
-    end
 
     it 'displays the "Record not found" page when records aren\'t found' do
+      metadata_key = Metadata::Key.new(source: Metadata::Source::TIND, tind_id: 21_178)
       allow(Metadata::Record).to receive(:find).with(metadata_key).and_raise(ActiveRecord::RecordNotFound)
-      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3/show?record_id=tind:b23305522'
+      visit root_url + 'Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3/show?record_id=tind:21178'
       expect(page).to have_content('Record not found')
-      expect(page).to have_content('tind')
-      expect(page).to have_content('b23305522')
+      expect(page).to have_content('tind:21178')
     end
 
     it 'displays the "Record not found" page for UCB-only records' do
-      metadata_key = Metadata::Key.new(source: Metadata::Source::TIND, bib_number: 'b18538031')
+      metadata_key = Metadata::Key.new(source: Metadata::Source::MILLENNIUM, bib_number: 'b18538031')
 
       metadata_record = instance_double(Metadata::Record)
       allow(metadata_record).to receive(:restrictions).and_return(Restrictions::UCB_IP)
       allow(Metadata::Record).to receive(:find).with(metadata_key).and_return(metadata_record)
 
-      visit root_url + 'City/CA01476a.mp3%3BCA01476b.mp3/show?record_id=tind:b18538031'
+      visit root_url + 'City/CA01476a.mp3%3BCA01476b.mp3/show?record_id=millennium:b18538031'
 
       expect(page).to have_content('Record not found')
       expect(page).to have_content('City')
       expect(page).to have_content('CA01476a.mp3')
       expect(page).to have_content('CA01476b.mp3')
-      expect(page).to have_content('tind:b18538031')
+      expect(page).to have_content('millennium:b18538031')
     end
 
     it 'displays the "Record not found" page for an invalid path' do
@@ -157,7 +155,7 @@ describe PlayerController, type: :system do
     end
 
     it 'displays the "Record not found" page when one of several paths is invalid' do
-      visit root_url + 'City/CA01476a.mp3%3BCA01476b.qt/show?record_id=tind:b18538031'
+      visit root_url + 'City/CA01476a.mp3%3BCA01476b.qt/show?record_id=millennium:b18538031'
 
       expect(page).to have_content('Record not found')
       expect(page).to have_content('City')
@@ -165,7 +163,7 @@ describe PlayerController, type: :system do
         expect(page).to have_content(path)
       end
 
-      expect(page).to have_content('tind:b18538031')
+      expect(page).to have_content('millennium:b18538031')
     end
   end
 end

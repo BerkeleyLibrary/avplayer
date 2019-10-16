@@ -71,7 +71,7 @@ class PlayerController < ApplicationController
   end
 
   def metadata_key
-    @metadata_key ||= parse_record_id
+    @metadata_key ||= parse_metadata_key
   end
 
   def record_id
@@ -85,13 +85,20 @@ class PlayerController < ApplicationController
     paths_param.split(';')
   end
 
-  def parse_record_id
-    source_val, bib_number = record_id.split(':')
-    raise ActionController::ParameterMissing, "No bib number found in record_id '#{record_id}'" unless bib_number
+  def parse_metadata_key
+    source_val, id_value = record_id.split(':')
+    raise ActionController::ParameterMissing, "No ID value found in record_id '#{record_id}'" unless id_value
 
     source = Metadata::Source.find_by_value(source_val)
-    raise ActionController::ParameterMissing, "Unknown metadata source '#{source_val}' in record_id '#{record_id}'" unless source
+    return Metadata::Key.new(source: source, bib_number: id_value) if source == Metadata::Source::MILLENNIUM
+    return Metadata::Key.new(source: source, tind_id: parse_tind_id(id_value)) if source == Metadata::Source::TIND
 
-    Metadata::Key.new(source: source, bib_number: bib_number)
+    raise ActionController::ParameterMissing, "Unknown metadata source '#{source_val}' in record_id '#{record_id}'"
+  end
+
+  def parse_tind_id(id_value)
+    raise ActionController::ParameterMissing, "Invalid TIND ID '#{id_value}'" unless id_value.match(/^\d+$/)
+
+    id_value.to_i
   end
 end

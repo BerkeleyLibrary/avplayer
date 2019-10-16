@@ -13,7 +13,7 @@ module Health
       @wowza_stream_url = av_file.streaming_url
 
       @millennium_marc_url = Millennium.marc_url_for(Check::TEST_BIB_NUMBER)
-      @tind_marc_url = Tind.marc_url_for(Check::TEST_BIB_NUMBER)
+      @tind_marc_url = Tind.marc_url_for(Check::TEST_TIND_ID)
 
       @all_checks = {
         Check::MILLENNIUM_CHECK => millennium_marc_url,

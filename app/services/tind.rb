@@ -5,69 +5,60 @@ Dir.glob(File.expand_path('tind/*.rb', __dir__)).sort.each(&method(:require))
 module Tind
   class << self
 
-    # @param bib_number [String] the bib number to look up
+    # @param tind_id [Integer] the TIND id to look up
     # @return [MARC::Record, nil]
-    def find_marc_record(bib_number)
-      raise ArgumentError, "#{bib_number || 'nil'} is not a string" unless bib_number.is_a?(String)
-      raise 'tind_search_url not configured in Rails application' unless tind_search_url
+    def find_marc_record(tind_id)
+      raise ArgumentError, "#{tind_id || 'nil'} is not an integer" unless tind_id.is_a?(Integer)
+      raise 'tind_url_base not configured in Rails application' unless tind_url_base
 
-      records = find_marc_records(bib_number)
+      records = find_marc_records(tind_id)
       return unless records
 
       records.first
     end
 
-    def tind_search_url
-      Rails.application.config.tind_search_url
+    def tind_url_base
+      Rails.application.config.tind_url_base
     end
 
-    def marc_url_for(bib_number)
-      loggable_search_url(tind_params_for(bib_number))
+    # @param tind_id [Integer] the TIND ID
+    def marc_url_for(tind_id)
+      raise ArgumentError, "#{tind_id || 'nil'} is not an integer" unless tind_id.is_a?(Integer)
+
+      "#{tind_url_base}record/#{tind_id}/export/xm"
     end
 
     private
 
     # @return [Enumerable<MARC::Record>]
-    def find_marc_records(bib_number)
-      marc_xml = get_marc_xml(bib_number)
+    def find_marc_records(tind_id)
+      marc_xml = get_marc_xml(tind_id)
       input = StringIO.new(marc_xml)
       MARC::XMLReader.new(input) # MARC::XMLReader mixes in Enumerable
     end
 
-    def get_marc_xml(bib_number)
-      tind_search_params = tind_params_for(bib_number)
+    def get_marc_xml(tind_id)
+      url = marc_url_for(tind_id)
       begin
-        return do_get(tind_search_params)
+        return do_get(url)
       rescue RestClient::Exception => e
-        uri = marc_url_for(bib_number)
-        log.error("GET #{uri} returned #{e}", e)
-        raise ActiveRecord::RecordNotFound, "No TIND record found for p=#{bib_number}; TIND returned #{e.http_code}"
+        log.error("GET #{url} returned #{e}", e)
+        raise ActiveRecord::RecordNotFound, "No TIND record found for p=#{tind_id}; TIND returned #{e.http_code}"
       end
-    end
-
-    def tind_params_for(bib_number)
-      { p: bib_number, of: 'xm' }
-    end
-
-    def loggable_search_url(tind_search_params)
-      uri = URI.parse(tind_search_url)
-      uri.query = tind_search_params.to_query
-      uri.to_s
     end
 
     def log
       Rails.logger
     end
 
-    def do_get(tind_search_params)
-      uri = loggable_search_url(tind_search_params)
-      log.debug("GET #{uri}")
+    def do_get(url)
+      log.debug("GET #{url}")
 
-      resp = RestClient.get(tind_search_url, params: tind_search_params)
+      resp = RestClient.get(url)
       return resp.body if resp.code == 200
 
-      log.error("GET #{uri} returned #{resp.code}: #{resp.body}")
-      msg = "No TIND record found for p=#{tind_search_params[:p]}; TIND returned #{resp.code}"
+      log.error("GET #{url} returned #{resp.code}: #{resp.body}")
+      msg = "No TIND record found at #{url}; TIND returned #{resp.code}"
       raise ActiveRecord::RecordNotFound, msg
     end
 

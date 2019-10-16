@@ -5,7 +5,7 @@ module Metadata
     attr_reader :mk_communists, :mk_walker, :marc_to_tind, :expected_titles
 
     before(:each) do
-      @mk_walker = Key.new(source: Source::TIND, bib_number: '947286769')
+      @mk_walker = Key.new(source: Source::TIND, tind_id: 19_816)
       @mk_communists = Key.new(source: Source::MILLENNIUM, bib_number: 'b22139658')
 
       @expected_titles = {
@@ -14,7 +14,7 @@ module Metadata
       }
 
       walker_marc_xml = File.read('spec/data/record-19816.xml')
-      stub_request(:get, Tind.marc_url_for(mk_walker.bib_number)).to_return(status: 200, body: walker_marc_xml)
+      stub_request(:get, Tind.marc_url_for(mk_walker.tind_id)).to_return(status: 200, body: walker_marc_xml)
 
       communists_marc_html = File.read('spec/data/b22139658.html')
       stub_request(:get, Millennium.marc_url_for(mk_communists.bib_number)).to_return(status: 200, body: communists_marc_html)
@@ -39,8 +39,8 @@ module Metadata
       end
 
       it "raises #{ActiveRecord::RecordNotFound} if no record can be found" do
-        mk_missing = Key.new(source: Source::TIND, bib_number: 'not a real record')
-        search_url = "https://digicoll.lib.berkeley.edu/search?p=#{mk_missing.bib_number}&of=xm"
+        mk_missing = Key.new(source: Source::TIND, tind_id: 99_999)
+        search_url = Tind.marc_url_for(99_999)
         empty_result = File.read('spec/data/record-empty-result.xml')
         stub_request(:get, search_url).to_return(status: 200, body: empty_result)
 
@@ -48,24 +48,24 @@ module Metadata
       end
 
       it "raises #{ActiveRecord::RecordNotFound} if TIND returns a 404" do
-        mk_missing = Key.new(source: Source::TIND, bib_number: 'not a real record')
-        search_url = "https://digicoll.lib.berkeley.edu/search?p=#{mk_missing.bib_number}&of=xm"
+        mk_missing = Key.new(source: Source::TIND, tind_id: 99_999)
+        search_url = Tind.marc_url_for(99_999)
         stub_request(:get, search_url).to_return(status: 404)
 
         expect { Record.find(mk_missing) }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it "raises #{ActiveRecord::RecordNotFound} if TIND returns a 500" do
-        mk_missing = Key.new(source: Source::TIND, bib_number: 'not a real record')
-        search_url = "https://digicoll.lib.berkeley.edu/search?p=#{mk_missing.bib_number}&of=xm"
+        mk_missing = Key.new(source: Source::TIND, tind_id: 99_999)
+        search_url = Tind.marc_url_for(99_999)
         stub_request(:get, search_url).to_return(status: 500)
 
         expect { Record.find(mk_missing) }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it "raises #{ActiveRecord::RecordNotFound} if TIND returns something weird" do
-        mk_missing = Key.new(source: Source::TIND, bib_number: 'not a real record')
-        search_url = "https://digicoll.lib.berkeley.edu/search?p=#{mk_missing.bib_number}&of=xm"
+        mk_missing = Key.new(source: Source::TIND, tind_id: 99_999)
+        search_url = Tind.marc_url_for(99_999)
 
         # In general, RestClient throws exceptions for 4xx, 5xx, etc.,
         # and follows redirects for 3xx. 206 Partial Content isn't a

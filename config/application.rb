@@ -38,7 +38,7 @@ module AvPlayer
     # External services
 
     # Search URL for TIND metadata (see app/services/tind)
-    config.tind_search_url = 'https://digicoll.lib.berkeley.edu/search'
+    config.tind_url_base = 'https://digicoll.lib.berkeley.edu/'
 
     # Search URL for Millennium metadata (see app/services/millennium)
     config.millennium_search_url = 'http://oskicat.berkeley.edu/search~S1'
