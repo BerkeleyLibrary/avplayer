@@ -101,6 +101,10 @@ COPY --from=development --chown=$APP_USER /var/opt/app /var/opt/app
 # Sanity-check gems
 RUN bundle check
 
+# Pre-compile assets so we don't have to do it in production.
+# @see https://ucb-lit.slack.com/archives/C64VAQNMB/p1571265803040000
+RUN rails assets:precompile
+
 # Default container port (for documentation only)
 # see https://docs.docker.com/engine/reference/builder/#expose
 EXPOSE 3000
