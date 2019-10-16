@@ -7,19 +7,17 @@
     <p style="margin-right: auto;">The specified record could not be found.</p>
 
     <table class="metadata">
-      <thead>
       <tr>
-        <th colspan="2">Details</th>
+        <th class="subhead" colspan="2">Details</th>
       </tr>
-      </thead>
-      <tbody>
       <tr>
         <th>Collection</th>
         <td><p><%= collection %></p></td>
       </tr>
       <tr>
         <th>Files</th>
-        <td><% paths.each do|path| %>
+        <td>
+          <% paths.each do |path| %>
             <p><%= path %></p>
           <% end %></td>
       </tr>
@@ -27,7 +25,6 @@
         <th>Record ID</th>
         <td><p><%= record_id %></p></td>
       </tr>
-      </tbody>
     </table>
 
   </section>
