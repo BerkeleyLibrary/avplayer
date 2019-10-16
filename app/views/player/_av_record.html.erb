@@ -1,16 +1,50 @@
+<% content_for(:title, record.title) %>
+
 <section class="av_record">
 
   <h1><%= record.title %></h1>
 
   <% record.files.each do |file| %>
     <section class="player">
-      <%= render(partial: file.type.player_tag, locals: {file: file}) %>
+      <%= render(partial: file.type.player_tag, locals: { file: file }) %>
     </section>
   <% end %>
 
-  <%= render(partial: 'metadata/record', locals: {metadata_record: record.metadata_record}) %>
+  <table class="metadata">
+    <% if record.description %>
+      <thead>
+      <tr>
+        <th class="subhead" colspan="2">Description</th>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <p><%= record.description %></p>
+        </td>
+      </tr>
+      </thead>
+    <% end %>
+    <tbody>
+    <tr>
+      <th class="subhead" colspan="2">Details</th>
+    </tr>
+    <% record.fields.each do |f| %>
+      <% next if f.tag == '520' # skip description displayed above %>
+      <tr>
+        <th><p><%= f.label %></p></th>
+        <td>
+          <% if f.respond_to?(:lines) %>
+            <% f.lines.each { |line| %><p><%= line %></p><% } %>
+          <% elsif f.respond_to?(:links) %>
+            <% f.links.each { |link| %><p><%= link_to(link.body, link.url) %></p><% } %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
 </section>
 
 <!--
-<%= render(partial: 'debug.txt', formats: :raw, locals: {record: record}) %>
+<%= render(partial: 'debug.txt', formats: :raw, locals: { record: record }) %>
 -->
