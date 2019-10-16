@@ -38,16 +38,24 @@ module AvPlayer
     # External services
 
     # Search URL for TIND metadata (see app/services/tind)
-    config.tind_url_base = 'https://digicoll.lib.berkeley.edu/'
+    config.tind_url_base = ENV.fetch('LIT_TIND_URL_BASE') do
+      'https://digicoll.lib.berkeley.edu/'
+    end
 
     # Search URL for Millennium metadata (see app/services/millennium)
-    config.millennium_search_url = 'http://oskicat.berkeley.edu/search~S1'
+    config.millennium_search_url = ENV.fetch('LIT_MILLENNIUM_SEARCH_URL') do
+      'http://oskicat.berkeley.edu/search~S1'
+    end
 
     # Wowza server URL
-    config.wowza_base_url = 'http://vm147.lib.berkeley.edu:1935/'
+    config.wowza_base_url = ENV.fetch('LIT_WOWZA_BASE_URL') do
+      'http://vm147.lib.berkeley.edu:1935/'
+    end
 
     # Video server URL
     # TODO: move video to Wowza
-    config.video_base_url = 'http://www.lib.berkeley.edu/videosecret/'
+    config.video_base_url = ENV.fetch('LIT_VIDEO_BASE_URL') do
+      'http://www.lib.berkeley.edu/videosecret/'
+    end
   end
 end
