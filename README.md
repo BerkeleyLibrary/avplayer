@@ -2,6 +2,12 @@
 
 The UC Berkeley Library audio/video player.
 
+## Servers
+
+Staging: [avplayer-staging.swarm-ewh-staging.devlib.berkeley.edu](https://avplayer-staging.swarm-ewh-staging.devlib.berkeley.edu).
+
+Production: TBD
+
 ## Development
 
 1. Build the images:
