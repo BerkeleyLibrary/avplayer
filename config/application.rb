@@ -38,7 +38,7 @@ module AvPlayer
     # External services
 
     # Search URL for TIND metadata (see app/services/tind)
-    config.tind_url_base = ENV.fetch('LIT_TIND_URL_BASE') do
+    config.tind_base_url = ENV.fetch('LIT_TIND_BASE_URL') do
       'https://digicoll.lib.berkeley.edu/'
     end
 
