@@ -17,21 +17,34 @@
       <tr>
         <th>Audio</th>
         <td>
-          <p><a href="/Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3/show?record_id=millennium:b23305522">Wanda Coleman</a>
-          </p>
+          <p><%= link_to(
+                     'Wanda Coleman', controller: :player, action: :show,
+                     collection: 'Pacifica',
+                     paths: 'PRA_NHPRC1_AZ1084_00_000_00.mp3',
+                     record_id: 'millennium:b23305522'
+                 )%></p>
         </td>
       </tr>
       <tr>
         <th>Audio</th>
         <td>
-          <p><a href="/Pacifica/PRA_NHPRC1_AZ1010_00_000_00.mp3/show?record_id=millennium:b23305516">Author Alice Walker
-            reads the short story, Roselily.</a></p>
+          <p><%= link_to(
+                     'Author Alice Walker reads the short story, Roselily.', controller: :player, action: :show,
+                     collection: 'Pacifica',
+                     paths: 'PRA_NHPRC1_AZ1010_00_000_00.mp3',
+                     record_id: 'millennium:b23305516'
+                 )%></p>
         </td>
       </tr>
       <tr>
         <th>Video</th>
         <td>
-          <p><a href="/MRC/mrc/6927.mp4/show?record_id=millennium:b22139658">Communists on campus</a></p>
+          <p><%= link_to(
+                     'Communists on campus', controller: :player, action: :show,
+                     collection: 'MRC',
+                     paths: 'mrc/6927.mp4',
+                     record_id: 'millennium:b22139658'
+                 )%></p>
         </td>
       </tr>
       </tbody>
@@ -47,15 +60,23 @@
       <tr>
         <th>Audio</th>
         <td>
-          <p><a href="/City/CA01693.mp3/show?record_id=millennium:b24071548">Interview with Joyce Carol Oates, January
-            26, 2016</a></p>
+          <p><%= link_to(
+                     'Interview with Joyce Carol Oates, January 26, 2016', controller: :player, action: :show,
+                     collection: 'City',
+                     paths: 'CA01693.mp3',
+                     record_id: 'millennium:b24071548'
+                 )%></p>
         </td>
       </tr>
       <tr>
         <th>Audio</th>
         <td>
-          <p><a href="/City/CA01476a.mp3%3BCA01476b.mp3/show?record_id=millennium:b18538031">Spelling Bee for
-            Cheaters</a> (2 files)</p>
+          <p><%= link_to(
+                     'Spelling Bee for Cheaters', controller: :player, action: :show,
+                     collection: 'City',
+                     paths: 'CA01476a.mp3%3BCA01476b.mp3',
+                     record_id: 'millennium:b18538031'
+                 )%> (2 files)</p>
         </td>
       </tr>
       </tbody>
@@ -71,7 +92,12 @@
       <tr>
         <th>Audio</th>
         <td>
-          <p><a href="/Pandall/1939-11-23.mp3/show?record_id=millennium:b99999999">Arno Waltiri: Das Unendlichkeit Konzert, Opus 45.</a></p>
+          <p><%= link_to(
+                     'Arno Waltiri: Das Unendlichkeit Konzert, Opus 45.', controller: :player, action: :show,
+                     collection: 'Pandall',
+                     paths: '1939-11-23-Waltiri.mp3',
+                     record_id: 'millennium:abcdefg'
+                 )%></p>
         </td>
       </tr>
       </tbody>
@@ -93,15 +119,23 @@
       <tr>
         <th>Audio</th>
         <td>
-          <p><a href="/Pacifica/PRA_NHPRC1_AZ1084_00_000_00.mp3/show?record_id=tind:21178">Wanda Coleman</a>
-          </p>
+          <p><%= link_to(
+                     'Wanda Coleman', controller: :player, action: :show,
+                     collection: 'Pacifica',
+                     paths: 'PRA_NHPRC1_AZ1084_00_000_00.mp3',
+                     record_id: 'tind:21178'
+                 )%></p>
         </td>
       </tr>
       <tr>
         <th>Audio</th>
         <td>
-          <p><a href="/Pacifica/PRA_NHPRC1_AZ1010_00_000_00.mp3/show?record_id=tind:19816">Author Alice Walker
-            reads the short story, Roselily.</a></p>
+          <p><%= link_to(
+                     'Author Alice Walker reads the short story, Roselily.', controller: :player, action: :show,
+                     collection: 'Pacifica',
+                     paths: 'PRA_NHPRC1_AZ1010_00_000_00.mp3',
+                     record_id: 'tind:19816'
+                 )%></p>
         </td>
       </tr>
       <tr>
@@ -123,15 +157,23 @@
       <tr>
         <th>Audio</th>
         <td>
-          <p><a href="/City/CA01693.mp3/show?record_id=tind:4959">Interview with Joyce Carol Oates, January
-            26, 2016</a></p>
+          <p><%= link_to(
+                     'Interview with Joyce Carol Oates, January 26, 2016', controller: :player, action: :show,
+                     collection: 'City',
+                     paths: 'CA01693.mp3',
+                     record_id: 'tind:4959'
+                 )%></p>
         </td>
       </tr>
       <tr>
         <th>Audio</th>
         <td>
-          <p><a href="/City/CA01476a.mp3%3BCA01476b.mp3/show?record_id=tind:4188">Spelling Bee for
-            Cheaters</a> (2 files)</p>
+          <p><%= link_to(
+                     'Spelling Bee for Cheaters', controller: :player, action: :show,
+                     collection: 'City',
+                     paths: 'CA01476a.mp3%3BCA01476b.mp3',
+                     record_id: 'tind:4188'
+                 )%> (2 files)</p>
         </td>
       </tr>
       </tbody>
@@ -147,7 +189,12 @@
       <tr>
         <th>Audio</th>
         <td>
-          <p><a href="/Pandall/1939-11-23.mp3/show?record_id=tind:99999999">Arno Waltiri: Das Unendlichkeit Konzert, Opus 45.</a></p>
+          <p><%= link_to(
+                     'Arno Waltiri: Das Unendlichkeit Konzert, Opus 45.', controller: :player, action: :show,
+                     collection: 'Pandall',
+                     paths: '1939-11-23-Waltiri.mp3',
+                     record_id: 'tind:0'
+                 )%></p>
         </td>
       </tr>
       </tbody>

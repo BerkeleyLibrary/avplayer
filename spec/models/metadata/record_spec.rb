@@ -39,8 +39,8 @@ module Metadata
       end
 
       it "raises #{ActiveRecord::RecordNotFound} if no record can be found" do
-        mk_missing = Key.new(source: Source::TIND, tind_id: 99_999)
-        search_url = Tind.marc_url_for(99_999)
+        mk_missing = Key.new(source: Source::TIND, tind_id: 999)
+        search_url = Tind.marc_url_for(999)
         empty_result = File.read('spec/data/record-empty-result.xml')
         stub_request(:get, search_url).to_return(status: 200, body: empty_result)
 
@@ -48,24 +48,24 @@ module Metadata
       end
 
       it "raises #{ActiveRecord::RecordNotFound} if TIND returns a 404" do
-        mk_missing = Key.new(source: Source::TIND, tind_id: 99_999)
-        search_url = Tind.marc_url_for(99_999)
+        mk_missing = Key.new(source: Source::TIND, tind_id: 999)
+        search_url = Tind.marc_url_for(999)
         stub_request(:get, search_url).to_return(status: 404)
 
         expect { Record.find(mk_missing) }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it "raises #{ActiveRecord::RecordNotFound} if TIND returns a 500" do
-        mk_missing = Key.new(source: Source::TIND, tind_id: 99_999)
-        search_url = Tind.marc_url_for(99_999)
+        mk_missing = Key.new(source: Source::TIND, tind_id: 999)
+        search_url = Tind.marc_url_for(999)
         stub_request(:get, search_url).to_return(status: 500)
 
         expect { Record.find(mk_missing) }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it "raises #{ActiveRecord::RecordNotFound} if TIND returns something weird" do
-        mk_missing = Key.new(source: Source::TIND, tind_id: 99_999)
-        search_url = Tind.marc_url_for(99_999)
+        mk_missing = Key.new(source: Source::TIND, tind_id: 999)
+        search_url = Tind.marc_url_for(999)
 
         # In general, RestClient throws exceptions for 4xx, 5xx, etc.,
         # and follows redirects for 3xx. 206 Partial Content isn't a
@@ -74,6 +74,14 @@ module Metadata
         stub_request(:get, search_url).to_return(status: 206)
 
         expect { Record.find(mk_missing) }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+
+      it "raises #{ActiveRecord::RecordNotFound} if TIND redirects to a login page" do
+        key = Key.new(source: Source::TIND, tind_id: 4959)
+        search_url = Tind.marc_url_for(4959)
+        stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/record-redirect-to-login.html'))
+
+        expect { Record.find(key) }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end

@@ -75,6 +75,7 @@ module Metadata
       field_factories.map { |f| f.create_field(marc_record) }.compact
     end
 
+    # @param marc_record [MARC::Record] The MARC record
     def restrictions_from(marc_record)
       marc_record.each_by_tag('856') do |marc_field|
         subfields = marc_field.subfields

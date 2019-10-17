@@ -15,6 +15,9 @@ module Tind
       return unless records
 
       records.first
+    rescue REXML::ParseException => e
+      log.warn("find_marc_records(#{tind_id}) raised #{e.class}", e)
+      nil
     end
 
     def tind_base_url
