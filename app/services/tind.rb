@@ -9,7 +9,7 @@ module Tind
     # @return [MARC::Record, nil]
     def find_marc_record(tind_id)
       raise ArgumentError, "#{tind_id || 'nil'} is not an integer" unless tind_id.is_a?(Integer)
-      raise 'tind_url_base not configured in Rails application' unless tind_url_base
+      raise 'tind_base_url not configured in Rails application' unless tind_base_url
 
       records = find_marc_records(tind_id)
       return unless records
@@ -17,15 +17,15 @@ module Tind
       records.first
     end
 
-    def tind_url_base
-      Rails.application.config.tind_url_base
+    def tind_base_url
+      Rails.application.config.tind_base_url
     end
 
     # @param tind_id [Integer] the TIND ID
     def marc_url_for(tind_id)
       raise ArgumentError, "#{tind_id || 'nil'} is not an integer" unless tind_id.is_a?(Integer)
 
-      "#{tind_url_base}record/#{tind_id}/export/xm"
+      "#{tind_base_url}record/#{tind_id}/export/xm"
     end
 
     private
