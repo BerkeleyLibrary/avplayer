@@ -1,8 +1,12 @@
 // ////////////////////////////////////////////////////////////
 // Layout
 
-$margin: 1rem;
+$margin: 1em;
 $padding: $margin;
+
+// should match width attribute in app/views/player/_video.html.erb:2
+// should match width attribute in app/views/player/_audio.html.erb:3
+$record-width: 800px;
 
 // ////////////////////////////////////////////////////////////
 // Colors

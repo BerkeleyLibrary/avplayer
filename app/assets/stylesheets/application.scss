@@ -15,6 +15,7 @@ body {
   flex-direction: column;
   font-family: $font-family-sans;
   font-size: 14px;
+  font-weight: $font-weight-medium;
   height: 100%;
   line-height: 1.5em;
   min-height: min-content;
@@ -35,7 +36,6 @@ header {
 footer {
   background: $color-berkeley-blue;
   color: $color-white;
-  font-weight: $font-weight-medium;
   padding: $padding;
 
   a {
@@ -56,7 +56,7 @@ main {
 
 section {
   &.player {
-    margin-bottom: 1em;
+    margin-bottom: $margin / 2;
   }
 
   &.record {
@@ -65,7 +65,7 @@ section {
     flex-direction: column;
     margin-left: auto;
     margin-right: auto;
-    width: 768px; // TODO: something responsive
+    width: $record-width; // TODO: something responsive
 
     h1 {
       margin-right: auto;
@@ -80,21 +80,18 @@ section {
 // ////////////////////////////////////////////////////////////
 // General block elements
 
-h1, h2, h3, h4, h5 {
+h1 {
   color: $color-berkeley-blue;
   font-family: $font-family-serif;
   font-weight: $font-weight-bold;
-  margin-bottom: 0.5em;
-  margin-top: 1em;
-}
-
-h1 {
   font-size: xx-large;
-  margin-bottom: 0.75em;
+  margin-bottom: $margin / 2;
+  margin-top: $margin;
 }
 
 h2 {
-  font-size: large;
+  font-size: larger;
+  font-weight: $font-weight-medium;
 }
 
 pre {
@@ -104,7 +101,7 @@ pre {
 
 p {
   &:not(:last-child) {
-    margin-bottom: 0.25em;
+    margin-bottom: $margin / 3;
   }
 }
 
@@ -126,7 +123,7 @@ em {
 }
 
 strong {
-  font-weight: bold;
+  font-weight: $font-weight-bold;
 }
 
 // ////////////////////////////////////////////////////////////
@@ -138,13 +135,13 @@ strong {
 */
 
 video {
-  height: 576px;
-  width: 768px;
+  height: 3 * $record-width / 4;
+  width: $record-width;
 }
 
 audio {
   height: 40px;
-  width: 768px;
+  width: $record-width;
 }
 
 // ////////////////////////////////////////////////////////////
@@ -153,9 +150,9 @@ audio {
 table {
   display: grid;
   grid-template-columns: min-content 1fr;
-  margin-bottom: 1em;
-  margin-top: 1em;
-  width: 768px; // TODO: something responsive
+  margin-bottom: $margin / 2;
+  margin-top: $margin / 2;
+  width: $record-width; // TODO: something responsive
 
   thead {
     display: contents;
@@ -171,6 +168,10 @@ table {
 
   tbody {
     display: contents;
+
+    th {
+      font-weight: $font-weight-bold;
+    }
   }
 
   tr {
@@ -186,9 +187,8 @@ table {
   th {
     border-bottom: 1px solid $color-bay-fog;
     color: $color-pacific;
-    font-weight: $font-weight-bold;
     grid-column: 1;
-    padding: 0.5em 0.5em 0.25em 0.5em;
+    padding: ($padding / 3) ($padding / 2);
     text-align: right;
     white-space: nowrap;
   }
@@ -198,7 +198,7 @@ table {
     color: $color-pacific;
     font-weight: $font-weight-light;
     grid-column: 2;
-    padding: 0.5em;
+    padding: $padding / 3;
     text-align: left;
 
     &.description {
