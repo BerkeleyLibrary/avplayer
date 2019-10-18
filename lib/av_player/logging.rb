@@ -71,7 +71,6 @@ module AvPlayer
           # yes, RFC 2616 uses a variant spelling for 'referrer', it's a known issue
           # https://tools.ietf.org/html/rfc2616#section-14.36
           referer: headers['HTTP_REFERER'],
-          turbolinks_referrer: headers['HTTP_TURBOLINKS_REFERRER'],
           request_id: headers['action_dispatch.request_id'],
           remote_ip: headers['action_dispatch.remote_ip'],
           remote_addr: headers['REMOTE_ADDR'],
