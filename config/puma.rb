@@ -35,3 +35,7 @@ pidfile ENV.fetch('PIDFILE') { 'tmp/pids/server.pid' }
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
+
+log_formatter do |str|
+  Rails.logger.formatter.call(Logger::INFO, Time.now, nil, str)
+end
