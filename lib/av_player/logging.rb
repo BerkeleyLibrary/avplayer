@@ -49,18 +49,8 @@ module AvPlayer
 
       def extract_event_data(event)
         event_data = { time: Time.now }
-
-        headers = event.payload[:headers]
-        return event_data unless headers
-
-        event_data[:request_id] = headers.env['action_dispatch.request_id']
-        event_data[:remote_ip] = headers[:REMOTE_ADDR]
-
-        request = headers.instance_variable_get(:@req)
-        return event_data unless request
-
-        event_data[:ip] = request.ip
-        event_data
+        extracted_headers = extract_headers(event)
+        event_data.merge(extracted_headers)
       end
 
       def ensure_hash(message)
@@ -71,6 +61,29 @@ module AvPlayer
       end
 
       private
+
+      # rubocop:disable Metrics/MethodLength
+      def extract_headers(event)
+        headers = event.payload[:headers]
+        return {} unless headers
+
+        extracted_headers = {
+          # yes, RFC 2616 uses a variant spelling for 'referrer', it's a known issue
+          # https://tools.ietf.org/html/rfc2616#section-14.36
+          referer: headers['HTTP_REFERER'],
+          turbolinks_referrer: headers['HTTP_TURBOLINKS_REFERRER'],
+          request_id: headers['action_dispatch.request_id'],
+          remote_ip: headers['action_dispatch.remote_ip'],
+          remote_addr: headers['REMOTE_ADDR'],
+          x_forwarded_for: headers['HTTP_X_FORWARDED_FOR']
+        }
+
+        # Some of these 'headers' include recursive structures
+        # that cause SystemStackErrors in JSON serialization,
+        # so we convert them all to strings
+        extracted_headers.map { |k, v| [k, v.to_s] }.to_h
+      end
+      # rubocop:enable Metrics/MethodLength
 
       def new_stdout_logger(formatter)
         logger = Logger.new($stdout)
