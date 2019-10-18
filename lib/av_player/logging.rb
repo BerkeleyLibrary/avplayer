@@ -75,7 +75,8 @@ module AvPlayer
           request_id: headers['action_dispatch.request_id'],
           remote_ip: headers['action_dispatch.remote_ip'],
           remote_addr: headers['REMOTE_ADDR'],
-          x_forwarded_for: headers['HTTP_X_FORWARDED_FOR']
+          x_forwarded_for: headers['HTTP_X_FORWARDED_FOR'],
+          forwarded: headers['HTTP_FORWARDED'] # RFC 7239
         }
 
         # Some of these 'headers' include recursive structures
