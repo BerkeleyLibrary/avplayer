@@ -62,7 +62,7 @@ module AvPlayer
     # Content security
 
     config.content_security_policy do |policy|
-      policy.default_src('http://*:*', 'https://*:*')
+      policy.default_src('http://*:*', 'https://*:*', 'blob:', 'data:')
       # wowza_base = URI.parse(config.wowza_base_url)
       # wowza_src = URI::HTTP.build(scheme: wowza_base.scheme, host: wowza_base.host, port: wowza_base.port)
       #
