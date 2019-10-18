@@ -108,7 +108,7 @@ p {
 // Inline elements
 
 a {
-  color: $color-lawrence;
+  color: $color-berkeley-blue;
   font-weight: $font-weight-medium;
   text-decoration: none;
 
@@ -157,7 +157,7 @@ table {
     display: contents;
 
     th {
-      background-color: $color-founders-rock;
+      background-color: $color-pacific;
       border: 0;
       color: $color-white;
       grid-column: 1 / 3;
@@ -201,4 +201,19 @@ table {
       grid-column: 1 / 3;
     }
   }
+}
+
+// ////////////////////////////////////////////////////////////
+// Accessibility tweaks
+
+/*
+MEJS help text hidden to ordinary browsers but available to screen readers (cf.
+https://rianrietveld.com/2015/04/04/the-screen-reader-text-class-why-and-how/).
+Even though it won't be displayed on screen, without this styling, automated
+accessibility checkers may still see it as black text on the blue background
+of the footer.
+ */
+span.mejs__offscreen {
+  background-color: $color-berkeley-blue;
+  color: $color-white;
 }
