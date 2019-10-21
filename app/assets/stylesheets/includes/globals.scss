@@ -23,9 +23,10 @@ $padding-header-footer: $em;
 $sitename-baseline-adjust: 5 * $em / 6;
 
 // //////////////////////////////
-// AV record layout
+// Mobile/desktop layout
 
-$record-width: 800px;
+// TODO: Something more sophisticated that works properly w/iPhone X
+$media-breakpoint-width: 800px;
 
 // ////////////////////////////////////////////////////////////
 // Colors
