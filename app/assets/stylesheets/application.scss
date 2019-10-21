@@ -39,13 +39,17 @@ header {
     display: flex;
     flex-direction: row;
 
+    a {
+      display: contents;
+    }
+
     img.header-logo {
       display: block;
       width: 315px;
       height: 52px;
     }
 
-    a.site-name {
+    span.site-name {
       display: block;
       color: $color-site-name;
       font-size: $font-size-large;

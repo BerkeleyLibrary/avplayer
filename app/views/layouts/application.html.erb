@@ -19,8 +19,10 @@
 <body>
 <header>
   <h1 class="header-logo">
-    <a href="/"><%= image_tag('UCBerkeley_Library_wordmark_black.svg', class: 'header-logo', alt: 'UC Berkeley Library') %></a>
-    <a href="/" class="site-name">Audio / Video</a>
+    <a href="/">
+      <%= image_tag('UCBerkeley_Library_wordmark_black.svg', class: 'header-logo', alt: 'UC Berkeley Library') %>
+      <span class="site-name">Audio / Video</span>
+    </a>
   </h1>
   <nav>
     <ul>
@@ -45,7 +47,7 @@
     </p>
   </section>
   <section class="footer-logo">
-    <%= image_tag('UCBerkeley_wordmark_white.svg', class: 'footer-logo', alt: 'UC Berkeley') %>
+    <a href="http://www.berkeley.edu/"><%= image_tag('UCBerkeley_wordmark_white.svg', class: 'footer-logo', alt: 'UC Berkeley') %></a>
   </section>
   <section class="social-media">
     <a href="https://www.facebook.com/ucberkeleylibrary/"><%= image_tag('icons/facebook-square.svg', class: 'social-media-icon', alt: 'Facebook') %></a>
