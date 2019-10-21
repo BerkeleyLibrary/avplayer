@@ -6,6 +6,7 @@
 
 $em: 1em; // SCSS math works better on variables than literals
 
+$font-size-small: 11 * $em / 12;
 $font-size-large: 7 * $em / 6;
 $font-size-xlarge: 2 * $em;
 
@@ -24,8 +25,6 @@ $sitename-baseline-adjust: 5 * $em / 6;
 // //////////////////////////////
 // AV record layout
 
-// should match width attribute in app/views/player/_video.html.erb:2
-// should match width attribute in app/views/player/_audio.html.erb:3
 $record-width: 800px;
 
 // ////////////////////////////////////////////////////////////
