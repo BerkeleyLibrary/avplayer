@@ -30,26 +30,32 @@ header {
   display: flex;
   flex-direction: column;
 
-  h1.header-logo {
-    display: flex;
-    flex-direction: column;
+  h1 {
+    &.header-logo {
+      display: flex;
+      flex-direction: column;
 
-    a {
-      display: contents;
-    }
+      a {
+        display: contents;
+      }
 
-    img.header-logo {
-      display: block;
-      width: 315px;
-      height: 52px;
-    }
+      img {
+        &.header-logo {
+          display: block;
+          height: 52px;
+          width: 315px;
+        }
+      }
 
-    span.site-name {
-      display: block;
-      color: $color-site-name;
-      font-size: $font-size-large;
-      text-transform: uppercase;
-      letter-spacing: $margin-small;
+      span {
+        &.site-name {
+          color: $color-site-name;
+          display: block;
+          font-size: $font-size-large;
+          letter-spacing: $margin-small;
+          text-transform: uppercase;
+        }
+      }
     }
   }
 
@@ -74,8 +80,8 @@ footer {
   background: $color-reversed-background;
   color: white;
   font-size: $font-size-small;
-  padding: $padding-header-footer;
   margin-top: $margin-large;
+  padding: $padding-header-footer;
 
   a {
     color: white;
@@ -85,20 +91,26 @@ footer {
     }
   }
 
-  img.footer-logo {
-    width: 160px;
-    height: 50px;
+  img {
+    &.footer-logo {
+      height: 50px;
+      width: 160px;
+    }
   }
 
-  section.social-media {
-    display: grid;
-    grid-column-gap: $em / 6;
-    grid-template-columns: min-content min-content min-content min-content;
+  section {
+    &.social-media {
+      display: grid;
+      grid-column-gap: $em / 6;
+      grid-template-columns: min-content min-content min-content min-content;
 
-    img.social-media-icon {
-      width: $font-size-xlarge;
-      filter: invert(100%);
-      padding-right: 2pt;
+      img {
+        &.social-media-icon {
+          filter: invert(100%);
+          padding-right: 2pt;
+          width: $font-size-xlarge;
+        }
+      }
     }
   }
 }
@@ -143,8 +155,8 @@ section {
 h2 {
   color: black;
   font-size: $font-size-xlarge;
-  margin-block-start: $margin-large;
   margin-block-end: $margin-large;
+  margin-block-start: $margin-large;
   margin-bottom: $margin;
 }
 
@@ -183,8 +195,8 @@ strong {
 */
 
 video {
-  width: 100%;
   height: 270px; /* MediaElement.js default height */
+  width: 100%;
 }
 
 audio {
@@ -252,12 +264,16 @@ table {
   header {
     padding: $margin $margin 0;
 
-    h1.header-logo {
-      flex-direction: column;
+    h1 {
+      &.header-logo {
+        flex-direction: column;
 
-      span.site-name {
-        padding-left: $margin-small;
-        padding-top: $margin;
+        span {
+          &.site-name {
+            padding-left: $margin-small;
+            padding-top: $margin;
+          }
+        }
       }
     }
 
@@ -271,22 +287,24 @@ table {
   }
 
   footer {
+    align-items: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
 
     section {
       margin-bottom: $margin-large;
-    }
 
-    section.copyright-info {
-      text-align: center;
+      &.copyright-info {
+        text-align: center;
+      }
     }
   }
 
-  section.record {
-    h2 {
-      line-height: $em;
+  section {
+    &.record {
+      h2 {
+        line-height: $em;
+      }
     }
   }
 
@@ -320,20 +338,24 @@ table {
 
 @media (min-width: $record-width) {
   main {
-    width: $record-width;
     margin-left: auto;
     margin-right: auto;
+    width: $record-width;
   }
 
   header {
     padding: $padding-header-footer $padding-header-footer 0;
 
-    h1.header-logo {
-      flex-direction: row;
+    h1 {
+      &.header-logo {
+        flex-direction: row;
 
-      span.site-name {
-        padding-left: $margin;
-        padding-top: $sitename-baseline-adjust;
+        span {
+          &.site-name {
+            padding-left: $margin;
+            padding-top: $sitename-baseline-adjust;
+          }
+        }
       }
     }
 
@@ -346,30 +368,34 @@ table {
   }
 
   footer {
+    align-items: end;
     display: grid;
     grid-template-columns: 1fr min-content;
-    align-items: end;
 
-    section.copyright-info {
-      grid-column: 1;
-      grid-row: 1;
-      margin-bottom: $font-size-xlarge;
-    }
+    section {
+      &.copyright-info {
+        grid-column: 1;
+        grid-row: 1;
+        margin-bottom: $font-size-xlarge;
+      }
 
-    section.footer-logo {
-      grid-column: 1;
-      grid-row: 2;
-    }
+      &.footer-logo {
+        grid-column: 1;
+        grid-row: 2;
+      }
 
-    section.social-media {
-      grid-column: 2;
-      grid-row: 2;
+      &.social-media {
+        grid-column: 2;
+        grid-row: 2;
+      }
     }
   }
 
-  section.record {
-    h2 {
-      line-height: $line-height;
+  section {
+    &.record {
+      h2 {
+        line-height: $line-height;
+      }
     }
   }
 
@@ -415,7 +441,11 @@ table {
 // Even though it won't be displayed on screen, without this styling, automated
 // accessibility checkers may still see it as black text on the blue background
 // of the footer.
-span.mejs__offscreen {
-  background-color: black;
-  color: white;
+span {
+  // sass-lint:disable class-name-format
+  &.mejs__offscreen {
+    background-color: black;
+    color: white;
+  }
+  // sass-lint:enable class-name-format
 }
