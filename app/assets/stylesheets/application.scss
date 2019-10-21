@@ -9,15 +9,15 @@ html {
 }
 
 body {
-  background-color: $color-background-grey;
+  background-color: $color-white;
   color: $color-black;
   display: flex;
   flex-direction: column;
   font-family: $font-family-sans;
-  font-size: 14px;
+  font-size: 14pt;
   font-weight: $font-weight-medium;
   height: 100%;
-  line-height: 1.5em;
+  line-height: 4 * $margin / 3;
   min-height: min-content;
 }
 
@@ -34,24 +34,25 @@ header {
 }
 
 footer {
-  background: $color-berkeley-blue;
+  background: $color-pacific;
   color: $color-white;
+  display: flex;
+  flex-direction: column;
   padding: $padding;
 
   a {
     color: $color-white;
     font-weight: inherit;
   }
-}
 
-main {
-  background: $color-white;
-  flex-grow: 999;
-  margin-left: auto;
-  margin-right: auto;
-  padding: $padding;
-  position: relative;
-  width: calc(100% - 100px); // TODO: something responsive
+  img.footer-logo {
+    width: 160px;
+    height: 50px;
+  }
+
+  section {
+    margin-bottom: 5 * $margin / 6;
+  }
 }
 
 section {
@@ -67,12 +68,16 @@ section {
     margin-right: auto;
     width: $record-width; // TODO: something responsive
 
-    h1 {
+    h2 {
       margin-right: auto;
     }
 
     p {
       margin-right: auto;
+
+      &:not(:last-child) {
+        margin-bottom: $margin / 3;
+      }
     }
   }
 }
@@ -80,16 +85,14 @@ section {
 // ////////////////////////////////////////////////////////////
 // General block elements
 
-h1 {
-  color: $color-berkeley-blue;
-  font-family: $font-family-serif;
-  font-weight: $font-weight-bold;
-  font-size: xx-large;
-  margin-bottom: $margin / 2;
-  margin-top: $margin;
+h2 {
+  color: $color-black;
+  font-size: 2em;
+  margin-block-start: 5 * $margin / 6;
+  margin-block-end: 5 * $margin / 6;
 }
 
-h2 {
+h3 {
   font-size: larger;
   font-weight: $font-weight-medium;
 }
@@ -97,12 +100,6 @@ h2 {
 pre {
   font-family: $font-family-mono;
   font-size: small;
-}
-
-p {
-  &:not(:last-child) {
-    margin-bottom: $margin / 3;
-  }
 }
 
 // ////////////////////////////////////////////////////////////
@@ -186,7 +183,6 @@ table {
 
   th {
     border-bottom: 1px solid $color-bay-fog;
-    color: $color-pacific;
     grid-column: 1;
     padding: ($padding / 3) ($padding / 2);
     text-align: right;
@@ -195,8 +191,6 @@ table {
 
   td {
     border-bottom: 1px solid $color-bay-fog;
-    color: $color-pacific;
-    font-weight: $font-weight-light;
     grid-column: 2;
     padding: $padding / 3;
     text-align: left;

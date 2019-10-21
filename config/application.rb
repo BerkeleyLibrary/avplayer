@@ -73,8 +73,8 @@ module AvPlayer
         wowza_src.to_s,
         video_src.to_s,
         'https://cdn.jsdelivr.net',
-        'https://fonts.googleapis.com',
-        'https://fonts.gstatic.com',
+        'https://p.typekit.net',
+        'https://use.typekit.net',
         'data:',
         'blob:'
       )

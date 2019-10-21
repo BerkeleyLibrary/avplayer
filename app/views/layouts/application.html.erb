@@ -1,33 +1,42 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
-    <title>AV Player: <%= yield(:title) %></title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>AV Player: <%= yield(:title) %></title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= javascript_pack_tag 'application' %>
+  <link rel="stylesheet" href="https://use.typekit.net/rxa5jay.css"/>
 
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,700&display=swap&subset=latin-ext" rel="stylesheet">
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_pack_tag 'application' %>
 
-    <%# TODO: handle JS errors (e.g. 403/404/CORS issues w/media URL) %>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mediaelement@4.2.10/build/mediaelement-and-player.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.10/build/mediaelementplayer.css">
-  </head>
+  <%# TODO: handle JS errors (e.g. 403/404/CORS issues w/media URL) %>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mediaelement@4.2.10/build/mediaelement-and-player.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.10/build/mediaelementplayer.css">
+</head>
 
-  <body>
-  <header>
-    <nav><a href="/">AV Player Home</a></nav>
-  </header>
+<body>
+<header>
+  <nav><a href="/">AV Player Home</a></nav>
+</header>
 
-  <%= yield %>
+<%= yield %>
 
-  <footer>
+<footer>
+  <section id="copyright-info">
     <p>
-    Copyright &copy; <%= Date.today.year %> The Regents of the University of California. All rights reserved.
+      Copyright &copy; <%= Date.today.year %> The Regents of the University of California. All rights reserved.
     </p>
-  </footer>
-  </body>
+    <p>
+      Except where otherwise noted, this work is subject to a
+      <a href="http://www.lib.berkeley.edu/about/creative-commons">Creative Commons Attribution-Noncommercial 4.0
+        License</a>.
+    </p>
+  </section>
+  <section id="footer-logo">
+    <%= image_tag('UCBerkeley_wordmark_white_320x100.png', class: 'footer-logo') %>
+  </section>
+</footer>
+</body>
 </html>
