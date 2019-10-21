@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-  <title>UC Berkeley Library Media: <%= yield(:title) %></title>
+  <title>Audio / Video: <%= yield(:title) %></title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
@@ -19,8 +19,8 @@
 <body>
 <header>
   <h1 class="header-logo">
-    <a href="/"><%= image_tag('UCBerkeley_Library_wordmark_black.svg', class: 'header-logo') %></a>
-    <a href="/" class="site-name">Media</a>
+    <a href="/"><%= image_tag('UCBerkeley_Library_wordmark_black.svg', class: 'header-logo', alt: 'UC Berkeley Library') %></a>
+    <a href="/" class="site-name">Audio / Video</a>
   </h1>
   <nav>
     <ul>
@@ -45,13 +45,13 @@
     </p>
   </section>
   <section class="footer-logo">
-    <%= image_tag('UCBerkeley_wordmark_white.svg', class: 'footer-logo') %>
+    <%= image_tag('UCBerkeley_wordmark_white.svg', class: 'footer-logo', alt: 'UC Berkeley') %>
   </section>
   <section class="social-media">
-    <a href="https://www.facebook.com/ucberkeleylibrary/"><%= image_tag('icons/facebook-square.svg', class: 'social-media-icon') %></a>
-    <a href="https://twitter.com/UCBerkeleyLib"><%= image_tag('icons/twitter-square.svg', class: 'social-media-icon') %></a>
-    <a href="https://www.youtube.com/channel/UCrwP3Cw1FHwqslSAG5JkLTQ"><%= image_tag('icons/youtube-square.svg', class: 'social-media-icon') %></a>
-    <a href="https://www.instagram.com/ucberkeleylibrary/"><%= image_tag('icons/instagram.svg', class: 'social-media-icon') %></a>
+    <a href="https://www.facebook.com/ucberkeleylibrary/"><%= image_tag('icons/facebook-square.svg', class: 'social-media-icon', alt: 'Facebook') %></a>
+    <a href="https://twitter.com/UCBerkeleyLib"><%= image_tag('icons/twitter-square.svg', class: 'social-media-icon', alt: 'Twitter') %></a>
+    <a href="https://www.youtube.com/channel/UCrwP3Cw1FHwqslSAG5JkLTQ"><%= image_tag('icons/youtube-square.svg', class: 'social-media-icon', alt: 'YouTube') %></a>
+    <a href="https://www.instagram.com/ucberkeleylibrary/"><%= image_tag('icons/instagram.svg', class: 'social-media-icon', alt: 'Instagram') %></a>
   </section>
 </footer>
 </body>
