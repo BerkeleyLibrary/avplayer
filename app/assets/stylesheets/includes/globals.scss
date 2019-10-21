@@ -1,8 +1,8 @@
 // ////////////////////////////////////////////////////////////
 // Layout
 
-$margin: 1em;
-$padding: $margin;
+$em: 1em;
+$padding: $em;
 
 // should match width attribute in app/views/player/_video.html.erb:2
 // should match width attribute in app/views/player/_audio.html.erb:3
@@ -16,9 +16,9 @@ $color-founders-rock: #3b7ea1;
 $color-california-gold: #fdb515;
 $color-medalist: #c4820e;
 
-$color-background-grey: #eeeeee;
 $color-web-grey: #888888;
 
+$color-sather-gate: #b9d3b6;
 $color-pacific: #46535e;
 $color-bay-fog: #ddd5c7;
 

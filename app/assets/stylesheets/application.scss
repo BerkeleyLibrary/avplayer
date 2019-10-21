@@ -17,19 +17,57 @@ body {
   font-size: 14pt;
   font-weight: $font-weight-medium;
   height: 100%;
-  line-height: 4 * $margin / 3;
+  line-height: 4 * $em / 3;
   min-height: min-content;
 }
 
-header {
-  background: $color-berkeley-blue;
-  color: $color-white;
-  font-weight: $font-weight-bold;
-  padding: $padding;
+main {
+  flex-grow: 999;
+}
 
-  a {
-    color: $color-white;
-    font-weight: inherit;
+header {
+  border-bottom: 1px solid $color-sather-gate;
+  display: flex;
+  flex-direction: column;
+  padding: $padding $padding 0;
+
+  h1.header-logo {
+    display: flex;
+    flex-direction: row;
+
+    img.header-logo {
+      display: block;
+      width: 315px;
+      height: 52px;
+    }
+
+    a.site-name {
+      display: block;
+      color: $color-pacific;
+      font-size: 7 * $em / 6;
+      text-transform: uppercase;
+      letter-spacing: $em / 3;
+      margin-left: $em / 2;
+      padding-top: 5 * $em / 6;
+    }
+  }
+
+  nav {
+    font-size: 7 * $em / 6;
+
+    ul {
+      display: flex;
+      justify-content: flex-end;
+      padding-bottom: 2 * $em / 3;
+
+      a {
+        color: $color-black;
+
+        &:hover {
+          color: $color-california-gold;
+        }
+      }
+    }
   }
 }
 
@@ -42,7 +80,6 @@ footer {
 
   a {
     color: $color-white;
-    font-weight: inherit;
   }
 
   img.footer-logo {
@@ -51,13 +88,13 @@ footer {
   }
 
   section {
-    margin-bottom: 5 * $margin / 6;
+    margin-bottom: 5 * $em / 6;
   }
 }
 
 section {
   &.player {
-    margin-bottom: $margin / 2;
+    margin-bottom: $em / 2;
   }
 
   &.record {
@@ -76,7 +113,16 @@ section {
       margin-right: auto;
 
       &:not(:last-child) {
-        margin-bottom: $margin / 3;
+        margin-bottom: $em / 3;
+      }
+    }
+
+    a {
+      &:hover {
+      }
+
+      &:hover {
+        box-shadow: inset 0 -4px 0 $color-california-gold;
       }
     }
   }
@@ -88,12 +134,12 @@ section {
 h2 {
   color: $color-black;
   font-size: 2em;
-  margin-block-start: 5 * $margin / 6;
-  margin-block-end: 5 * $margin / 6;
+  margin-block-start: 5 * $em / 6;
+  margin-block-end: 5 * $em / 6;
 }
 
 h3 {
-  font-size: larger;
+  font-size: 7 * $em / 6;
   font-weight: $font-weight-medium;
 }
 
@@ -106,13 +152,8 @@ pre {
 // Inline elements
 
 a {
-  color: $color-berkeley-blue;
-  font-weight: $font-weight-medium;
+  color: inherit;
   text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
 }
 
 em {
@@ -147,8 +188,8 @@ audio {
 table {
   display: grid;
   grid-template-columns: min-content 1fr;
-  margin-bottom: $margin / 2;
-  margin-top: $margin / 2;
+  margin-bottom: $em / 2;
+  margin-top: $em / 2;
   width: $record-width; // TODO: something responsive
 
   thead {
