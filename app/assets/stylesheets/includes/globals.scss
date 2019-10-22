@@ -15,9 +15,11 @@ $line-height: 4 * $em / 3;
 // //////////////////////////////
 // Box layout
 
+$margin-xsmall: $em / 6;
 $margin-small: $em / 3;
 $margin: $em / 2;
 $margin-large: 2 * $margin-small;
+$margin-xlarge: $em;
 
 $padding-header-footer: $em;
 $sitename-baseline-adjust: 5 * $em / 6;

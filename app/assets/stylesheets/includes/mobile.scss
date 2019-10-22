@@ -4,8 +4,13 @@
 // Mobile layout
 
 @media (max-width: $media-breakpoint-width) {
+
+  body {
+    font-size: 12pt;
+  }
+
   main {
-    margin: $margin-large;
+    margin: $margin-xlarge;
   }
 
   header {
@@ -69,7 +74,8 @@
         padding-left: $em;
 
         &.description {
-          padding-left: 0;
+          padding-left: $margin-xsmall;
+          padding-right: $margin-xsmall;
         }
       }
     }
