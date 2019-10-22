@@ -25,6 +25,8 @@
     </content>
     <orderEntry type="jdk" jdkName="RVM: ruby-2.6.4" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="mediaelement-and-player" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actioncable (v6.0.0, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionmailbox (v6.0.0, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionmailer (v6.0.0, RVM: ruby-2.6.4) [gem]" level="application" />
@@ -117,9 +119,9 @@
     <orderEntry type="library" scope="PROVIDED" name="ruby_dep (v1.5.0, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubyzip (v2.0.0, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="safe_yaml (v1.0.5, RVM: ruby-2.6.4) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sass (v3.7.4, RVM: ruby-2.6.4) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sass-listen (v4.0.0, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sass-rails (v5.1.0, RVM: ruby-2.6.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sassc (v2.2.1, RVM: ruby-2.6.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sassc-rails (v2.1.2, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="scrub_rb (v1.0.1, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="selenium-webdriver (v3.142.6, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="simplecov (v0.16.1, RVM: ruby-2.6.4) [gem]" level="application" />
@@ -130,8 +132,6 @@
     <orderEntry type="library" scope="PROVIDED" name="thor (v0.20.3, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thread_safe (v0.3.6, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="tilt (v2.0.10, RVM: ruby-2.6.4) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="turbolinks (v5.2.1, RVM: ruby-2.6.4) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="turbolinks-source (v5.2.0, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="typesafe_enum (v0.1.9, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="tzinfo (v1.2.5, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="unf (v0.1.4, RVM: ruby-2.6.4) [gem]" level="application" />
@@ -144,8 +144,6 @@
     <orderEntry type="library" scope="PROVIDED" name="websocket-extensions (v0.1.4, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="xpath (v3.2.0, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="zeitwerk (v2.2.0, RVM: ruby-2.6.4) [gem]" level="application" />
-    <orderEntry type="library" name="jquery" level="application" />
-    <orderEntry type="library" name="mediaelement-and-player" level="application" />
   </component>
   <component name="RModuleSettingsStorage">
     <LOAD_PATH number="0" />

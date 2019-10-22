@@ -11,7 +11,7 @@ gem 'ougai', '~> 1.8'
 gem 'puma', '~> 4.2'
 gem 'rails', '~> 6.0.0'
 gem 'rest-client', '~> 2.1'
-gem 'sass-rails', '~> 5'
+gem 'sass-rails', '~> 6'
 gem 'typesafe_enum', '~> 0.1.9'
 gem 'webpacker', '~> 4.0'
 
