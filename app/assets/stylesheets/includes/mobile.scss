@@ -1,0 +1,81 @@
+@import 'globals';
+
+// ////////////////////////////////////////////////////////////
+// Mobile layout
+
+@media (max-width: $media-breakpoint-width) {
+  main {
+    margin: $margin-large;
+  }
+
+  header {
+    padding: $margin $margin 0;
+
+    h1 {
+      &.header-logo {
+        flex-direction: column;
+
+        span {
+          &.site-name {
+            padding-left: $margin-small;
+            padding-top: $margin;
+          }
+        }
+      }
+    }
+
+    nav {
+      ul {
+        justify-content: flex-start;
+        margin-top: $margin-large;
+        padding: $margin-large $margin-small;
+      }
+    }
+  }
+
+  footer {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    section {
+      margin-bottom: $margin-large;
+
+      &.copyright-info {
+        text-align: center;
+      }
+    }
+  }
+
+  section {
+    &.record {
+      h2 {
+        line-height: $em;
+      }
+    }
+  }
+
+  table {
+    display: flex;
+    flex-direction: column;
+
+    tbody {
+      th {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      td {
+        padding-left: $em;
+
+        &.description {
+          padding-left: 0;
+        }
+      }
+    }
+
+    th {
+      text-align: left;
+    }
+  }
+}
