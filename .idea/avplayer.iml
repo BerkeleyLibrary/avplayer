@@ -119,7 +119,7 @@
     <orderEntry type="library" scope="PROVIDED" name="ruby_dep (v1.5.0, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubyzip (v2.0.0, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="safe_yaml (v1.0.5, RVM: ruby-2.6.4) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sass-rails (v5.1.0, RVM: ruby-2.6.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sass-rails (v6.0.0, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sassc (v2.2.1, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sassc-rails (v2.1.2, RVM: ruby-2.6.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="scrub_rb (v1.0.1, RVM: ruby-2.6.4) [gem]" level="application" />
