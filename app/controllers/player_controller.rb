@@ -1,5 +1,5 @@
 require 'active_record'
-require 'health'
+require 'health/check'
 require 'metadata/key'
 
 class PlayerController < ApplicationController

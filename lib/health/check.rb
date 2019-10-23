@@ -1,3 +1,5 @@
+require_relative 'result'
+
 module Health
 
   # Checks on the health of critical application dependencies

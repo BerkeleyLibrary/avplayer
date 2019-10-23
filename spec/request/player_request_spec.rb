@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'health'
+require 'health/check'
 
 describe PlayerController, type: :request do
   describe :health do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-require 'health'
+require 'health/status'
 
 module Health
 

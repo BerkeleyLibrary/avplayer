@@ -1,3 +1,5 @@
+require_relative 'status'
+
 module Health
   # Encapsulates a health check result
   class Result
