@@ -58,26 +58,5 @@ module AvPlayer
       'http://www.lib.berkeley.edu/videosecret/'
     end
 
-    # ############################################################
-    # Content security
-
-    config.content_security_policy do |policy|
-      wowza_base = URI.parse(config.wowza_base_url)
-      wowza_src = URI::HTTP.build(scheme: wowza_base.scheme, host: wowza_base.host, port: wowza_base.port)
-
-      video_base = URI.parse(config.video_base_url)
-      video_src = URI::HTTP.build(scheme: video_base.scheme, host: video_base.host, port: video_base.port)
-
-      policy.default_src(
-        :self,
-        wowza_src.to_s,
-        video_src.to_s,
-        'https://cdn.jsdelivr.net',
-        'https://p.typekit.net',
-        'https://use.typekit.net',
-        'data:',
-        'blob:'
-      )
-    end
   end
 end
