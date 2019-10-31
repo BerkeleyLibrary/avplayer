@@ -58,5 +58,9 @@ module AvPlayer
       'http://www.lib.berkeley.edu/videosecret/'
     end
 
+    # Display home page (defaults to false)
+    config.show_homepage = ENV.fetch('LIT_SHOW_HOMEPAGE') do
+      false
+    end
   end
 end

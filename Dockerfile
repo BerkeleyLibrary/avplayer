@@ -84,6 +84,9 @@ RUN bundle install --jobs=$(nproc) --deployment --path=/usr/local/bundle
 # Copy the rest of the codebase.
 COPY --chown=$APP_USER . .
 
+# Show the home page
+ENV LIT_SHOW_HOMEPAGE=1
+
 # =============================================================================
 # Target: production
 #
