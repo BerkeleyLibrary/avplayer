@@ -18,6 +18,7 @@
 
     h1 {
       &.header-logo {
+        align-items: center;
         flex-direction: column;
 
         span {
@@ -30,8 +31,39 @@
     }
 
     nav {
+      margin-bottom: $margin-xlarge;
+      margin-top: $margin-xlarge;
+
+      // sass-lint:disable-block no-ids, no-qualifying-elements
+      input {
+        &#nav-menu {
+          margin: 0;
+
+          &:checked ~ ul {
+            display: block;
+
+            li {
+              font-size: $font-size-xlarge;
+              line-height: $line-height;
+              margin-top: $margin;
+              text-align: center;
+            }
+          }
+        }
+      }
+
+      label {
+        &.nav-menu-label {
+          display: block;
+
+          img {
+            max-height: 2em;
+          }
+        }
+      }
+
       ul {
-        justify-content: flex-start;
+        display: none;
         margin-top: $margin-large;
         padding: $margin-large $margin-small;
       }

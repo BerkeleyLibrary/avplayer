@@ -32,9 +32,21 @@
     }
 
     nav {
+      label {
+        &.nav-menu-label {
+          display: none;
+        }
+      }
+
       ul {
+        display: flex;
         justify-content: flex-end;
         padding-bottom: $margin-large;
+
+        li {
+          margin-left: 1em;
+          margin-right: 1em;
+        }
       }
     }
   }
