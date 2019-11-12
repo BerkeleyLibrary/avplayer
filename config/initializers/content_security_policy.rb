@@ -32,15 +32,26 @@
 Rails.application.config.content_security_policy do |policy|
   config = Rails.application.config
   wowza_base = URI.parse(config.wowza_base_url)
-  wowza_src = URI::HTTP.build(scheme: wowza_base.scheme, host: wowza_base.host, port: wowza_base.port)
+  wowza_src_http = URI::HTTP.build(host: wowza_base.host, port: wowza_base.port)
+  wowza_src_https = URI::HTTPS.build(host: wowza_base.host, port: wowza_base.port)
 
   video_base = URI.parse(config.video_base_url)
-  video_src = URI::HTTP.build(scheme: video_base.scheme, host: video_base.host, port: video_base.port)
+  video_src_http = URI::HTTP.build(host: video_base.host, port: video_base.port)
+  video_src_https = URI::HTTPS.build(host: video_base.host, port: video_base.port)
+
+  # TODO: get rid of this once HTTPS redirect issues are sorted
+  vm158_base = URI.parse('http://128.32.10.158/')
+  vm158_src_http = URI::HTTP.build(host: vm158_base.host, port: vm158_base.port)
+  vm158_src_https = URI::HTTPS.build(host: vm158_base.host, port: vm158_base.port)
 
   policy.default_src(
     :self,
-    wowza_src.to_s,
-    video_src.to_s,
+    wowza_src_http.to_s,
+    wowza_src_https.to_s,
+    video_src_http.to_s,
+    video_src_https.to_s,
+    vm158_src_http.to_s,
+    vm158_src_https.to_s,
     'https://cdn.jsdelivr.net',
     'https://p.typekit.net',
     'https://use.typekit.net',
