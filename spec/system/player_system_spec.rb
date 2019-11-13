@@ -48,16 +48,15 @@ describe PlayerController, type: :system do
 
   describe 'multiple files' do
     it 'displays multiple players for multiple audio files' do
-      bib_number = 'b18538031'
+      bib_number = 'b11082434'
       marc_url = Millennium.marc_url_for(bib_number)
       marc_html = File.read("spec/data/#{bib_number}.html")
-      marc_html.gsub!('UCB access', 'Freely available') # ignore restrictions
       stub_request(:get, marc_url).to_return(status: 200, body: marc_html)
-      visit root_url + 'City/CA01476a.mp3:CA01476b.mp3/show?record_id=millennium%3Ab18538031'
+      visit root_url + 'MRCAudio/frost-read1.mp3:frost-read2.mp3/show?record_id=millennium%3Ab11082434'
 
       wowza_base_url = Rails.application.config.wowza_base_url
-      collection = 'City'
-      %w[CA01476a.mp3 CA01476b.mp3].each do |path|
+      collection = 'MRCAudio'
+      %w[frost-read1.mp3 frost-read2.mp3].each do |path|
         expected_url = "#{wowza_base_url}#{collection}/mp3:#{path}/playlist.m3u8"
         source = find(:xpath, '//source[@src="' + expected_url + '"]')
         expect(source).not_to be_nil

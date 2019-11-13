@@ -43,6 +43,19 @@
       <tr>
         <th>Audio</th>
         <td>
+          <p><%= link_to(
+                     'Robert Frost: Poetry reading, November 8, 1953 (2 files)',
+                     controller: :player,
+                     action: :show,
+                     collection: 'MRCAudio',
+                     paths: %w[frost-read1.mp3 frost-read2.mp3].join(':'),
+                     record_id: 'millennium:b11082434'
+                 ) %></p>
+        </td>
+      </tr>
+      <tr>
+        <th>Audio</th>
+        <td>
           <p>
             <%= link_to(
                     'Instructional tape: piobareachd (20 files)',
