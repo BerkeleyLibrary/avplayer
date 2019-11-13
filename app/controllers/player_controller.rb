@@ -82,7 +82,7 @@ class PlayerController < ApplicationController
   def split_paths(paths_param)
     return [] unless paths_param
 
-    paths_param.split(';')
+    paths_param.split(':')
   end
 
   def parse_metadata_key
