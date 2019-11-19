@@ -43,7 +43,7 @@ module Tind
     def get_marc_xml(tind_id)
       url = marc_url_for(tind_id)
       begin
-        return do_get(url)
+        return do_get(url).scrub
       rescue RestClient::Exception => e
         log.error("GET #{url} returned #{e}", e)
         raise ActiveRecord::RecordNotFound, "No TIND record found for p=#{tind_id}; TIND returned #{e.http_code}"

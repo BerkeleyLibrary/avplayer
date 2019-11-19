@@ -8,7 +8,7 @@ module Millennium
 
     def find_marc_record(bib_number)
       uri = marc_url_for(bib_number)
-      html = do_get(uri)
+      html = do_get(uri).scrub
       MarcExtractor.new(html).extract_marc_record
     rescue RestClient::Exception => e
       log.error("GET #{uri} returned #{e}, e")
