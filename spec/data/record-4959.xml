@@ -85,6 +85,9 @@
             <subfield code="a">City Arts and Lectures</subfield>
             <subfield code="b">City Arts and Lectures</subfield>
         </datafield>
+        <datafield ind1="0" ind2="0" tag="998">
+            <subfield code="g">CA01693.mp3</subfield>
+        </datafield>
     </record>
 
     
