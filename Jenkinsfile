@@ -33,6 +33,7 @@ pipeline {
             sh 'docker-compose up -d'
           }
         }
+
         stage("Tests") {
           parallel {
             stage("RSpec") {
@@ -41,22 +42,34 @@ pipeline {
                 sh 'docker-compose run --rm rails cal:test:ci'
               }
             }
+
             stage("Rubocop") {
               steps {
                 sh 'docker-compose run --rm rails cal:test:rubocop'
               }
             }
+
             stage("Brakeman") {
               steps {
-                sh 'docker-compose run --rm rails brakeman'
+                catchError(message: 'Brakeman detected a possible security issue',
+                           stageResult: 'UNSTABLE',
+                           buildResult: null) {
+                  sh 'docker-compose run --rm rails brakeman'
+                }
               }
             }
+
             stage("Audit") {
               steps {
-                sh 'docker-compose run --rm rails bundle:audit'
+                catchError(message: 'Bundle audit detected a vulnerable dependency',
+                           stageResult: 'UNSTABLE',
+                           buildResult: null) {
+                  sh 'docker-compose run --rm rails bundle:audit'
+                }
               }
             }
           }
+
           post {
             always {
               sh 'docker cp "$(docker-compose ps -q rails):/opt/app/tmp/reports" tmp/reports'
