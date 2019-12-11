@@ -118,13 +118,30 @@ pipeline {
 
     stage("Deploy") {
       when {
-        branch "master"
+        anyOf {
+          branch "master"
+          branch "production"
+        }
       }
+
       parallel {
         stage("Staging") {
           steps {
             // staging/avplayer_rails
-            httpRequest(httpMode: 'POST', url: "https://portainer.swarm-ewh-prod.devlib.berkeley.edu/api/webhooks/4d15fcd2-17fb-4225-9ca3-dedca42ea2dc")
+            httpRequest(
+              httpMode: 'POST',
+              url: "https://portainer.swarm-ewh-prod.devlib.berkeley.edu/api/webhooks/4d15fcd2-17fb-4225-9ca3-dedca42ea2dc"
+            )
+          }
+        }
+
+        stage("Production") {
+          steps {
+            // production/avplayer_rails
+            httpRequest(
+              httpMode: 'POST',
+              url: "https://portainer.swarm-ewh-prod.devlib.berkeley.edu/api/webhooks/12978a21-73f0-490e-bdd2-e6381043c812"
+            )
           }
         }
       }
