@@ -1,11 +1,6 @@
 begin
   Rails.application.routes.draw do
-    get '/:collection/:paths/show',
-        to: 'player#show',
-        as: 'show',
-        format: false,
-        defaults: { format: 'html' },
-        constraints: { paths: /.*/ }
+    get '/:collection/:record_id', to: 'player#show'
 
     get '/health', to: 'player#health', format: false, defaults: { format: 'json' }
 

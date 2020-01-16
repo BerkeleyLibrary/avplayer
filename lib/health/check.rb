@@ -54,20 +54,23 @@ module Health
       private
 
       def try_millennium
-        make_head_request(Millennium.marc_url_for(TEST_BIB_NUMBER))
+        service_uri = AV::Metadata::Source::MILLENNIUM.uri_for(TEST_BIB_NUMBER)
+        make_head_request(service_uri)
       end
 
       def try_tind
-        make_head_request(Tind.marc_url_for(TEST_TIND_ID))
+        service_uri = AV::Metadata::Source::TIND.uri_for(TEST_TIND_ID)
+        make_head_request(service_uri)
       end
 
       def try_wowza
-        av_file = AvFile.new(collection: TEST_WOWZA_COLLECTION, path: TEST_WOWZA_PATH)
-        make_head_request(av_file.streaming_url)
+        service_uri = AV::Track.streaming_uri_for(collection: Check::TEST_WOWZA_COLLECTION, relative_path: Check::TEST_WOWZA_PATH)
+        make_head_request(service_uri)
       end
 
       def make_head_request(url)
-        resp = RestClient.head(url)
+        # TODO: use an HTTP client library that can handle URIs
+        resp = RestClient.head(url.to_s)
         return Result.pass if resp.code == 200 # OK
 
         Result.warn("HEAD #{url} returned #{resp.code}")
