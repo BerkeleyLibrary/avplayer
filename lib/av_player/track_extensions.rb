@@ -58,7 +58,7 @@ module AV
       def log_invalid_uri(relative_path, e)
         message = "Error parsing relative path #{relative_path.inspect}"
         message << "#{e.class} (#{e.message}):\n"
-        message << "  " << e.backtrace.join("\n  ")
+        message << '  ' << e.backtrace.join("\n  ")
         Rails.logger.warn(message)
 
         nil

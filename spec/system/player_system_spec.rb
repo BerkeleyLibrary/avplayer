@@ -43,18 +43,48 @@ describe PlayerController, type: :system do
 
   describe 'multiple files' do
     it 'displays multiple players for multiple audio files' do
-      search_url = 'http://oskicat.berkeley.edu/search~S1?/.b11082434/.b11082434/1%2C1%2C1%2CB/marc~b11082434'
-      stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b11082434.html'))
-
-      visit root_url + 'MRCAudio/b11082434'
-
-      wowza_base_uri = Rails.application.config.wowza_base_uri
       collection = 'MRCAudio'
-      %w[frost-read1.mp3 frost-read2.mp3].each do |path|
+      bib_number = 'b11082434'
+
+      search_url = "http://oskicat.berkeley.edu/search~S1?/.#{bib_number}/.#{bib_number}/1%2C1%2C1%2CB/marc~#{bib_number}"
+      stub_request(:get, search_url).to_return(status: 200, body: File.read("spec/data/#{bib_number}.html"))
+
+      visit root_url + "#{collection}/#{bib_number}"
+
+      record = AV::Record.from_metadata(collection: collection, record_id: bib_number)
+      wowza_base_uri = Rails.application.config.wowza_base_uri
+
+      record.tracks.each do |track|
+        expect(page).to have_content(track.duration.to_s)
+        expect(page).to have_content(track.title)
+
+        path = track.path.sub("#{collection}/", '')
         expected_url = "#{wowza_base_uri}#{collection}/mp3:#{path}/playlist.m3u8"
         source = find(:xpath, '//source[@src="' + expected_url + '"]')
         expect(source).not_to be_nil
       end
+    end
+  end
+
+  describe 'bad track paths' do
+    it 'still displays audio records' do
+      search_url = 'http://oskicat.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
+      data_with_bad_path = File.read('spec/data/b23305522.html').gsub('PRA_NHPRC1_AZ1084_00_000_00.mp3', 'this is not a valid path.mp3')
+      stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
+      visit root_url + 'Pacifica/b23305522'
+
+      audio = find(:xpath, '//audio')
+      expect(audio).not_to be_nil
+    end
+
+    it 'still displays video records' do
+      search_url = 'http://oskicat.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
+      data_with_bad_path = File.read('spec/data/b22139658.html').gsub('6927.mp4', 'this is not a valid path.mp4')
+      stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
+      visit root_url + 'MRCVideo/b22139658'
+
+      video = find(:xpath, '//video')
+      expect(video).not_to be_nil
     end
   end
 
