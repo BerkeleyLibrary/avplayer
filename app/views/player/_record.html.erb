@@ -13,6 +13,16 @@
   <% record.tracks.each do |track| %>
     <section class="player">
       <%= render(partial: track.file_type.player_tag, locals: { track: track }) %>
+      <% if track.duration || !track.title.blank? %>
+      <ul class="track-info">
+        <% unless track.title.blank? %>
+        <li><%= track.title %></li>
+        <% end %>
+        <% if track.duration %>
+        <li><%= track.duration %></li>
+        <% end %>
+      </ul>
+      <% end %>
     </section>
   <% end %>
 
