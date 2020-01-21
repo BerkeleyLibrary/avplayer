@@ -1,31 +1,29 @@
 require 'rails_helper'
 
+require 'av/core'
 require 'health/check'
-require 'millennium'
-require 'tind'
 
 module Health
   describe Check do
-    attr_reader :wowza_stream_url, :millennium_marc_url, :tind_marc_url, :all_checks
+    attr_reader :wowza_uri, :millennium_uri, :tind_uri, :all_checks
 
     before(:each) do
-      av_file = AvFile.new(collection: Check::TEST_WOWZA_COLLECTION, path: Check::TEST_WOWZA_PATH)
-      @wowza_stream_url = av_file.streaming_url
+      @wowza_uri = AV::Track.streaming_uri_for(collection: Check::TEST_WOWZA_COLLECTION, relative_path: Check::TEST_WOWZA_PATH)
 
-      @millennium_marc_url = Millennium.marc_url_for(Check::TEST_BIB_NUMBER)
-      @tind_marc_url = Tind.marc_url_for(Check::TEST_TIND_ID)
+      @millennium_uri = AV::Metadata::Source::MILLENNIUM.uri_for(Check::TEST_BIB_NUMBER)
+      @tind_uri = AV::Metadata::Source::TIND.uri_for(Check::TEST_TIND_ID)
 
       @all_checks = {
-        Check::MILLENNIUM_CHECK => millennium_marc_url,
-        Check::TIND_CHECK => tind_marc_url,
-        Check::WOWZA_CHECK => wowza_stream_url
+        Check::MILLENNIUM_CHECK => millennium_uri,
+        Check::TIND_CHECK => tind_uri,
+        Check::WOWZA_CHECK => wowza_uri
       }
     end
 
     describe 'success' do
       it 'returns PASS if all services are up' do
-        all_checks.values.each do |service_url|
-          stub_request(:head, service_url).to_return(status: 200)
+        all_checks.values.each do |service_uri|
+          stub_request(:head, service_uri).to_return(status: 200)
         end
 
         check = Check.new

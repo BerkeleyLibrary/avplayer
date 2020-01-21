@@ -1,10 +1,12 @@
 
+Collection: <%= record.collection %>
+
+Bib number: <%= record.bib_number %>
+
 Title: <%= record.title %>
 
-Metadata key: <%= record.metadata_key %>
-
-Files:
-<% record.files.each do |file| %>
-- <%= file %>
+Tracks:
+<% record.tracks.each do |track| %>
+- <%= track %>
 <% end %>
 
