@@ -10,8 +10,8 @@ module Health
     before(:each) do
       @wowza_uri = AV::Track.streaming_uri_for(collection: Check::TEST_WOWZA_COLLECTION, relative_path: Check::TEST_WOWZA_PATH)
 
-      @millennium_uri = AV::Metadata::Source::MILLENNIUM.uri_for(Check::TEST_BIB_NUMBER)
-      @tind_uri = AV::Metadata::Source::TIND.uri_for(Check::TEST_TIND_ID)
+      @millennium_uri = AV::Metadata::Source::MILLENNIUM.marc_uri_for(Check::TEST_BIB_NUMBER)
+      @tind_uri = AV::Metadata::Source::TIND.marc_uri_for(Check::TEST_TIND_ID)
 
       @all_checks = {
         Check::MILLENNIUM_CHECK => millennium_uri,

@@ -37,14 +37,14 @@ module AvPlayer
     # ############################################################
     # External services
 
-    # Search URL for TIND metadata (see app/services/tind)
+    # Search URL for TIND metadata
     config.tind_base_uri = ENV.fetch('LIT_TIND_BASE_URL') do
       'https://digicoll.lib.berkeley.edu/'
     end
 
-    # Search URL for Millennium metadata (see app/services/millennium)
-    config.millennium_base_uri = ENV.fetch('LIT_MILLENNIUM_SEARCH_URL') do
-      'http://oskicat.berkeley.edu/search~S1'
+    # Search URL for Millennium metadata
+    config.millennium_base_uri = ENV.fetch('LIT_MILLENNIUM_BASE_URL') do
+      'http://oskicat.berkeley.edu/'
     end
 
     # Wowza server URL
