@@ -14,7 +14,7 @@ module Health
     MILLENNIUM_CHECK = 'Millennium'.freeze
 
     TEST_BIB_NUMBER = 'b23305522'.freeze
-    TEST_TIND_ID = 21_178
+    TEST_TIND_ID = '21178'.freeze
     TEST_WOWZA_COLLECTION = 'Pacifica'.freeze
     TEST_WOWZA_PATH = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'.freeze
 
@@ -54,12 +54,12 @@ module Health
       private
 
       def try_millennium
-        service_uri = AV::Metadata::Source::MILLENNIUM.uri_for(TEST_BIB_NUMBER)
+        service_uri = AV::Metadata::Source::MILLENNIUM.marc_uri_for(TEST_BIB_NUMBER)
         make_head_request(service_uri)
       end
 
       def try_tind
-        service_uri = AV::Metadata::Source::TIND.uri_for(TEST_TIND_ID)
+        service_uri = AV::Metadata::Source::TIND.marc_uri_for(TEST_TIND_ID)
         make_head_request(service_uri)
       end
 

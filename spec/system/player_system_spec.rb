@@ -39,6 +39,10 @@ describe PlayerController, type: :system do
       source = find(:xpath, '//source[@src="' + expected_url + '"]')
       expect(source).not_to be_nil
     end
+
+    it 'displays the catalog link' do
+      expect(page).to have_link('View library catalog record.', href: 'http://oskicat.berkeley.edu/record=b23305522')
+    end
   end
 
   describe 'multiple files' do
@@ -66,6 +70,49 @@ describe PlayerController, type: :system do
     end
   end
 
+  describe 'TIND records' do
+    before(:each) do
+      search_url = 'https://digicoll.lib.berkeley.edu/record/21178/export/xm'
+      stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/record-21178.xml'))
+
+      visit root_url + 'Pacifica/21178'
+    end
+
+    it 'displays the metadata' do
+      metadata = AV::Metadata.for_record(record_id: '21178')
+      page_body = page.body
+
+      aggregate_failures('fields') do
+        metadata.values.each do |f|
+          expect(page).to have_content(f.label)
+          if f.respond_to?(:links)
+            f.links.each { |link| expect(page).to have_link(link.body, href: link.url) }
+          elsif f.respond_to?(:lines)
+            f.lines.each do |line|
+              escaped_line = ERB::Util.html_escape(line)
+              # page.has_text? chokes on long lines for some reason
+              expect(page_body).to include(escaped_line)
+            end
+          end
+        end
+      end
+    end
+
+    it 'displays the player' do
+      wowza_base_uri = Rails.application.config.wowza_base_uri
+      collection = 'Pacifica'
+      path = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'
+      expected_url = "#{wowza_base_uri}#{collection}/mp3:#{path}/playlist.m3u8"
+
+      source = find(:xpath, '//source[@src="' + expected_url + '"]')
+      expect(source).not_to be_nil
+    end
+
+    it 'displays the catalog link' do
+      expect(page).to have_link('View library catalog record.', href: 'http://oskicat.berkeley.edu/record=b23305522')
+    end
+  end
+
   describe 'bad track paths' do
     it 'still displays audio records' do
       search_url = 'http://oskicat.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
@@ -85,6 +132,30 @@ describe PlayerController, type: :system do
 
       video = find(:xpath, '//video')
       expect(video).not_to be_nil
+    end
+  end
+
+  describe 'no track info' do
+    it 'still displays audio records' do
+      search_url = 'http://oskicat.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
+      data_with_bad_path = File.read('spec/data/b23305522.html').gsub(/^998.*/, '')
+      stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
+      visit root_url + 'Pacifica/b23305522'
+
+      expected_title = 'Wanda Coleman'
+      expect(page).to have_content(expected_title)
+      expect(page).to have_content('No tracks available')
+    end
+
+    it 'still displays video records' do
+      search_url = 'http://oskicat.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
+      data_with_bad_path = File.read('spec/data/b22139658.html').gsub(/^998.*/, '')
+      stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
+      visit root_url + 'MRCVideo/b22139658'
+
+      expected_title = 'Communists on campus'
+      expect(page).to have_content(expected_title)
+      expect(page).to have_content('No tracks available')
     end
   end
 
@@ -125,6 +196,10 @@ describe PlayerController, type: :system do
 
       source = find(:xpath, '//source[@src="' + expected_url + '"]')
       expect(source).not_to be_nil
+    end
+
+    it 'displays the catalog link' do
+      expect(page).to have_link('View library catalog record.', href: 'http://oskicat.berkeley.edu/record=b22139658')
     end
   end
 
