@@ -149,6 +149,29 @@ section {
         box-shadow: inset 0 -4px 0 $color-anchor-highlight;
       }
     }
+
+    ul {
+      &.track-info {
+        display: flex;
+        flex-direction: row;
+        font-size: $font-size-xsmall;
+        justify-content: start;
+        list-style-type: none;
+        margin-bottom: $margin-small;
+
+        li {
+          display: block;
+          padding-left: $margin-small;
+
+          &:not(:last-of-type) {
+            &::after {
+              content: '|';
+              padding-left: $margin-small;
+            }
+          }
+        }
+      }
+    }
   }
 }
 

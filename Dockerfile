@@ -2,7 +2,7 @@
 # Target: base
 #
 
-FROM ruby:2.6.4-alpine AS base
+FROM ruby:2.6.5-alpine AS base
 
 # =============================================================================
 # Global configuration
@@ -70,6 +70,9 @@ RUN apk --update --no-cache add \
 
 # Drop back to app user
 USER $APP_USER
+
+# Workaround for certificate issue pulling av_core gem from git.lib.berkeley.edu
+ENV GIT_SSL_NO_VERIFY=1
 
 # The base image ships bundler 1.17.2, but on macOS, Ruby 2.6.4 comes with
 # bundler 1.17.3 as a default gem, and there's no good way to downgrade.

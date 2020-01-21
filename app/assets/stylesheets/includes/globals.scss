@@ -6,6 +6,7 @@
 
 $em: 1em; // SCSS math works better on variables than literals
 
+$font-size-xsmall: 3 * $em / 4;
 $font-size-small: 11 * $em / 12;
 $font-size-large: 7 * $em / 6;
 $font-size-xlarge: 2 * $em;

@@ -31,11 +31,11 @@
 
 Rails.application.config.content_security_policy do |policy|
   config = Rails.application.config
-  wowza_base = URI.parse(config.wowza_base_url)
+  wowza_base = URI.parse(config.wowza_base_uri)
   wowza_src_http = URI::HTTP.build(host: wowza_base.host, port: wowza_base.port)
   wowza_src_https = URI::HTTPS.build(host: wowza_base.host, port: wowza_base.port)
 
-  video_base = URI.parse(config.video_base_url)
+  video_base = URI.parse(config.video_base_uri)
   video_src_http = URI::HTTP.build(host: video_base.host, port: video_base.port)
   video_src_https = URI::HTTPS.build(host: video_base.host, port: video_base.port)
 

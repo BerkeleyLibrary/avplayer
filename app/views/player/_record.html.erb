@@ -10,13 +10,23 @@
 
   <h2><%= record.title %></h2>
 
-  <% record.files.each do |file| %>
+  <% record.tracks.each do |track| %>
     <section class="player">
-      <%= render(partial: file.type.player_tag, locals: { file: file }) %>
+      <%= render(partial: track.file_type.player_tag, locals: { track: track }) %>
+      <% if track.duration || !track.title.blank? %>
+      <ul class="track-info">
+        <% unless track.title.blank? %>
+        <li><%= track.title %></li>
+        <% end %>
+        <% if track.duration %>
+        <li><%= track.duration %></li>
+        <% end %>
+      </ul>
+      <% end %>
     </section>
   <% end %>
 
-  <% if record.description %>
+  <% unless record.description.blank? %>
     <table>
       <thead>
       <tr>
@@ -40,20 +50,20 @@
     </tr>
     </thead>
     <tbody>
-    <% record.fields.each do |f| %>
-      <% next if f.tag == '520' # skip description displayed above %>
-      <tr>
-        <th><p><%= f.label %></p></th>
-        <td>
-          <% if f.respond_to?(:lines) %>
-            <% f.lines.each { |line| %><p><%= line %></p>
-            <% } %>
-          <% elsif f.respond_to?(:links) %>
-            <% f.links.each { |link| %><p><%= link_to(link.body, link.url) %></p>
-            <% } %>
-          <% end %>
-        </td>
-      </tr>
+    <% record.metadata.tap do |metadata| %>
+      <% metadata.values.each do |v| %>
+        <% next if v.tag == '520' # skip description displayed above %>
+        <tr>
+          <th><p><%= v.label %></p></th>
+          <td>
+            <% if v.respond_to?(:lines) %>
+              <% v.lines.each { |line| %><p><%= line %></p><% } %>
+            <% elsif v.respond_to?(:links) %>
+              <% v.links.each { |link| %><p><%= link_to(link.body, link.url) %></p><% } %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
     </tbody>
   </table>
