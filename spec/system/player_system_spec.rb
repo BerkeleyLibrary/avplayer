@@ -88,6 +88,30 @@ describe PlayerController, type: :system do
     end
   end
 
+  describe 'no track info' do
+    it 'still displays audio records' do
+      search_url = 'http://oskicat.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
+      data_with_bad_path = File.read('spec/data/b23305522.html').gsub(/^998.*/, '')
+      stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
+      visit root_url + 'Pacifica/b23305522'
+
+      expected_title = 'Wanda Coleman'
+      expect(page).to have_content(expected_title)
+      expect(page).to have_content('No tracks available')
+    end
+
+    it 'still displays video records' do
+      search_url = 'http://oskicat.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
+      data_with_bad_path = File.read('spec/data/b22139658.html').gsub(/^998.*/, '')
+      stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
+      visit root_url + 'MRCVideo/b22139658'
+
+      expected_title = 'Communists on campus'
+      expect(page).to have_content(expected_title)
+      expect(page).to have_content('No tracks available')
+    end
+  end
+
   describe 'video' do
     attr_reader :metadata_key
     attr_reader :metadata_record
