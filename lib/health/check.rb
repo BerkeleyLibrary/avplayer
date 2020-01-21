@@ -14,7 +14,7 @@ module Health
     MILLENNIUM_CHECK = 'Millennium'.freeze
 
     TEST_BIB_NUMBER = 'b23305522'.freeze
-    TEST_TIND_ID = '21178'
+    TEST_TIND_ID = '21178'.freeze
     TEST_WOWZA_COLLECTION = 'Pacifica'.freeze
     TEST_WOWZA_PATH = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'.freeze
 
