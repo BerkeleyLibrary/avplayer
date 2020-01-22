@@ -1,4 +1,4 @@
-<% content_for(:title, record.title) %>
+<% content_for(:title, "#{record.type_label}: #{record.title}") %>
 
 <% content_for(:head_additional) do %>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
