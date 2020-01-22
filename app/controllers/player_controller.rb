@@ -8,14 +8,14 @@ class PlayerController < ApplicationController
   rescue_from ActionController::ParameterMissing, with: :bad_request
 
   def show
-    record = load_record
-
-    render locals: { record: record }
+    render locals: { record: load_record }
   rescue AV::RecordNotFound => e
     raise ActiveRecord::RecordNotFound.new(e.message, AV::Record, record_id)
   end
 
-  def record_not_found
+  def record_not_found(exception)
+    logger.warn(exception) if exception
+
     render :record_not_found, status: 404, locals: {
       collection: collection,
       record_id: record_id
@@ -35,7 +35,7 @@ class PlayerController < ApplicationController
 
     # Until we have everything migrated to Wowza and we're using
     # secure tokens, it's safest just to never expose the URLs.
-    raise ActiveRecord::RecordNotFound
+    raise ActiveRecord::RecordNotFound.new("Record #{record_id.inspect} is UCB access only", AV::Record, record_id)
   end
 
   def player_params
