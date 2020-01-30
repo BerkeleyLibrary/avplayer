@@ -109,9 +109,12 @@ footer {
 
       img {
         &.social-media-icon {
-          filter: invert(100%);
           padding-right: 2pt;
           width: $font-size-xlarge;
+
+          &:not(:hover) {
+            filter: grayscale(100%) brightness(200%);
+          }
         }
       }
     }
