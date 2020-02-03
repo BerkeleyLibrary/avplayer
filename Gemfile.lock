@@ -1,6 +1,6 @@
 GIT
   remote: https://git.lib.berkeley.edu/lap/av_core.git
-  revision: 20b1a6f754a96ead5a526acf024f1b83b4353be7
+  revision: 4b528a5596f29d388b8371586d7f1ce67cb749a3
   specs:
     av_core (0.0.1)
       marc (~> 1.0)

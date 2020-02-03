@@ -48,7 +48,7 @@ module AV
       end
 
       def wowza_base_uri
-        Rails.application.config.wowza_base_uri
+        AV::Config.wowza_base_uri
       end
 
       def video_base_uri

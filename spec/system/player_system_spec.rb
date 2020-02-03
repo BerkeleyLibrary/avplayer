@@ -31,7 +31,7 @@ describe PlayerController, type: :system do
     end
 
     it 'displays the player' do
-      wowza_base_uri = Rails.application.config.wowza_base_uri
+      wowza_base_uri = AV::Config.wowza_base_uri
       collection = 'Pacifica'
       path = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'
       expected_url = "#{wowza_base_uri}#{collection}/mp3:#{path}/playlist.m3u8"
@@ -56,7 +56,7 @@ describe PlayerController, type: :system do
       visit root_url + "#{collection}/#{bib_number}"
 
       record = AV::Record.from_metadata(collection: collection, record_id: bib_number)
-      wowza_base_uri = Rails.application.config.wowza_base_uri
+      wowza_base_uri = AV::Config.wowza_base_uri
 
       record.tracks.each do |track|
         expect(page).to have_content(track.duration.to_s)
@@ -99,7 +99,7 @@ describe PlayerController, type: :system do
     end
 
     it 'displays the player' do
-      wowza_base_uri = Rails.application.config.wowza_base_uri
+      wowza_base_uri = AV::Config.wowza_base_uri
       collection = 'Pacifica'
       path = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'
       expected_url = "#{wowza_base_uri}#{collection}/mp3:#{path}/playlist.m3u8"
