@@ -1,22 +1,31 @@
 require 'active_record'
 require 'av/core'
 require 'health/check'
+require 'av_player/record_not_available'
 
 class PlayerController < ApplicationController
 
-  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from AV::RecordNotFound, with: :record_not_found
+  rescue_from AvPlayer::RecordNotAvailable, with: :record_not_available
   rescue_from ActionController::ParameterMissing, with: :bad_request
 
   def show
     render locals: { record: load_record }
-  rescue AV::RecordNotFound => e
-    raise ActiveRecord::RecordNotFound.new(e.message, AV::Record, record_id)
   end
 
   def record_not_found(exception)
     logger.warn(exception) if exception
 
-    render :record_not_found, status: 404, locals: {
+    render :record_not_found, status: :not_found, locals: {
+      collection: collection,
+      record_id: record_id
+    }
+  end
+
+  def record_not_available(exception)
+    logger.warn(exception) if exception
+
+    render :record_not_available, status: :forbidden, locals: {
       collection: collection,
       record_id: record_id
     }
@@ -32,10 +41,9 @@ class PlayerController < ApplicationController
   def load_record
     record = AV::Record.from_metadata(collection: collection, record_id: record_id)
     return record unless record.ucb_access?
+    return record if UcbIpService.ucb_request?(request)
 
-    # Until we have everything migrated to Wowza and we're using
-    # secure tokens, it's safest just to never expose the URLs.
-    raise ActiveRecord::RecordNotFound.new("Record #{record_id.inspect} is UCB access only", AV::Record, record_id)
+    raise AvPlayer::RecordNotAvailable, "Record #{record_id.inspect} is UCB access only"
   end
 
   def player_params
