@@ -63,15 +63,26 @@ module AvPlayer
       'https://avplayer.lib.berkeley.edu'
     end
 
-    # ############################################################
-    # Debugging
+    # Campus networks URL
+    config.campus_networks_uri = ENV.fetch('CAMPUS_NETWORKS_URL') do
+      # Note that this includes LBNL, and that's intentional
+      'https://framework.lib.berkeley.edu/campus-networks'
+    end
 
     # Display home page (defaults to false)
     config.show_homepage = ENV.fetch('LIT_SHOW_HOMEPAGE') do
       false
     end
 
-    %i[tind_base_uri millennium_base_uri wowza_base_uri video_base_uri avplayer_base_uri show_homepage].each do |setting|
+    %i[
+      tind_base_uri
+      millennium_base_uri
+      wowza_base_uri
+      video_base_uri
+      avplayer_base_uri
+      campus_networks_uri
+      show_homepage
+    ].each do |setting|
       config.logger.info("#{setting} = #{config.send(setting)}")
     end
 

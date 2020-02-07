@@ -7,7 +7,7 @@ describe PlayerController, type: :system do
       search_url = 'http://oskicat.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
       stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b23305522.html'))
 
-      visit root_url + 'Pacifica/b23305522'
+      visit '/Pacifica/b23305522'
     end
 
     it 'displays the metadata' do
@@ -53,7 +53,7 @@ describe PlayerController, type: :system do
       search_url = "http://oskicat.berkeley.edu/search~S1?/.#{bib_number}/.#{bib_number}/1%2C1%2C1%2CB/marc~#{bib_number}"
       stub_request(:get, search_url).to_return(status: 200, body: File.read("spec/data/#{bib_number}.html"))
 
-      visit root_url + "#{collection}/#{bib_number}"
+      visit "/#{collection}/#{bib_number}"
 
       record = AV::Record.from_metadata(collection: collection, record_id: bib_number)
       wowza_base_uri = AV::Config.wowza_base_uri
@@ -75,7 +75,7 @@ describe PlayerController, type: :system do
       search_url = 'https://digicoll.lib.berkeley.edu/record/21178/export/xm'
       stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/record-21178.xml'))
 
-      visit root_url + 'Pacifica/21178'
+      visit '/Pacifica/21178'
     end
 
     it 'displays the metadata' do
@@ -118,7 +118,7 @@ describe PlayerController, type: :system do
       search_url = 'http://oskicat.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
       data_with_bad_path = File.read('spec/data/b23305522.html').gsub('PRA_NHPRC1_AZ1084_00_000_00.mp3', 'this is not a valid path.mp3')
       stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
-      visit root_url + 'Pacifica/b23305522'
+      visit '/Pacifica/b23305522'
 
       audio = find(:xpath, '//audio')
       expect(audio).not_to be_nil
@@ -128,7 +128,7 @@ describe PlayerController, type: :system do
       search_url = 'http://oskicat.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
       data_with_bad_path = File.read('spec/data/b22139658.html').gsub('6927.mp4', 'this is not a valid path.mp4')
       stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
-      visit root_url + 'MRCVideo/b22139658'
+      visit '/MRCVideo/b22139658'
 
       video = find(:xpath, '//video')
       expect(video).not_to be_nil
@@ -140,7 +140,7 @@ describe PlayerController, type: :system do
       search_url = 'http://oskicat.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
       data_with_bad_path = File.read('spec/data/b23305522.html').gsub(/^998.*/, '')
       stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
-      visit root_url + 'Pacifica/b23305522'
+      visit '/Pacifica/b23305522'
 
       expected_title = 'Wanda Coleman'
       expect(page).to have_content(expected_title)
@@ -151,7 +151,7 @@ describe PlayerController, type: :system do
       search_url = 'http://oskicat.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
       data_with_bad_path = File.read('spec/data/b22139658.html').gsub(/^998.*/, '')
       stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
-      visit root_url + 'MRCVideo/b22139658'
+      visit '/MRCVideo/b22139658'
 
       expected_title = 'Communists on campus'
       expect(page).to have_content(expected_title)
@@ -166,7 +166,7 @@ describe PlayerController, type: :system do
     before(:each) do
       search_url = 'http://oskicat.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
       stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b22139658.html'))
-      visit root_url + 'MRCVideo/b22139658'
+      visit '/MRCVideo/b22139658'
     end
 
     it 'displays the metadata' do
@@ -205,26 +205,53 @@ describe PlayerController, type: :system do
 
   describe 'record not found' do
     it 'displays the "Record not found" page for an invalid record ID' do
-      visit root_url + 'Pacifica/abcdefg'
+      visit '/Pacifica/abcdefg'
       expect(page).to have_content('Record not found')
       expect(page).to have_content('abcdefg')
+
+      expect(page.status_code).to eq(404)
     end
 
     it 'displays the "Record not found" page when records aren\'t found' do
       stub_request(:get, 'https://digicoll.lib.berkeley.edu/record/21178/export/xm').to_return(status: 404)
-      visit root_url + 'Pacifica/21178'
+      visit '/Pacifica/21178'
       expect(page).to have_content('Record not found')
       expect(page).to have_content('21178')
-    end
 
-    it 'displays the "Record not found" page for UCB-only records' do
+      expect(page.status_code).to eq(404)
+    end
+  end
+
+  describe 'UCB-only records' do
+    before(:each) do
       search_url = 'http://oskicat.berkeley.edu/search~S1?/.b18538031/.b18538031/1%2C1%2C1%2CB/marc~b18538031'
       stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b18538031.html'))
-      visit root_url + 'City/b18538031'
+    end
 
-      expect(page).to have_content('Record not found')
-      expect(page).to have_content('City')
-      expect(page).to have_content('b18538031')
+    describe 'when allowed' do
+      it 'displays the player for UCB IPs' do
+        allow(UcbIpService).to receive(:ucb_request?).and_return(true)
+        visit '/City/b18538031'
+
+        audio = find_all(:xpath, '//audio')
+        expect(audio.size).to eq(2)
+      end
+    end
+
+    describe 'when forbidden' do
+      it 'displays the "Record not available" page for non-UCB IPs' do
+        allow(UcbIpService).to receive(:ucb_request?).and_return(false)
+        visit '/City/b18538031'
+
+        audio = find_all(:xpath, '//audio')
+        expect(audio.size).to eq(0)
+
+        expect(page).to have_content('Record not available')
+        expect(page).to have_content('City')
+        expect(page).to have_content('b18538031')
+
+        expect(page.status_code).to eq(403)
+      end
     end
   end
 end
