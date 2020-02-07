@@ -144,7 +144,7 @@ describe PlayerController, type: :system do
 
       expected_title = 'Wanda Coleman'
       expect(page).to have_content(expected_title)
-      expect(page).to have_content('No tracks available')
+      expect(page).to have_content('No track information found')
     end
 
     it 'still displays video records' do
@@ -155,7 +155,7 @@ describe PlayerController, type: :system do
 
       expected_title = 'Communists on campus'
       expect(page).to have_content(expected_title)
-      expect(page).to have_content('No tracks available')
+      expect(page).to have_content('No track information found')
     end
   end
 
