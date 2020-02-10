@@ -11,12 +11,11 @@ class UcbIpService
   SPLIT_TUNNEL_RANGE = IPAddr.new('10.136.0.0/16').to_range
   ALLOWED_INTERNAL_RANGES = [SPLIT_TUNNEL_RANGE, AIRBEARS_RANGE].freeze
 
-  # These ranges are our internal infrastructure and if they show up in X-Forwarded-For
-  # we shouldn't trust them
-  # TODO: something more reliable than this
-  VM_RANGE = IPAddr.new('128.32.10.0/24').to_range
-  MISC_RANGE = IPAddr.new('10.255.0.0/16').to_range
-  INVALID_INTERNAL_RANGES = [VM_RANGE, MISC_RANGE].freeze
+  # These ranges are our internal infrastructure and if they show up in
+  # remote_ip or X-Forwarded-For we shouldn't trust them
+  LIBRARY_VM_RANGE = IPAddr.new('128.32.10.0/24').to_range
+  INGRESS_RANGE = IPAddr.new('10.255.0.0/16').to_range
+  INVALID_INTERNAL_RANGES = [LIBRARY_VM_RANGE, INGRESS_RANGE].freeze
 
   class << self
     LOCALHOST = '127.0.0.1'.freeze
