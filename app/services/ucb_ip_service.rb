@@ -9,7 +9,14 @@ class UcbIpService
   # Internal ranges don't show up in the campus networks table
   AIRBEARS_RANGE = IPAddr.new('10.142.0.0/16').to_range
   SPLIT_TUNNEL_RANGE = IPAddr.new('10.136.0.0/16').to_range
-  INTERNAL_RANGES = [SPLIT_TUNNEL_RANGE, AIRBEARS_RANGE].freeze
+  ALLOWED_INTERNAL_RANGES = [SPLIT_TUNNEL_RANGE, AIRBEARS_RANGE].freeze
+
+  # These ranges are our internal infrastructure and if they show up in X-Forwarded-For
+  # we shouldn't trust them
+  # TODO: something more reliable than this
+  VM_RANGE = IPAddr.new('128.32.10.0/24').to_range
+  MISC_RANGE = IPAddr.new('10.255.0.0/16').to_range
+  INVALID_INTERNAL_RANGES = [VM_RANGE, MISC_RANGE].freeze
 
   class << self
     LOCALHOST = '127.0.0.1'.freeze
@@ -23,23 +30,27 @@ class UcbIpService
       # reverse proxy, so we need to rummage around in the headers
       headers = request.headers
 
-      # This is usually going to be the reverse proxy but in development it might
-      # be localhost (if you're running the app directly) or some Docker network
-      # internal IP (if you're running with docker-compose). It's easy to special-
-      # case the first, so we do; the second is harder, so we don't. Note also that
-      # headers['action_dispatch.remote_ip'] is an ActionDispatch::RemoteIp::GetIp
-      # object, not a string.
+      # This is sometimes the real remote IP, sometimes the reverse proxy.
+      # Note that headers['action_dispatch.remote_ip'] is not a string but
+      # an ActionDispatch::RemoteIp::GetIp object, not a string.
       remote_ip = headers['action_dispatch.remote_ip'].to_s
-      return true if remote_ip == LOCALHOST
+      return true if ucb_address?(remote_ip)
 
       # The real client IP (or the most real one we can get) will show up in
       # HTTP_X_FORWARDED_FOR, but so will the reverse proxy
       x_forwarded_for = headers['HTTP_X_FORWARDED_FOR']
       forwarded_addrs = (x_forwarded_for && x_forwarded_for.split(',').map(&:strip)) || []
-      forwarded_addrs.any? { |addr| addr != remote_ip && service.campus_ip?(addr) }
+      forwarded_addrs.any? { |addr| ucb_address?(addr) }
     end
 
     private
+
+    def ucb_address?(addr)
+      return true if addr == LOCALHOST
+      return false if service.invalid_internal?(addr)
+
+      service.campus_ip?(addr)
+    end
 
     def service
       @service ||= UcbIpService.new
@@ -50,7 +61,14 @@ class UcbIpService
     ipaddr = ipaddr_or_nil(addr)
     return false unless ipaddr
 
-    in_any?(ipaddr, INTERNAL_RANGES) || in_any?(ipaddr, campus_network_ranges)
+    in_any?(ipaddr, ALLOWED_INTERNAL_RANGES) || in_any?(ipaddr, campus_network_ranges)
+  end
+
+  def invalid_internal?(addr)
+    ipaddr = ipaddr_or_nil(addr)
+    return false unless ipaddr
+
+    in_any?(addr, INVALID_INTERNAL_RANGES)
   end
 
   private

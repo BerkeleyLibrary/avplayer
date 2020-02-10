@@ -16,35 +16,74 @@ describe UcbIpService do
     end
 
     describe 'x-forwarded-for' do
-      before(:each) do
-        remote_ip = instance_double(ActionDispatch::RemoteIp::GetIp)
-        allow(remote_ip).to receive(:to_s).and_return('128.32.10.191')
-        allow(headers).to receive(:[]).with('action_dispatch.remote_ip').and_return(remote_ip)
+      describe 'staging' do
+        before(:each) do
+          remote_ip = instance_double(ActionDispatch::RemoteIp::GetIp)
+          allow(remote_ip).to receive(:to_s).and_return('128.32.10.191')
+          allow(headers).to receive(:[]).with('action_dispatch.remote_ip').and_return(remote_ip)
+        end
+
+        it 'returns true for a campus IP' do
+          allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return('128.32.10.191, 136.152.24.200')
+          expect(UcbIpService.ucb_request?(request)).to eq(true)
+        end
+
+        it 'returns true for an AirBears IP' do
+          allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return('128.32.10.191, 10.142.128.127')
+          expect(UcbIpService.ucb_request?(request)).to eq(true)
+        end
+
+        it 'returns true for a split tunnel IP' do
+          allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return('128.32.10.191, 10.136.128.127')
+          expect(UcbIpService.ucb_request?(request)).to eq(true)
+        end
+
+        it 'returns false for a non-campus IP' do
+          allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return('128.32.10.191, 8.8.8.8')
+          expect(UcbIpService.ucb_request?(request)).to eq(false)
+        end
+
+        it 'returns false if all we get is the load balancer IP' do
+          allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return('128.32.10.191')
+          expect(UcbIpService.ucb_request?(request)).to eq(false)
+        end
       end
 
-      it 'returns true for a campus IP' do
-        allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return('128.32.10.191, 136.152.24.200')
-        expect(UcbIpService.ucb_request?(request)).to eq(true)
-      end
+      describe 'production' do
+        attr_reader :remote_ip
 
-      it 'returns true for an AirBears IP' do
-        allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return('128.32.10.191, 10.142.128.127')
-        expect(UcbIpService.ucb_request?(request)).to eq(true)
-      end
+        before(:each) do
+          @remote_ip = instance_double(ActionDispatch::RemoteIp::GetIp)
+          allow(headers).to receive(:[]).with('action_dispatch.remote_ip').and_return(remote_ip)
+        end
 
-      it 'returns true for a split tunnel IP' do
-        allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return('128.32.10.191, 10.136.128.127')
-        expect(UcbIpService.ucb_request?(request)).to eq(true)
-      end
+        it 'returns true for a campus IP' do
+          ip_addr = '136.152.24.200'
+          allow(remote_ip).to receive(:to_s).and_return(ip_addr)
+          allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return("#{ip_addr}, 10.255.0.10")
+          expect(UcbIpService.ucb_request?(request)).to eq(true)
+        end
 
-      it 'returns false for a non-campus IP' do
-        allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return('128.32.10.191, 8.8.8.8')
-        expect(UcbIpService.ucb_request?(request)).to eq(false)
-      end
+        it 'returns true for a campus IP' do
+          ip_addr = '10.142.128.127'
+          allow(remote_ip).to receive(:to_s).and_return(ip_addr)
+          allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return("#{ip_addr}, 10.255.0.10")
+          expect(UcbIpService.ucb_request?(request)).to eq(true)
+        end
 
-      it 'returns false if all we get is the load balancer IP' do
-        allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return('128.32.10.191')
-        expect(UcbIpService.ucb_request?(request)).to eq(false)
+        it 'returns true for a split tunnel IP' do
+          ip_addr = '10.136.128.127'
+          allow(remote_ip).to receive(:to_s).and_return(ip_addr)
+          allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return("#{ip_addr}, 10.255.0.10")
+          expect(UcbIpService.ucb_request?(request)).to eq(true)
+        end
+
+        it 'returns false for a non-campus IP' do
+          ip_addr = '8.8.8.8'
+          allow(remote_ip).to receive(:to_s).and_return(ip_addr)
+          allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return("#{ip_addr}, 10.255.0.10")
+          expect(UcbIpService.ucb_request?(request)).to eq(false)
+        end
       end
     end
 
