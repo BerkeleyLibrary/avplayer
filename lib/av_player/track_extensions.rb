@@ -8,11 +8,10 @@ module AV
       file_type.mime_type
     end
 
+    # @return [URI::HTTP] the streaming URI
     def streaming_uri
       Track.streaming_uri_for(collection: collection, relative_path: relative_path)
     end
-
-    private
 
     def collection
       @collection ||= begin
@@ -20,6 +19,8 @@ module AV
         match_data && match_data[1]
       end
     end
+
+    private
 
     def relative_path
       @relative_path ||= path.sub(COLLECTION_RE, '')
@@ -35,6 +36,7 @@ module AV
 
       private
 
+      # TODO: support Wowza MP4s, possibly based on collection
       def mp4_path(relative_path)
         URI.join(video_base_uri, relative_path)
       rescue URI::InvalidURIError => e
@@ -42,7 +44,9 @@ module AV
       end
 
       def mp3_path(collection, relative_path)
-        URI.join(wowza_base_uri, "#{collection}/mp3:#{relative_path}/playlist.m3u8")
+        # shenanigans to get Wowza to recognize subdirectories
+        collection_path = relative_path.include?('/') ? "#{collection}/_definst_" : collection
+        URI.join(wowza_base_uri, "#{collection_path}/mp3:#{relative_path}/playlist.m3u8")
       rescue URI::InvalidURIError => e
         log_invalid_uri(relative_path, e)
       end
