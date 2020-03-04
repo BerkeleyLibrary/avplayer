@@ -160,6 +160,8 @@ describe PlayerController, type: :system do
   end
 
   describe 'video' do
+    # http://www.lib.berkeley.edu/video/PksgQpmQEeOaQoD510pG4A
+
     attr_reader :metadata_key
     attr_reader :metadata_record
 
@@ -190,9 +192,10 @@ describe PlayerController, type: :system do
     end
 
     it 'displays the player' do
-      video_base_uri = Rails.application.config.video_base_uri
-      path = 'mrc/6927.mp4'
-      expected_url = "#{video_base_uri}#{path}"
+      wowza_base_uri = AV::Config.wowza_base_uri
+      collection = 'MRCVideo'
+      path = '6927.mp4'
+      expected_url = "#{wowza_base_uri}#{collection}/mp4:#{path}/playlist.m3u8"
 
       source = find(:xpath, '//source[@src="' + expected_url + '"]')
       expect(source).not_to be_nil

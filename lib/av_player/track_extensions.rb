@@ -29,27 +29,18 @@ module AV
     class << self
       def streaming_uri_for(collection:, relative_path:)
         file_type = Types::FileType.for_path(relative_path)
-        return mp4_path(relative_path) if file_type == Types::FileType::MP4
-
-        mp3_path(collection, relative_path) if file_type == Types::FileType::MP3
+        # shenanigans to get Wowza to recognize subdirectories
+        # see https://www.wowza.com/community/answers/55056/view.html
+        collection_path = collection_path_for(collection, relative_path)
+        URI.join(wowza_base_uri, "#{collection_path}/#{file_type}:#{relative_path}/playlist.m3u8")
+      rescue URI::InvalidURIError => e
+        log_invalid_uri(relative_path, e)
       end
 
       private
 
-      # TODO: support Wowza MP4s, possibly based on collection
-      def mp4_path(relative_path)
-        URI.join(video_base_uri, relative_path)
-      rescue URI::InvalidURIError => e
-        log_invalid_uri(relative_path, e)
-      end
-
-      def mp3_path(collection, relative_path)
-        # shenanigans to get Wowza to recognize subdirectories
-        # see https://www.wowza.com/community/answers/55056/view.html
-        collection_path = relative_path.include?('/') ? "#{collection}/_definst_" : collection
-        URI.join(wowza_base_uri, "#{collection_path}/mp3:#{relative_path}/playlist.m3u8")
-      rescue URI::InvalidURIError => e
-        log_invalid_uri(relative_path, e)
+      def collection_path_for(collection, relative_path)
+        relative_path.include?('/') ? "#{collection}/_definst_" : collection
       end
 
       def wowza_base_uri
