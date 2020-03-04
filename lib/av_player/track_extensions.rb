@@ -45,6 +45,7 @@ module AV
 
       def mp3_path(collection, relative_path)
         # shenanigans to get Wowza to recognize subdirectories
+        # see https://www.wowza.com/community/answers/55056/view.html
         collection_path = relative_path.include?('/') ? "#{collection}/_definst_" : collection
         URI.join(wowza_base_uri, "#{collection_path}/mp3:#{relative_path}/playlist.m3u8")
       rescue URI::InvalidURIError => e
