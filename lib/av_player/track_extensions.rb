@@ -47,10 +47,6 @@ module AV
         AV::Config.wowza_base_uri
       end
 
-      def video_base_uri
-        Rails.application.config.video_base_uri
-      end
-
       def log_invalid_uri(relative_path, e)
         message = "Error parsing relative path #{relative_path.inspect}"
         message << "#{e.class} (#{e.message}):\n"
