@@ -14,7 +14,7 @@ gem 'puma', '~> 4.3'
 gem 'rails', '~> 6.0'
 gem 'rest-client', '~> 2.1'
 gem 'sass-rails', '~> 6'
-gem 'typesafe_enum', '~> 0.1.9'
+gem 'typesafe_enum', '~> 0.2'
 gem 'webpacker', '~> 4.0'
 
 gem 'bootsnap', '>= 1.4.2', require: false

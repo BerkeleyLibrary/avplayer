@@ -1,11 +1,11 @@
 GIT
   remote: https://git.lib.berkeley.edu/lap/av_core.git
-  revision: 682efc1a49002fe691966dea86e2967a5231082a
+  revision: d0deeacb1f720c9301d3a2c450bd1b9486a1832a
   specs:
     av_core (0.0.1)
       marc (~> 1.0)
       rest-client (~> 2.1)
-      typesafe_enum (~> 0.1.9)
+      typesafe_enum (~> 0.2)
 
 GEM
   remote: https://rubygems.org/
@@ -271,7 +271,7 @@ GEM
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    typesafe_enum (0.1.9)
+    typesafe_enum (0.2.1)
     tzinfo (1.2.6)
       thread_safe (~> 0.1)
     unf (0.1.4)
@@ -328,7 +328,7 @@ DEPENDENCIES
   selenium-webdriver
   simplecov (~> 0.16.1)
   simplecov-rcov
-  typesafe_enum (~> 0.1.9)
+  typesafe_enum (~> 0.2)
   web-console (>= 3.3.0)
   webmock
   webpacker (~> 4.0)
