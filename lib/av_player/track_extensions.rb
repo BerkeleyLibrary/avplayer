@@ -6,23 +6,17 @@ module AV
 
     # TODO: something more elegant than all this
 
-    SOURCE_TYPES = {
-      AV::Types::FileType::MP3 => 'application/x-mpegURL'.freeze,
-      AV::Types::FileType::MP4 => 'application/dash+xml'.freeze
-    }.freeze
+    SOURCE_TYPE_HLS = 'application/x-mpegURL'.freeze
+    SOURCE_TYPE_MPEG_DASH = 'application/dash+xml'.freeze
 
-    SOURCE_URI_METHODS = {
-      AV::Types::FileType::MP3 => :hls_uri_for,
-      AV::Types::FileType::MP4 => :mpeg_dash_uri_for
-    }.freeze
-
-    def source_type
-      SOURCE_TYPES[file_type]
+    def hls_uri
+      Track.hls_uri_for(collection: collection, relative_path: relative_path)
+    rescue URI::InvalidURIError => e
+      log_invalid_uri(relative_path, e)
     end
 
-    def streaming_uri
-      source_uri_method = SOURCE_URI_METHODS[file_type]
-      Track.send(source_uri_method, collection: collection, relative_path: relative_path)
+    def mpeg_dash_uri
+      Track.mpeg_dash_uri_for(collection: collection, relative_path: relative_path)
     rescue URI::InvalidURIError => e
       log_invalid_uri(relative_path, e)
     end

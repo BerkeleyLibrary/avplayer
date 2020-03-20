@@ -23,26 +23,28 @@ module AV
       end
     end
 
-    describe :streaming_uri do
+    describe :hls_uri do
       it 'generates a Wowza URL' do
         track = Track.new(sort_order: 0, path: 'coll/foo.mp3')
-        streaming_uri = track.streaming_uri
-        expect(streaming_uri).not_to(be_nil)
-        expect(streaming_uri.path).to eq('/coll/mp3:foo.mp3/playlist.m3u8')
+        hls_uri = track.hls_uri
+        expect(hls_uri).not_to(be_nil)
+        expect(hls_uri.path).to eq('/coll/mp3:foo.mp3/playlist.m3u8')
       end
 
       it 'injects _definst_ into Wowza URLs with subdirectories' do
         track = Track.new(sort_order: 0, path: 'coll/foo/bar/baz.mp3')
-        streaming_uri = track.streaming_uri
-        expect(streaming_uri).not_to(be_nil)
-        expect(streaming_uri.path).to eq('/coll/_definst_/mp3:foo/bar/baz.mp3/playlist.m3u8')
+        hls_uri = track.hls_uri
+        expect(hls_uri).not_to(be_nil)
+        expect(hls_uri.path).to eq('/coll/_definst_/mp3:foo/bar/baz.mp3/playlist.m3u8')
       end
+    end
 
-      it 'sets the file type correctly for MP4s' do
+    describe :mpeg_dash_uri do
+      it 'generates a Wowza URL' do
         track = Track.new(sort_order: 0, path: 'coll/foo/bar/baz.mp4')
-        streaming_uri = track.streaming_uri
-        expect(streaming_uri).not_to(be_nil)
-        expect(streaming_uri.path).to eq('/coll/_definst_/mp4:foo/bar/baz.mp4/manifest.mpd')
+        mpeg_dash_uri = track.mpeg_dash_uri
+        expect(mpeg_dash_uri).not_to(be_nil)
+        expect(mpeg_dash_uri.path).to eq('/coll/_definst_/mp4:foo/bar/baz.mp4/manifest.mpd')
       end
     end
   end
