@@ -42,7 +42,7 @@ module AV
         track = Track.new(sort_order: 0, path: 'coll/foo/bar/baz.mp4')
         streaming_uri = track.streaming_uri
         expect(streaming_uri).not_to(be_nil)
-        expect(streaming_uri.path).to eq('/coll/_definst_/mp4:foo/bar/baz.mp4/playlist.m3u8')
+        expect(streaming_uri.path).to eq('/coll/_definst_/mp4:foo/bar/baz.mp4/manifest.mpd')
       end
     end
   end

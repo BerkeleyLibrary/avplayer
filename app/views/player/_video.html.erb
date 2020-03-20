@@ -1,5 +1,5 @@
 <%# TODO: figure out how to programmatically set height with JavaScript, or something %>
 <%# should match app/assets/stylesheets/application.scss %>
 <video width="100%" height="270" class="mejs__player" controls>
-  <source src="<%= track.streaming_uri %>" type="<%= track.mime_type %>"/>
+  <source src="<%= track.streaming_uri %>" type="<%= track.source_type %>"/>
 </video>

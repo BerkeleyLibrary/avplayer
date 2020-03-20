@@ -195,7 +195,7 @@ describe PlayerController, type: :system do
       wowza_base_uri = AV::Config.wowza_base_uri
       collection = 'MRCVideo'
       path = '6927.mp4'
-      expected_url = "#{wowza_base_uri}#{collection}/mp4:#{path}/playlist.m3u8"
+      expected_url = "#{wowza_base_uri}#{collection}/mp4:#{path}/manifest.mpd"
 
       source = find(:xpath, '//source[@src="' + expected_url + '"]')
       expect(source).not_to be_nil
