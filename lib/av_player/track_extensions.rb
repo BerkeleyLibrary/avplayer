@@ -40,7 +40,9 @@ module AV
     private
 
     def relative_path
-      @relative_path ||= path.sub(COLLECTION_RE, '')
+      @relative_path ||= begin
+        path.sub(COLLECTION_RE, '').gsub(' ', '%20')
+      end
     end
 
     class << self
