@@ -64,7 +64,12 @@ module Health
       end
 
       def try_wowza
-        service_uri = AV::Track.streaming_uri_for(collection: Check::TEST_WOWZA_COLLECTION, relative_path: Check::TEST_WOWZA_PATH)
+        # TODO: use Wowza API instead of HEAD request
+        #       - add WOWZA_MANAGER_PASSWORD to production stack
+        #       - add Wowza API client gem
+        #       - figure out what's up with "http://...:443/" URLs in Wowza access log
+
+        service_uri = AV::Track.hls_uri_for(collection: Check::TEST_WOWZA_COLLECTION, relative_path: Check::TEST_WOWZA_PATH)
         make_head_request(service_uri)
       end
 

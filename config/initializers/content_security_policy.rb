@@ -50,9 +50,12 @@ Rails.application.config.content_security_policy do |policy|
     wowza_src_https.to_s,
     video_src_http.to_s,
     video_src_https.to_s,
+    # TODO: obsolete VM158?
     vm158_src_http.to_s,
     vm158_src_https.to_s,
+    # TODO: fewer CDNs?
     'https://cdn.jsdelivr.net',
+    'https://cdn.dashjs.org',
     'https://p.typekit.net',
     'https://use.typekit.net',
     'data:',

@@ -51,4 +51,6 @@ Rails.application.configure do
 
   # Always display the home page in development
   config.show_homepage = '1'
+
+  # config.hosts << `hostname`
 end

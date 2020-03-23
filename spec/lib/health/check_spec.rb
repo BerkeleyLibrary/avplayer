@@ -8,7 +8,7 @@ module Health
     attr_reader :wowza_uri, :millennium_uri, :tind_uri, :all_checks
 
     before(:each) do
-      @wowza_uri = AV::Track.streaming_uri_for(collection: Check::TEST_WOWZA_COLLECTION, relative_path: Check::TEST_WOWZA_PATH)
+      @wowza_uri = AV::Track.hls_uri_for(collection: Check::TEST_WOWZA_COLLECTION, relative_path: Check::TEST_WOWZA_PATH)
 
       @millennium_uri = AV::Metadata::Source::MILLENNIUM.marc_uri_for(Check::TEST_BIB_NUMBER)
       @tind_uri = AV::Metadata::Source::TIND.marc_uri_for(Check::TEST_TIND_ID)
