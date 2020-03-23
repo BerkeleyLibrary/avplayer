@@ -32,7 +32,7 @@ module AV
       message = "Error parsing relative path #{relative_path.inspect}"
       message << "#{e.class} (#{e.message}):\n"
       message << '  ' << e.backtrace.join("\n  ")
-      Rails.logger.warn(message)
+      log.warn(message)
 
       nil
     end
@@ -41,7 +41,8 @@ module AV
 
     def relative_path
       @relative_path ||= begin
-        path.sub(COLLECTION_RE, '').gsub(' ', '%20')
+        relative_path = path.sub(COLLECTION_RE, '')
+        Track.url_safe(relative_path)
       end
     end
 
@@ -58,6 +59,11 @@ module AV
         URI.join(wowza_base_uri, "#{collection_path}/#{file_type}:#{relative_path}/manifest.mpd")
       end
 
+      def url_safe(relative_path)
+        # TODO: should we try to handle more exotic issues than spaces?
+        relative_path.gsub(' ', '%20')
+      end
+
       private
 
       # shenanigans to get Wowza to recognize subdirectories
@@ -70,7 +76,6 @@ module AV
       def wowza_base_uri
         AV::Config.wowza_base_uri
       end
-
     end
 
   end
