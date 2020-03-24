@@ -17,6 +17,9 @@ class UcbIpService
   INGRESS_RANGE = IPAddr.new('10.255.0.0/16').to_range
   INVALID_INTERNAL_RANGES = [LIBRARY_VM_RANGE, INGRESS_RANGE].freeze
 
+  # EZProxy is a special case of the Library VM range
+  EZPROXY_RANGE = IPAddr.new('128.32.10.230')..IPAddr.new('128.32.10.233')
+
   class << self
     LOCALHOST = '127.0.0.1'.freeze
 
@@ -66,6 +69,7 @@ class UcbIpService
   def invalid_internal?(addr)
     ipaddr = ipaddr_or_nil(addr)
     return false unless ipaddr
+    return false if EZPROXY_RANGE.include?(ipaddr)
 
     in_any?(addr, INVALID_INTERNAL_RANGES)
   end
