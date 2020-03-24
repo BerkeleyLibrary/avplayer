@@ -84,6 +84,13 @@ describe UcbIpService do
           allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return("#{ip_addr}, 10.255.0.10")
           expect(UcbIpService.ucb_request?(request)).to eq(false)
         end
+
+        it 'returns true for EZProxy' do
+          ip_addr = '128.32.10.230'
+          allow(remote_ip).to receive(:to_s).and_return(ip_addr)
+          allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return("#{ip_addr}, 10.255.0.10")
+          expect(UcbIpService.ucb_request?(request)).to eq(true)
+        end
       end
     end
 
