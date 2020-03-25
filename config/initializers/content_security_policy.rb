@@ -38,11 +38,14 @@ Rails.application.config.content_security_policy do |policy|
   wowza_host_ezproxified = "#{wowza_base.host.gsub('.', '-')}.libproxy.berkeley.edu"
   wowza_src_ezproxy = URI::HTTPS.build(host: wowza_host_ezproxified)
 
+  libproxy_login = URI::HTTPS.build(host: 'login.libproxy.berkeley.edu')
+
   policy.default_src(
     :self,
     wowza_src_http.to_s,
     wowza_src_https.to_s,
     wowza_src_ezproxy.to_s,
+    libproxy_login.to_s,
     # TODO: fewer CDNs?
     'https://cdn.jsdelivr.net',
     'https://cdn.dashjs.org',
