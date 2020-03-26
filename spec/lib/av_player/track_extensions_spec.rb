@@ -52,6 +52,17 @@ module AV
         hls_uri = track.hls_uri
         expect(hls_uri).to be_nil
       end
+
+      it 'respects the configured scheme, host, and port' do
+        base_uri = URI.parse('http://128.32.10.147:1935/')
+        allow(AV::Config).to receive(:wowza_base_uri).and_return(base_uri)
+
+        track = Track.new(sort_order: 0, path: 'coll/foo/bar/baz.mp4')
+        hls_uri = track.hls_uri
+        expect(hls_uri.scheme).to eq(base_uri.scheme)
+        expect(hls_uri.host).to eq(base_uri.host)
+        expect(hls_uri.port).to eq(base_uri.port)
+      end
     end
 
     describe :mpeg_dash_uri do
@@ -75,6 +86,17 @@ module AV
         expect(AV.logger).to receive(:warn).with(msg_re)
         mpeg_dash_uri = track.mpeg_dash_uri
         expect(mpeg_dash_uri).to be_nil
+      end
+
+      it 'respects the configured scheme, host, and port' do
+        base_uri = URI.parse('http://128.32.10.147:1935/')
+        allow(AV::Config).to receive(:wowza_base_uri).and_return(base_uri)
+
+        track = Track.new(sort_order: 0, path: 'coll/foo/bar/baz.mp4')
+        mpeg_dash_uri = track.mpeg_dash_uri
+        expect(mpeg_dash_uri.scheme).to eq(base_uri.scheme)
+        expect(mpeg_dash_uri.host).to eq(base_uri.host)
+        expect(mpeg_dash_uri.port).to eq(base_uri.port)
       end
     end
   end
