@@ -49,8 +49,7 @@ module AvPlayer
 
     # Wowza server URL
     config.wowza_base_uri = ENV.fetch('LIT_WOWZA_BASE_URL') do
-      'http://128.32.10.147:1935/'
-      # 'https://vm147.lib.berkeley.edu/'
+      'https://vm147.lib.berkeley.edu/'
     end
 
     # Video server URL
