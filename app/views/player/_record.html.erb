@@ -13,7 +13,6 @@
   <% if record.tracks.empty? %>
     <p>No track information found.</p>
   <% else %>
-    <meta name="EZproxyRewriting" content="disable">
     <% record.tracks.each do |track| %>
       <section class="player">
         <%= render(partial: track.file_type.player_tag, locals: { track: track }) %>
@@ -29,7 +28,6 @@
         <% end %>
       </section>
     <% end %>
-    <meta name="EZproxyRewriting" content="enable">
   <% end %>
 
   <% unless record.description.blank? %>
