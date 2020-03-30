@@ -7,7 +7,6 @@
     // EZProxy shenanigans
     src_orig = $('#<%= hls_id %>').attr('src');
     src_safe = src_orig.replace(/vm147-lib-berkeley-edu\.libproxy.*\.berkeley\.edu/, 'vm147.lib.berkeley.edu');
-    console.log(`rewriting ${src_orig} to ${src_safe}`)
     $('#<%= hls_id %>').attr('src', src_safe);
   <% end -%>
 </audio>
