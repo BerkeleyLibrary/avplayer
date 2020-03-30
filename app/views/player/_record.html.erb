@@ -15,7 +15,7 @@
   <% else %>
     <% record.tracks.each do |track| %>
       <section class="player">
-        <%= render(partial: track.file_type.player_tag, locals: { track: track }) %>
+        <%= render(partial: track.file_type.player_tag, locals: { track: track, index: track.sort_order }) %>
         <% if track.duration || !track.title.blank? %>
         <ul class="track-info">
           <% unless track.title.blank? %>
