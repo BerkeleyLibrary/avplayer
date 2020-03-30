@@ -43,6 +43,7 @@ Rails.application.config.content_security_policy do |policy|
 
   policy.default_src(
     :self,
+    :unsafe_inline,
     wowza_src_http.to_s,
     wowza_src_https.to_s,
     wowza_src_ezproxy.to_s,

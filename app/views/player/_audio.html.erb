@@ -1,5 +1,10 @@
 <!--suppress HtmlUnknownAttribute -->
 <%# should match app/assets/stylesheets/application.scss %>
 <audio width="100%" height="40px" class="mejs__player" controls>
-  <source src="<%= track.hls_uri %>" type="<%= AV::Track::SOURCE_TYPE_HLS %>"/>
+  <% hls_id = "source-hls-#{index}" %>
+  <source id="<%= hls_id %>" type="<%= AV::Track::SOURCE_TYPE_HLS %>"/>
+  <%# shenanigans to fake out EZProxy %>
+  <%= javascript_tag do -%>
+    $('#<%= hls_id %>').attr('src', '<%= track.hls_uri %>');
+  <% end -%>
 </audio>
