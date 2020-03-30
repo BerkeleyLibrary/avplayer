@@ -2,9 +2,12 @@
 <%# should match app/assets/stylesheets/application.scss %>
 <audio width="100%" height="40px" class="mejs__player" controls>
   <% hls_id = "source-hls-#{index}" %>
-  <source id="<%= hls_id %>" type="<%= AV::Track::SOURCE_TYPE_HLS %>"/>
-  <%# shenanigans to fake out EZProxy %>
+  <source id="<%= hls_id %>" src="<%= track.hls_uri %>" type="<%= AV::Track::SOURCE_TYPE_HLS %>"/>
   <%= javascript_tag do -%>
-    $('#<%= hls_id %>').attr('src', '<%= track.hls_uri %>');
+    // EZProxy shenanigans
+    src_orig = $('#<%= hls_id %>').attr('src');
+    src_safe = src_orig.replace(/vm147-lib-berkeley-edu\.libproxy.*\.berkeley\.edu/, 'vm147.lib.berkeley.edu');
+    console.log(`rewriting ${src_orig} to ${src_safe}`)
+    $('#<%= hls_id %>').attr('src', src_safe);
   <% end -%>
 </audio>
