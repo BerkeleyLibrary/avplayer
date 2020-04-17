@@ -2,14 +2,14 @@
   "name": "avplayer",
   "private": true,
   "dependencies": {
-    "@rails/ujs": "^6.0.0-alpha",
-    "@rails/webpacker": "^4.0.7",
-    "webpack": "^4.39.3"
+    "@rails/ujs": "^6.0.2-2",
+    "@rails/webpacker": "^5.0.1",
+    "webpack": "^4.42.1"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "stylelint": "^11.1.1",
-    "stylelint-config-standard": "^19.0.0",
-    "webpack-dev-server": "^3.8.0"
+    "stylelint": "^13.3.2",
+    "stylelint-config-standard": "^20.0.0",
+    "webpack-dev-server": "^3.10.3"
   }
 }
