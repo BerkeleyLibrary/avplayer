@@ -28,6 +28,7 @@
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="mediaelement-and-player" level="application" />
     <orderEntry type="library" name="mediaelement-and-player" level="application" />
+    <orderEntry type="library" name="groovy-3.0.3" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actioncable (v6.0.2.1, RVM: ruby-2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionmailbox (v6.0.2.1, RVM: ruby-2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionmailer (v6.0.2.1, RVM: ruby-2.6.5) [gem]" level="application" />
@@ -140,7 +141,7 @@
     <orderEntry type="library" scope="PROVIDED" name="typesafe_enum (v0.2.1, RVM: ruby-2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="tzinfo (v1.2.6, RVM: ruby-2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="unf (v0.1.4, RVM: ruby-2.6.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="unf_ext (v0.0.7.6, RVM: ruby-2.6.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="unf_ext (v0.0.7.7, RVM: ruby-2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="unicode-display_width (v1.6.1, RVM: ruby-2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="web-console (v4.0.1, RVM: ruby-2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="webmock (v3.8.2, RVM: ruby-2.6.5) [gem]" level="application" />
@@ -149,7 +150,6 @@
     <orderEntry type="library" scope="PROVIDED" name="websocket-extensions (v0.1.4, RVM: ruby-2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="xpath (v3.2.0, RVM: ruby-2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="zeitwerk (v2.2.2, RVM: ruby-2.6.5) [gem]" level="application" />
-    <orderEntry type="library" name="groovy-3.0.3" level="application" />
   </component>
   <component name="RModuleSettingsStorage">
     <LOAD_PATH number="0" />

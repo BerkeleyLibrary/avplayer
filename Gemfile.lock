@@ -1,6 +1,6 @@
 GIT
   remote: https://git.lib.berkeley.edu/lap/av_core.git
-  revision: 3015e86f5895571b502f09f48ee5204248580b8e
+  revision: ac70cc3350963a12cd291e9723677f0101e1c39b
   specs:
     av_core (0.0.1)
       marc (~> 1.0)
@@ -276,7 +276,7 @@ GEM
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.6)
+    unf_ext (0.0.7.7)
     unicode-display_width (1.6.1)
     web-console (4.0.1)
       actionview (>= 6.0.0)

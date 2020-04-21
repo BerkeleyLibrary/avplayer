@@ -72,14 +72,14 @@ describe PlayerController, type: :system do
 
   describe 'TIND records' do
     before(:each) do
-      search_url = 'https://digicoll.lib.berkeley.edu/record/21178/export/xm'
-      stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/record-21178.xml'))
+      search_url = AV::Metadata::Source::TIND.marc_uri_for('(pacradio)01469')
+      stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/record-(pacradio)01469.xml'))
 
-      visit '/Pacifica/21178'
+      visit '/Pacifica/(pacradio)01469'
     end
 
     it 'displays the metadata' do
-      metadata = AV::Metadata.for_record(record_id: '21178')
+      metadata = AV::Metadata.for_record(record_id: '(pacradio)01469')
       page_body = page.body
 
       aggregate_failures('fields') do
@@ -207,19 +207,12 @@ describe PlayerController, type: :system do
   end
 
   describe 'record not found' do
-    it 'displays the "Record not found" page for an invalid record ID' do
-      visit '/Pacifica/abcdefg'
-      expect(page).to have_content('Record not found')
-      expect(page).to have_content('abcdefg')
-
-      expect(page.status_code).to eq(404)
-    end
-
     it 'displays the "Record not found" page when records aren\'t found' do
-      stub_request(:get, 'https://digicoll.lib.berkeley.edu/record/21178/export/xm').to_return(status: 404)
-      visit '/Pacifica/21178'
+      search_url = AV::Metadata::Source::TIND.marc_uri_for('(pacradio)01469')
+      stub_request(:get, search_url).to_return(status: 404)
+      visit '/Pacifica/(pacradio)01469'
       expect(page).to have_content('Record not found')
-      expect(page).to have_content('21178')
+      expect(page).to have_content('(pacradio)01469')
 
       expect(page.status_code).to eq(404)
     end
