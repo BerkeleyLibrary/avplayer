@@ -40,7 +40,7 @@ group :test do
   gem 'ci_reporter_rspec'
   gem 'rspec-support'
   gem 'selenium-webdriver'
-  gem 'simplecov', '~> 0.16.1', require: false
+  gem 'simplecov', '~> 0.18', require: false
   gem 'simplecov-rcov', require: false
 
   # Alpine Linux doesn't get along with webdrivers (https://github.com/titusfortner/webdrivers/issues/78),
