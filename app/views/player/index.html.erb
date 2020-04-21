@@ -1,252 +1,247 @@
 <% content_for(:title, 'Audio / Video: Home') %>
 
 <!--suppress HtmlUnknownTarget -->
-<main>
+<section class="record">
 
-  <section class="record">
+  <h2>Examples: Millennium metadata</h2>
 
-    <h2>Examples: Millennium metadata</h2>
+  <table>
+    <thead>
+    <tr>
+      <th colspan="2"><h3>Public</h3></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th>Audio</th>
+      <td>
+        <p><%= link_to(
+                   'Wanda Coleman',
+                   controller: :player,
+                   action: :show,
+                   collection: 'Pacifica',
+                   record_id: 'b23305522'
+               ) %></p>
+      </td>
+    </tr>
+    <tr>
+      <th>Audio</th>
+      <td>
+        <p><%= link_to(
+                   'Author Alice Walker reads the short story, Roselily.',
+                   controller: :player,
+                   action: :show,
+                   collection: 'Pacifica',
+                   record_id: 'b23305516'
+               ) %></p>
+      </td>
+    </tr>
+    <tr>
+      <th>Audio</th>
+      <td>
+        <p><%= link_to(
+                   'Robert Frost: Poetry reading, November 8, 1953 (2 files)',
+                   controller: :player,
+                   action: :show,
+                   collection: 'MRCAudio',
+                   record_id: 'b11082434'
+               ) %></p>
+      </td>
+    </tr>
+    <tr>
+      <th>Audio</th>
+      <td>
+        <p>
+          <%= link_to(
+                  'Instructional tape: piobareachd (20 files)',
+                  controller: :player,
+                  action: :show,
+                  collection: 'music',
+                  record_id: 'b23161018') %>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <th>Video</th>
+      <td>
+        <p><%= link_to(
+                   'Communists on campus',
+                   controller: :player,
+                   action: :show,
+                   collection: 'Video-Public-MRC',
+                   record_id: 'b22139658'
+               ) %></p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 
-    <table>
-      <thead>
-      <tr>
-        <th colspan="2"><h3>Public</h3></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th>Audio</th>
-        <td>
-          <p><%= link_to(
-                     'Wanda Coleman',
-                     controller: :player,
-                     action: :show,
-                     collection: 'Pacifica',
-                     record_id: 'b23305522'
-                 ) %></p>
-        </td>
-      </tr>
-      <tr>
-        <th>Audio</th>
-        <td>
-          <p><%= link_to(
-                     'Author Alice Walker reads the short story, Roselily.',
-                     controller: :player,
-                     action: :show,
-                     collection: 'Pacifica',
-                     record_id: 'b23305516'
-                 ) %></p>
-        </td>
-      </tr>
-      <tr>
-        <th>Audio</th>
-        <td>
-          <p><%= link_to(
-                     'Robert Frost: Poetry reading, November 8, 1953 (2 files)',
-                     controller: :player,
-                     action: :show,
-                     collection: 'MRCAudio',
-                     record_id: 'b11082434'
-                 ) %></p>
-        </td>
-      </tr>
-      <tr>
-        <th>Audio</th>
-        <td>
-          <p>
-            <%= link_to(
-                    'Instructional tape: piobareachd (20 files)',
-                    controller: :player,
-                    action: :show,
-                    collection: 'music',
-                    record_id: 'b23161018'
-                ) %>
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <th>Video</th>
-        <td>
-          <p><%= link_to(
-                     'Communists on campus',
-                     controller: :player,
-                     action: :show,
-                     collection: 'Video-Public-MRC',
-                     record_id: 'b22139658'
-                 ) %></p>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+  <table class="metadata">
+    <thead>
+    <tr>
+      <th colspan="2"><h3>Restricted</h3></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th>Audio</th>
+      <td>
+        <p><%= link_to(
+                   'Interview with Joyce Carol Oates, January 26, 2016',
+                   controller: :player,
+                   action: :show,
+                   collection: 'City',
+                   record_id: 'b24071548'
+               ) %></p>
+      </td>
+    </tr>
+    <tr>
+      <th>Audio</th>
+      <td>
+        <p><%= link_to(
+                   'Spelling Bee for Cheaters',
+                   controller: :player,
+                   action: :show,
+                   collection: 'City',
+                   record_id: 'b18538031') %> (2 files)</p>
+      </td>
+    </tr>
+    <tr>
+      <th>Video</th>
+      <td>
+        <p><%= link_to(
+                   'XXXY',
+                   controller: :player,
+                   action: :show,
+                   collection: 'Video-UCBOnly-MRC',
+                   record_id: 'b23935657'
+               ) %></p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 
-    <table class="metadata">
-      <thead>
-      <tr>
-        <th colspan="2"><h3>Restricted</h3></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th>Audio</th>
-        <td>
-          <p><%= link_to(
-                     'Interview with Joyce Carol Oates, January 26, 2016',
-                     controller: :player,
-                     action: :show,
-                     collection: 'City',
-                     record_id: 'b24071548'
-                 ) %></p>
-        </td>
-      </tr>
-      <tr>
-        <th>Audio</th>
-        <td>
-          <p><%= link_to(
-                     'Spelling Bee for Cheaters',
-                     controller: :player,
-                     action: :show,
-                     collection: 'City',
-                     record_id: 'b18538031'
-                 ) %> (2 files)</p>
-        </td>
-      </tr>
-      <tr>
-        <th>Video</th>
-        <td>
-          <p><%= link_to(
-                     'XXXY',
-                     controller: :player,
-                     action: :show,
-                     collection: 'Video-UCBOnly-MRC',
-                     record_id: 'b23935657'
-                 ) %></p>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+  <table class="metadata">
+    <thead>
+    <tr>
+      <th colspan="2"><h3>Missing or nonexistent records</h3></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th>Audio</th>
+      <td>
+        <p><%= link_to(
+                   'Arno Waltiri: Das Unendlichkeit Konzert, Opus 45.',
+                   controller: :player,
+                   action: :show,
+                   collection: 'Pandall',
+                   record_id: 'b999999999'
+               ) %></p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 
-    <table class="metadata">
-      <thead>
-      <tr>
-        <th colspan="2"><h3>Missing or nonexistent records</h3></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th>Audio</th>
-        <td>
-          <p><%= link_to(
-                     'Arno Waltiri: Das Unendlichkeit Konzert, Opus 45.',
-                     controller: :player,
-                     action: :show,
-                     collection: 'Pandall',
-                     record_id: 'b999999999'
-                 ) %></p>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+</section>
 
-  </section>
+<section class="record">
 
-  <section class="record">
+  <h2>Examples: TIND metadata</h2>
 
-    <h2>Examples: TIND metadata</h2>
+  <table>
+    <thead>
+    <tr>
+      <th colspan="2"><h3>Public</h3></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th>Audio</th>
+      <td>
+        <p><%= link_to(
+                   'Wanda Coleman',
+                   controller: :player,
+                   action: :show,
+                   collection: 'Pacifica',
+                   record_id: '(pacradio)-01469'
+               ) %></p>
+      </td>
+    </tr>
+    <tr>
+      <th>Audio</th>
+      <td>
+        <p><%= link_to(
+                   'Author Alice Walker reads the short story, Roselily.',
+                   controller: :player,
+                   action: :show,
+                   collection: 'Pacifica',
+                   record_id: '(pacradio)00107'
+               ) %></p>
+      </td>
+    </tr>
+    <tr>
+      <th>Video</th>
+      <td>
+        <p>Communists on campus <strong>(not yet in TIND)</strong></p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 
-    <table>
-      <thead>
-      <tr>
-        <th colspan="2"><h3>Public</h3></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th>Audio</th>
-        <td>
-          <p><%= link_to(
-                     'Wanda Coleman', controller: :player, action: :show,
-                     collection: 'Pacifica',
-                     record_id: '21178'
-                 ) %></p>
-        </td>
-      </tr>
-      <tr>
-        <th>Audio</th>
-        <td>
-          <p><%= link_to(
-                     'Author Alice Walker reads the short story, Roselily.',
-                     controller: :player,
-                     action: :show,
-                     collection: 'Pacifica',
-                     record_id: '19816'
-                 ) %></p>
-        </td>
-      </tr>
-      <tr>
-        <th>Video</th>
-        <td>
-          <p>Communists on campus <strong>(not yet in TIND)</strong></p>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+  <table class="metadata">
+    <thead>
+    <tr>
+      <th colspan="2"><h3>Restricted</h3></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th>Audio</th>
+      <td>
+        <p><%= link_to(
+                   'Interview with Joyce Carol Oates, January 26, 2016',
+                   controller: :player,
+                   action: :show,
+                   collection: 'City',
+                   record_id: '(cityarts)00773'
+               ) %></p>
+      </td>
+    </tr>
+    <tr>
+      <th>Audio</th>
+      <td>
+        <p><%= link_to(
+                   'Spelling Bee for Cheaters',
+                   controller: :player,
+                   action: :show,
+                   collection: 'City',
+                   record_id: '(cityarts)00002') %> (2 files)</p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 
-    <table class="metadata">
-      <thead>
-      <tr>
-        <th colspan="2"><h3>Restricted</h3></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th>Audio</th>
-        <td>
-          <p><%= link_to(
-                     'Interview with Joyce Carol Oates, January 26, 2016',
-                     controller: :player,
-                     action: :show,
-                     collection: 'City',
-                     record_id: '4959'
-                 ) %></p>
-        </td>
-      </tr>
-      <tr>
-        <th>Audio</th>
-        <td>
-          <p><%= link_to(
-                     'Spelling Bee for Cheaters',
-                     controller: :player,
-                     action: :show,
-                     collection: 'City',
-                     record_id: '4188'
-                 ) %> (2 files)</p>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+  <table class="metadata">
+    <thead>
+    <tr>
+      <th colspan="2"><h3>Missing or nonexistent records</h3></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th>Audio</th>
+      <td>
+        <p><%= link_to(
+                   'Arno Waltiri: Das Unendlichkeit Konzert, Opus 45.',
+                   controller: :player,
+                   action: :show,
+                   collection: 'Pandall',
+                   record_id: '999999999'
+               ) %></p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 
-    <table class="metadata">
-      <thead>
-      <tr>
-        <th colspan="2"><h3>Missing or nonexistent records</h3></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th>Audio</th>
-        <td>
-          <p><%= link_to(
-                     'Arno Waltiri: Das Unendlichkeit Konzert, Opus 45.',
-                     controller: :player,
-                     action: :show,
-                     collection: 'Pandall',
-                     record_id: '999999999'
-                 ) %></p>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-
-  </section>
-
-</main>
+</section>
