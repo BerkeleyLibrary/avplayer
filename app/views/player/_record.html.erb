@@ -13,18 +13,26 @@
   <% if record.tracks.empty? %>
     <p>No track information found.</p>
   <% else %>
-    <% record.tracks.each do |track| %>
+    <% record.tracks.each_with_index do |track, index| %>
       <section class="player">
-        <%= render(partial: track.file_type.player_tag, locals: { track: track, index: track.sort_order }) %>
+        <%
+          preload = index == 0 ? 'auto' : 'none'
+          locals = {
+              track: track,
+              index: index,
+              preload: preload
+          }
+        %>
+        <%= render(partial: track.file_type.player_tag, locals: locals) %>
         <% if track.duration || !track.title.blank? %>
-        <ul class="track-info">
-          <% unless track.title.blank? %>
-          <li><%= track.title %></li>
-          <% end %>
-          <% if track.duration %>
-          <li><%= track.duration %></li>
-          <% end %>
-        </ul>
+          <ul class="track-info">
+            <% unless track.title.blank? %>
+              <li><%= track.title %></li>
+            <% end %>
+            <% if track.duration %>
+              <li><%= track.duration %></li>
+            <% end %>
+          </ul>
         <% end %>
       </section>
     <% end %>
@@ -61,9 +69,11 @@
           <th><p><%= v.label %></p></th>
           <td>
             <% if v.respond_to?(:lines) %>
-              <% v.lines.each { |line| %><p><%= line %></p><% } %>
+              <% v.lines.each { |line| %><p><%= line %></p>
+              <% } %>
             <% elsif v.respond_to?(:links) %>
-              <% v.links.each { |link| %><p><%= link_to(link.body, link.url) %></p><% } %>
+              <% v.links.each { |link| %><p><%= link_to(link.body, link.url) %></p>
+              <% } %>
             <% end %>
           </td>
         </tr>

@@ -58,14 +58,17 @@ describe PlayerController, type: :system do
       record = AV::Record.from_metadata(collection: collection, record_id: bib_number)
       wowza_base_uri = AV::Config.wowza_base_uri
 
-      record.tracks.each do |track|
+      record.tracks.each_with_index do |track, index|
         expect(page).to have_content(track.duration.to_s)
         expect(page).to have_content(track.title)
 
         path = track.path.sub("#{collection}/", '')
         expected_url = "#{wowza_base_uri}#{collection}/mp3:#{path}/playlist.m3u8"
-        source = find(:xpath, '//source[@src="' + expected_url + '"]')
-        expect(source).not_to be_nil
+        audio = find(:xpath, '//audio[source/@src="' + expected_url + '"]')
+        expect(audio).not_to be_nil
+
+        expected_preload = index == 0 ? 'auto' : 'none'
+        expect(audio['preload']).to eq(expected_preload)
       end
     end
   end
@@ -197,8 +200,9 @@ describe PlayerController, type: :system do
       path = '6927.mp4'
       expected_url = "#{wowza_base_uri}#{collection}/mp4:#{path}/manifest.mpd"
 
-      source = find(:xpath, '//source[@src="' + expected_url + '"]')
-      expect(source).not_to be_nil
+      video = find(:xpath, '//video[source/@src="' + expected_url + '"]')
+      expect(video).not_to be_nil
+      expect(video['preload']).to eq('auto') # TODO: test multple videos
     end
 
     it 'displays the catalog link' do

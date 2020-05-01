@@ -54,9 +54,10 @@ module AV
       end
 
       def mpeg_dash_uri_for(collection:, relative_path:)
-        file_type = Types::FileType.for_path(relative_path)
         collection_path = collection_path_for(collection, relative_path)
-        URI.join(wowza_base_uri, "#{collection_path}/#{file_type}:#{relative_path}/manifest.mpd")
+        file_type = Types::FileType.for_path(relative_path)
+        format = file_type == Types::FileType::MOV ? 'mp4' : file_type.value
+        URI.join(wowza_base_uri, "#{collection_path}/#{format}:#{relative_path}/manifest.mpd")
       end
 
       def url_safe(relative_path)
