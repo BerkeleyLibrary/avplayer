@@ -3,8 +3,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.5'
 
-gem 'av_core', git: 'https://git.lib.berkeley.edu/lap/av_core.git'
 gem 'amazing_print', '~> 1.1'
+gem 'av_core', git: 'https://git.lib.berkeley.edu/lap/av_core.git'
 gem 'jbuilder', '~> 2.7'
 gem 'lograge', '~> 0.11'
 gem 'marc', '~> 1.0'
