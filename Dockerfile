@@ -76,13 +76,14 @@ ENV GIT_SSL_NO_VERIFY=1
 
 # The base image ships bundler 1.17.2, but on macOS, Ruby 2.6.4 comes with
 # bundler 1.17.3 as a default gem, and there's no good way to downgrade.
-RUN gem install bundler -v 1.17.3
+# So let's upgrade!
+RUN gem install bundler -v 2.1.4
 
 # Install gems. We do this first in order to maximize cache reuse, and we
 # do it only in the development image in order to minimize the size of the
 # final production image (which just copies the build products from dev)
 COPY --chown=$APP_USER Gemfile* ./
-RUN bundle install --jobs=$(nproc) --deployment --path=/usr/local/bundle
+RUN bundle install --jobs=$(nproc) --path=/usr/local/bundle
 
 # Copy the rest of the codebase.
 COPY --chown=$APP_USER . .
@@ -105,7 +106,8 @@ COPY --from=development --chown=$APP_USER /usr/local/bundle /usr/local/bundle
 COPY --from=development --chown=$APP_USER /var/opt/app /var/opt/app
 
 # Sanity-check gems
-RUN bundle check
+RUN bundle config set deployment 'true'
+RUN bundle install --local
 
 # Pre-compile assets so we don't have to do it in production.
 # @see https://ucb-lit.slack.com/archives/C64VAQNMB/p1571265803040000
