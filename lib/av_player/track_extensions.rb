@@ -1,24 +1,30 @@
 require 'av/core'
+require 'nokogiri'
 
 module AV
   class Track
     COLLECTION_RE = %r{(^[^/]+)/}.freeze
 
-    # TODO: something more elegant than all this
-
     SOURCE_TYPE_HLS = 'application/x-mpegURL'.freeze
     SOURCE_TYPE_MPEG_DASH = 'application/dash+xml'.freeze
+    DASH_VTT_XPATH = "//AdaptationSet[@mimeType='text/vtt']//BaseURL".freeze
 
     def hls_uri
-      Track.hls_uri_for(collection: collection, relative_path: relative_path)
-    rescue URI::InvalidURIError => e
-      log_invalid_uri(relative_path, e)
+      return @hls_uri if instance_variable_defined?(:@hls_uri)
+
+      @hls_uri ||= build_hls_uri
     end
 
     def mpeg_dash_uri
-      Track.mpeg_dash_uri_for(collection: collection, relative_path: relative_path)
-    rescue URI::InvalidURIError => e
-      log_invalid_uri(relative_path, e)
+      return @mpeg_dash_uri if instance_variable_defined?(:@mpeg_dash_uri)
+
+      @mpeg_dash_uri ||= build_mpeg_dash_uri
+    end
+
+    def dash_vtt_uri
+      return @dash_vtt_uri if instance_variable_defined?(:@dash_vtt_uri)
+
+      @dash_vtt_uri ||= find_dash_vtt_uri
     end
 
     def collection
@@ -37,7 +43,34 @@ module AV
       nil
     end
 
+    def type_label
+      file_type.label
+    end
+
     private
+
+    def build_hls_uri
+      Track.hls_uri_for(collection: collection, relative_path: relative_path)
+    rescue URI::InvalidURIError => e
+      log_invalid_uri(relative_path, e)
+    end
+
+    def build_mpeg_dash_uri
+      Track.mpeg_dash_uri_for(collection: collection, relative_path: relative_path)
+    rescue URI::InvalidURIError => e
+      log_invalid_uri(relative_path, e)
+    end
+
+    def find_dash_vtt_uri
+      return unless (dash_uri = mpeg_dash_uri)
+      return unless (dash_manifest = do_get(dash_uri, ignore_errors: true))
+
+      xml = Nokogiri::XML(dash_manifest)
+      xml.remove_namespaces!
+      return unless (dash_vtt_path_relative = xml.search(DASH_VTT_XPATH).map(&:text).first)
+
+      dash_uri.merge(dash_vtt_path_relative)
+    end
 
     def relative_path
       @relative_path ||= begin

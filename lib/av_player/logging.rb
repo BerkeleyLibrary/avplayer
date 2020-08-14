@@ -81,7 +81,7 @@ module AvPlayer
         # Some of these 'headers' include recursive structures
         # that cause SystemStackErrors in JSON serialization,
         # so we convert them all to strings
-        extracted_headers.map { |k, v| [k, v.to_s] }.to_h
+        extracted_headers.transform_values(&:to_s)
       end
       # rubocop:enable Metrics/MethodLength
 

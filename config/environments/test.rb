@@ -36,4 +36,10 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
 
+  # Always display the home page in test
+  config.show_homepage = '1'
+
+  # Always allow direct track previews in test
+  config.allow_preview = '1'
+
 end

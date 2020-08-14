@@ -31,54 +31,40 @@ module AvPlayer
     # ############################################################
     # Customize logging
 
-    require 'av_player/logging.rb'
+    require 'av_player/logging'
     AvPlayer::Logging.configure(config)
 
     # ############################################################
     # External services
 
     # Search URL for TIND metadata
-    config.tind_base_uri = ENV.fetch('LIT_TIND_BASE_URL') do
-      'https://digicoll.lib.berkeley.edu/'
-    end
+    config.tind_base_uri = ENV.fetch('LIT_TIND_BASE_URL', 'https://digicoll.lib.berkeley.edu/') # production
+    # config.tind_base_uri = ENV.fetch('LIT_TIND_BASE_URL', 'https://berkeley-test.tind.io/') # test
 
     # Search URL for Millennium metadata
-    config.millennium_base_uri = ENV.fetch('LIT_MILLENNIUM_BASE_URL') do
-      'http://oskicat.berkeley.edu/'
-    end
+    config.millennium_base_uri = ENV.fetch('LIT_MILLENNIUM_BASE_URL', 'http://oskicat.berkeley.edu/')
 
     # Wowza server URL
-    config.wowza_base_uri = ENV.fetch('LIT_WOWZA_BASE_URL') do
-      'https://vm147.lib.berkeley.edu/'
-    end
-
-    # Video server URL
-    # TODO: move video to Wowza
-    config.video_base_uri = ENV.fetch('LIT_VIDEO_BASE_URL') do
-      'http://www.lib.berkeley.edu/videosecret/'
-    end
+    config.wowza_base_uri = ENV.fetch('LIT_WOWZA_BASE_URL', 'https://vm147.lib.berkeley.edu/')
 
     # AV Player URL
-    config.avplayer_base_uri = ENV.fetch('LIT_AVPLAYER_BASE_URL') do
-      'https://avplayer.lib.berkeley.edu'
-    end
+    config.avplayer_base_uri = ENV.fetch('LIT_AVPLAYER_BASE_URL', 'https://avplayer.lib.berkeley.edu/') # production
+    # config.avplayer_base_uri = ENV.fetch('LIT_AVPLAYER_BASE_URL', 'https://avplayer-staging.swarm-ewh-staging.devlib.berkeley.edu/') # staging
 
     # Campus networks URL
-    config.campus_networks_uri = ENV.fetch('CAMPUS_NETWORKS_URL') do
-      # Note that this includes LBNL, and that's intentional
-      'https://framework.lib.berkeley.edu/campus-networks'
-    end
+    # Note that this includes LBNL, and that's intentional
+    config.campus_networks_uri = ENV.fetch('CAMPUS_NETWORKS_URL', 'https://framework.lib.berkeley.edu/campus-networks/')
 
     # Display home page (defaults to false)
-    config.show_homepage = ENV.fetch('LIT_SHOW_HOMEPAGE') do
-      false
-    end
+    config.show_homepage = ENV.fetch('LIT_SHOW_HOMEPAGE', false)
+
+    # Allow direct track previews (defaults to false)
+    config.allow_preview = ENV.fetch('LIT_ALLOW_PREVIEW', false)
 
     %i[
       tind_base_uri
       millennium_base_uri
       wowza_base_uri
-      video_base_uri
       avplayer_base_uri
       campus_networks_uri
       show_homepage

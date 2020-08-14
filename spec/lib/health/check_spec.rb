@@ -22,7 +22,7 @@ module Health
 
     describe 'success' do
       it 'returns PASS if all services are up' do
-        all_checks.values.each do |service_uri|
+        all_checks.each_value do |service_uri|
           stub_request(:head, service_uri).to_return(status: 200)
         end
 
@@ -34,7 +34,7 @@ module Health
           expect(check_json[:status]).to eq(Status::PASS)
 
           details = check_json[:details]
-          all_checks.keys.each do |c|
+          all_checks.each_key do |c|
             expect(details[c]).to eq(Result.pass.as_json)
           end
         end
@@ -47,7 +47,7 @@ module Health
         500 => RestClient::InternalServerError.name
       }
 
-      Check.all_checks.keys.each do |c|
+      Check.all_checks.each_key do |c|
         invalid_states.each do |invalid_state, expected_details|
           it "returns WARN if #{c} returns #{invalid_state}" do
             passing_checks = (all_checks.keys - [c])

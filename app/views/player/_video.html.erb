@@ -1,11 +1,15 @@
 <%# TODO: figure out how to programmatically set height with JavaScript, or something %>
 <%# should match app/assets/stylesheets/application.scss %>
 <video width="100%" height="270" class="mejs__player" preload="<%= preload %>" controls>
-  <% dash_id = "source-dash-#{index}" %>
-  <source id="<%= dash_id %>" src="<%= track.mpeg_dash_uri %>" type="<%= AV::Track::SOURCE_TYPE_MPEG_DASH %>"/>
+  <% source_id = "source-dash-#{index}" %>
+  <source id="<%= source_id %>" src="<%= track.mpeg_dash_uri %>" type="<%= AV::Track::SOURCE_TYPE_MPEG_DASH %>"/>
+  <% if (dash_vtt_uri = track.dash_vtt_uri) %>
+    <track default kind="captions" srclang="en" src="<%= dash_vtt_uri %>"/>
+  <% end %>
+
   <%= javascript_tag do -%>
     // EZProxy shenanigans
-    src_id = '#<%= dash_id %>'
+    src_id = '#<%= source_id %>'
     src_orig = $(src_id).attr('src');
     src_safe = src_orig.replace(/vm147-lib-berkeley-edu\.libproxy.*\.berkeley\.edu/, 'vm147.lib.berkeley.edu');
     $(src_id).attr('src', src_safe);

@@ -1,1 +1,1 @@
-require 'av_player/track_extensions.rb'
+require 'av_player/track_extensions'

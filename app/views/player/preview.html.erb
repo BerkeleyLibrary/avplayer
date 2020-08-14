@@ -1,0 +1,26 @@
+<% content_for(:title, "#{track.type_label}: #{track.path}") %>
+
+<% content_for(:head_additional) do %>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mediaelement@4.2.16/build/mediaelement-and-player.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.16/build/mediaelementplayer.css">
+<% end %>
+
+<section class="record">
+
+  <h2>Preview</h2>
+
+  <section class="player">
+    <%
+      locals = {
+          track: track,
+          index: 0,
+          preload: 'auto'
+      }
+    %>
+    <%= render(partial: track.file_type.player_tag, locals: locals) %>
+    <ul class="track-info">
+      <li><%= track.path %></li>
+    </ul>
+  </section>
+</section>

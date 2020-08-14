@@ -3,8 +3,7 @@ require_relative 'status'
 module Health
   # Encapsulates a health check result
   class Result
-    attr_reader :status
-    attr_reader :output
+    attr_reader :status, :output
 
     def initialize(status:, output: nil)
       @status = status
