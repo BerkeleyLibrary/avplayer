@@ -1,8 +1,13 @@
+inherit_mode:
+  merge:
+    - Exclude
+    - Include
+
 AllCops:
   # Exclude generated files
   Exclude:
     - 'bin/**/*'
-    - 'node_modules/**/*'
+    - 'db/**/*'
 
 # Allow one line around block body (Layout/EmptyLines will still disallow two or more)
 Layout/EmptyLinesAroundBlockBody:
@@ -16,6 +21,10 @@ Layout/EmptyLinesAroundClassBody:
 Layout/EmptyLinesAroundModuleBody:
   Enabled: false
 
+# Reasonable line-length check; it's too easy for the cure to be worse than the disease
+Layout/LineLength:
+  Max: 150
+
 # Make indents consistent regardless of the lengths of variables and method names and whatnot
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
@@ -24,20 +33,16 @@ Layout/MultilineMethodCallIndentation:
 Layout/MultilineOperationIndentation:
   Enabled: false
 
-# Reasonable line-length check; it's too easy for the cure to be worse than the disease
-Metrics/LineLength:
-  Max: 150
-
-# Confusing and weird
-Naming/VariableNumber:
-  Enabled: False
-
 # We meant to do that
 Naming/MemoizedInstanceVariableName:
   Enabled: False
 
 # It works in context, trust us
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
+  Enabled: False
+
+# Confusing and weird
+Naming/VariableNumber:
   Enabled: False
 
 # Do what's readable in the context you're in
@@ -47,10 +52,6 @@ Style/AccessModifierDeclarations:
 # 👎 to cultural imperialism
 Style/AsciiComments:
   Enabled: false
-
-# Sometimes we want to distinguish hash parameters from keyword arguments
-Style/BracesAroundHashParameters:
-  Enabled: False
 
 # Seriously?
 Style/CommentedKeyword:
@@ -68,18 +69,163 @@ Style/FormatStringToken:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+# Requiring the lambda() method just makes wordy calls wordier
+Style/Lambda:
+  EnforcedStyle: literal
+
 # `foo.positive?` is cute, but it's not actually more readable than `foo > 0`
 Style/NumericPredicate:
+  Enabled: false
+
+# Unclear why it's a good idea to give parameters semantically meaningless names
+Style/SingleLineBlockParams:
   Enabled: false
 
 # The semantics of `foo&.bar` are a lot less interchangeable with `foo && foo.bar` than RuboCop thinks
 Style/SafeNavigation:
   Enabled: false
 
-# Requiring the lambda() method just makes wordy calls wordier
-Style/Lambda:
-  EnforcedStyle: literal
+############################################################
+# New cops by RuboCop version
 
-# Unclear why it's a good idea to give parameters semantically meaningless names
-Style/SingleLineBlockParams:
+# ############
+# RuboCop 0.80
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+# ############
+# RuboCop 0.81
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+# ############
+# RuboCop 0.82
+
+Style/ExponentialNotation:
   Enabled: false
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+# ############
+# RuboCop 0.83
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Style/SlicingWithRange:
+  Enabled: true
+
+# ############
+# RuboCop 0.84
+
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+
+
+# ############
+# RuboCop 0.85
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
+
+Style/RedundantRegexpCharacterClass:
+  Enabled: true
+
+Style/RedundantRegexpEscape:
+  Enabled: true
+
+# ############
+# RuboCop 0.86
+
+Style/RedundantFetchBlock:
+  Enabled: true
+
+# ############
+# RuboCop 0.87
+
+Style/AccessorGrouping:
+  Enabled: true
+
+Style/BisectedAttrAccessor:
+  Enabled: true
+
+Style/RedundantAssignment:
+  Enabled: true
+
+# ############
+# RuboCop 0.88
+
+Lint/DuplicateElsifCondition:
+  Enabled: true
+
+Style/ArrayCoercion:
+  Enabled: true
+
+Style/CaseLikeIf:
+  Enabled: true
+
+Style/HashAsLastArrayItem:
+  Enabled: true
+
+Style/HashLikeCase:
+  Enabled: true
+
+Style/RedundantFileExtensionInRequire:
+  Enabled: true
+
+# ############
+# RuboCop 0.89
+
+Lint/BinaryOperatorWithIdenticalOperands:
+  Enabled: true
+
+Lint/DuplicateRescueException:
+  Enabled: true
+
+Lint/EmptyConditionalBody:
+  Enabled: true
+
+Lint/FloatComparison:
+  Enabled: true
+
+Lint/MissingSuper:
+  Enabled: true
+
+Lint/OutOfRangeRegexpRef:
+  Enabled: true
+
+Lint/SelfAssignment:
+  Enabled: true
+
+Lint/TopLevelReturnWithArgument:
+  Enabled: true
+
+Lint/UnreachableLoop:
+  Enabled: true
+
+Style/ExplicitBlockArgument:
+  Enabled: true
+
+Style/GlobalStdStream:
+  Enabled: true
+
+Style/OptionalBooleanParameter:
+  Enabled: true
+
+Style/SingleArgumentDig:
+  Enabled: true
+
+Style/StringConcatenation:
+  Enabled: true

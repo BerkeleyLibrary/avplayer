@@ -99,5 +99,21 @@ module AV
         expect(mpeg_dash_uri.port).to eq(base_uri.port)
       end
     end
+
+    describe :dash_vtt_uri do
+      it 'returns the DASH VTT URI' do
+        track = Track.new(sort_order: 0, path: 'Video-Public-Bancroft/clir_rec_risk/cubanc_80_1_01287725a_access.mp4')
+        mpeg_dash_uri = track.mpeg_dash_uri
+
+        expected_manifest_path = '/Video-Public-Bancroft/_definst_/mp4:clir_rec_risk/cubanc_80_1_01287725a_access.mp4/manifest.mpd'
+        expect(mpeg_dash_uri.path).to eq(expected_manifest_path) # just to be sure
+
+        stub_request(:get, mpeg_dash_uri).to_return(body: File.read('spec/data/manifest.mpd'))
+
+        expected_vtt_path = expected_manifest_path.sub(%r{[^/]+$}, 'subtitles_ridp0ta0leng_ctdata_w608427063_webvttsublist.m4s')
+        expected_uri = URI.join(AV::Config.wowza_base_uri, expected_vtt_path)
+        expect(track.dash_vtt_uri).to eq(expected_uri)
+      end
+    end
   end
 end

@@ -52,5 +52,10 @@ Rails.application.configure do
   # Always display the home page in development
   config.show_homepage = '1'
 
-  # config.hosts << `hostname`
+  # Always allow direct track previews in development
+  config.allow_preview = '1'
+
+  # In development, bypass Rails 6 DNS rebinding attack protection
+  # to allow access by default hostname
+  config.hosts << `hostname`.strip.downcase # downcased b/c https://github.com/rails/rails/issues/40041
 end

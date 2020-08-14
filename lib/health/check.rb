@@ -18,8 +18,7 @@ module Health
     TEST_WOWZA_COLLECTION = 'Pacifica'.freeze
     TEST_WOWZA_PATH = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'.freeze
 
-    attr_reader :status
-    attr_reader :details
+    attr_reader :status, :details
 
     def initialize
       status = Status::PASS

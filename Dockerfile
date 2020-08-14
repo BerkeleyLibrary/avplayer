@@ -2,7 +2,24 @@
 # Target: base
 #
 
-FROM ruby:2.6.5-alpine AS base
+FROM ruby:2.7.1-alpine AS base
+
+# This is just metadata and doesn't actually "expose" this port. Rather, it
+# tells other tools (e.g. Traefik) what port the service in this image is
+# expected to listen on.
+#
+# @see https://docs.docker.com/engine/reference/builder/#expose
+EXPOSE 3000
+
+# =============================================================================
+# Labels
+
+LABEL edu.berkeley.lib.build-number="${BUILD_NUMBER}"
+LABEL edu.berkeley.lib.build-url="${BUILD_URL}"
+LABEL edu.berkeley.lib.git-commit="${GIT_COMMIT}"
+LABEL edu.berkeley.lib.git-repo="${GIT_URL}"
+LABEL edu.berkeley.lib.project-tier="4-hour response during business hours"
+LABEL edu.berkeley.lib.project-description="Audio/video player"
 
 # =============================================================================
 # Global configuration
@@ -34,31 +51,11 @@ RUN apk --no-cache --update upgrade && \
 # All subsequent commands are executed relative to this directory.
 WORKDIR /opt/app
 
-# Run as the app user to minimize risk to the host.
-USER $APP_USER
-
-# Environment
-ENV PATH="/opt/app/bin:$PATH" \
-    RAILS_LOG_TO_STDOUT=yes
-
-# Entrypoint: a thin wrapper script that just passes all its arguments t
-# Rails, e.g.
-#
-#   docker run <image> assets:precompile db:create db:migrate
-ENTRYPOINT ["/opt/app/bin/docker-entrypoint.sh"]
-
-# Sets "server" as the default command. If you docker-run this image with no
-# additional arguments, it simply starts the server.
-CMD ["server"]
-
 # =============================================================================
 # Target: development
 #
 
 FROM base AS development
-
-# Temporarily switch back to root to install build packages.
-USER root
 
 # Install system packages needed to build gems with C extensions.
 RUN apk --update --no-cache add \
@@ -68,7 +65,6 @@ RUN apk --update --no-cache add \
         sqlite-dev && \
     rm -rf /var/cache/apk/*
 
-# Drop back to app user
 USER $APP_USER
 
 # Workaround for certificate issue pulling av_core gem from git.lib.berkeley.edu
@@ -91,6 +87,14 @@ COPY --chown=$APP_USER . .
 # Show the home page
 ENV LIT_SHOW_HOMEPAGE=1
 
+# Extend the path to include our binstubs. Note that this must be done after
+# we've installed the application (and these scripts) otherwise you'll run
+# into weird path-related issues.
+ENV PATH "/opt/app/bin:$PATH"
+ENV RAILS_LOG_TO_STDOUT=yes
+
+CMD ["rails", "server"]
+
 # =============================================================================
 # Target: production
 #
@@ -103,19 +107,20 @@ USER $APP_USER
 # Copy the built codebase from the dev stage
 COPY --from=development --chown=$APP_USER /opt/app /opt/app
 COPY --from=development --chown=$APP_USER /usr/local/bundle /usr/local/bundle
-COPY --from=development --chown=$APP_USER /var/opt/app /var/opt/app
+
+ENV PATH "/opt/app/bin:$PATH"
 
 # Sanity-check gems
 RUN bundle config set deployment 'true'
 RUN bundle install --local
 
+# Run the production stage in production mode.
+ENV RACK_ENV=production
+ENV RAILS_ENV=production
+ENV RAILS_SERVE_STATIC_FILES=true
+ENV RAILS_LOG_TO_STDOUT=yes
+
 # Pre-compile assets so we don't have to do it in production.
-# @see https://ucb-lit.slack.com/archives/C64VAQNMB/p1571265803040000
 RUN rails assets:precompile
 
-# Default container port (for documentation only)
-# see https://docs.docker.com/engine/reference/builder/#expose
-EXPOSE 3000
-
-# Run the production stage in production mode.
-ENV RACK_ENV=production RAILS_ENV=production RAILS_SERVE_STATIC_FILES=true
+CMD ["rails", "server"]

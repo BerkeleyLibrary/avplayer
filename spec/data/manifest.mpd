@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MPD xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns="urn:mpeg:dash:schema:mpd:2011"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xsi:schemaLocation="urn:mpeg:DASH:schema:MPD:2011 http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-DASH_schema_files/DASH-MPD.xsd"
+     profiles="urn:mpeg:dash:profile:isoff-live:2011"
+     type="static"
+     publishTime="2020-08-13T21:16:26Z" 
+     mediaPresentationDuration="PT28M57.178S"
+     minBufferTime="PT1.5S">
+<ProgramInformation>
+    <Title>clir_rec_risk/cubanc_80_1_01287725a_access.mp4</Title>
+</ProgramInformation>
+<Location>https://vm147.lib.berkeley.edu/Video-Public-Bancroft/_definst_/mp4:clir_rec_risk/cubanc_80_1_01287725a_access.mp4/manifest_w608427063.mpd</Location>
+<Period id="0" start="PT0.0S">
+    <AdaptationSet id="0" group="1" mimeType="video/mp4" width="1920" height="1080" par="16:9" frameRate="24000/1001" segmentAlignment="true" startWithSAP="1" subsegmentAlignment="true" subsegmentStartsWithSAP="1">
+        <SegmentTemplate presentationTimeOffset="0" timescale="90000" media="chunk_ctvideo_rid$RepresentationID$_cs$Time$_w608427063_mpd.m4s" initialization="chunk_ctvideo_rid$RepresentationID$_cinit_w608427063_mpd.m4s">
+            <SegmentTimeline>
+                <S t="0" d="900900"/>
+                <S d="900900" r="24"/>
+                <S d="863370"/>
+                <S d="900900" r="40"/>
+                <S d="863370"/>
+                <S d="900900" r="40"/>
+                <S d="863370"/>
+                <S d="900900" r="31"/>
+                <S d="897120"/>
+                <S d="904680"/>
+                <S d="897120"/>
+                <S d="885870"/>
+                <S d="915930"/>
+                <S d="900900" r="1"/>
+                <S d="904680"/>
+                <S d="863370"/>
+                <S d="900900" r="20"/>
+                <S d="640440"/>
+            </SegmentTimeline>
+        </SegmentTemplate>
+        <Representation id="p0va0br5120846" codecs="avc1.640028" sar="1:1" bandwidth="5120846" />
+    </AdaptationSet>
+    <AdaptationSet id="1" group="2" mimeType="audio/mp4" lang="eng" segmentAlignment="true" startWithSAP="1" subsegmentAlignment="true" subsegmentStartsWithSAP="1">
+        <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2"/>
+        <SegmentTemplate presentationTimeOffset="0" timescale="44100" media="chunk_ctaudio_rid$RepresentationID$_cs$Time$_w608427063_mpd.m4s" initialization="chunk_ctaudio_rid$RepresentationID$_cinit_w608427063_mpd.m4s">
+            <SegmentTimeline>
+                <S t="0" d="441441"/>
+                <S d="441441" r="24"/>
+                <S d="423051"/>
+                <S d="441441" r="40"/>
+                <S d="423052"/>
+                <S d="441441" r="40"/>
+                <S d="423051"/>
+                <S d="441441" r="31"/>
+                <S d="439589"/>
+                <S d="443293"/>
+                <S d="439589"/>
+                <S d="434076"/>
+                <S d="448806"/>
+                <S d="441441" r="1"/>
+                <S d="443293"/>
+                <S d="423051"/>
+                <S d="441441" r="20"/>
+                <S d="313816"/>
+            </SegmentTimeline>
+        </SegmentTemplate>
+        <Representation id="p0aa0br189664" codecs="mp4a.40.2" audioSamplingRate="44100" bandwidth="189664">
+        </Representation>
+    </AdaptationSet>
+    <AdaptationSet id="2" group="3" mimeType="text/vtt" lang="eng">
+        <Representation id="eng" bandwidth="1100">
+            <BaseURL>subtitles_ridp0ta0leng_ctdata_w608427063_webvttsublist.m4s</BaseURL>
+        </Representation>
+    </AdaptationSet>
+</Period>
+</MPD>

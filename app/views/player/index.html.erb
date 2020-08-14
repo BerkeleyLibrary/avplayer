@@ -244,4 +244,94 @@
     </tbody>
   </table>
 
+  <table class="metadata">
+    <thead>
+    <tr>
+      <th colspan="2"><h3>Physics colloquia</h3></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th>Public</th>
+      <td>
+        <p><%= link_to(
+                   'Particle Fever: Physics Department screening',
+                   controller: :player,
+                   action: :show,
+                   collection: 'Video-Public-Physics',
+                   record_id: 'physcolloquia-bk00169017b'
+               ) %></p>
+      </td>
+    </tr>
+    <tr>
+      <th>Dark</th>
+      <td>
+        <p><%= link_to(
+                   'The Great Debate: Are We Alone?',
+                   controller: :player,
+                   action: :show,
+                   collection: 'Video-Public-Physics',
+                   record_id: 'physcolloquia-bk0013n8q67'
+               ) %></p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</section>
+
+<section class="record">
+  <h2>Examples: Raw track preview</h2>
+  <p>(not available in production)</p>
+
+  <%# CLIR recordings at risk %>
+  <table class="metadata">
+    <thead>
+    <%
+      with_captions = %w[
+      cubanc_80_1_01287725a_access.mp4
+      cubanc_80_1_01287771a_access.mp4
+      cubanc_80_1_01287818a_access.mp4
+  ]
+      without_captions = %w[
+      cubanc_80_1_01287708a_access.mp4
+      cubanc_80_1_01287734a_access.mp4
+      cubanc_80_1_01287746a_access.mp4
+  ]
+    %>
+    <tr>
+      <th colspan="2"><h3>CLIR Recordings at Risk</h3></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th>With Captions</th>
+      <td>
+        <% with_captions.each do |f| %>
+          <p><%= link_to(
+                     f,
+                     controller: :player,
+                     action: :preview,
+                     collection: 'Video-Public-Bancroft',
+                     relative_path: "clir_rec_risk/#{f}"
+                 ) %></p>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <th>Without Captions</th>
+      <td>
+        <% without_captions.each do |f| %>
+        <p><%= link_to(
+                   f,
+                   controller: :player,
+                   action: :preview,
+                   collection: 'Video-Public-Bancroft',
+                   relative_path: "clir_rec_risk/#{f}"
+               ) %></p>
+        <% end %>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 </section>
