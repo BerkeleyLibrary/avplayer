@@ -140,6 +140,17 @@ describe PlayerController, type: :system do
         video = find(:xpath, '//video')
         expect(video).not_to be_nil
       end
+
+      it "displays something useful when it can't determine file type" do
+        search_url = 'http://oskicat.berkeley.edu/search~S1?/.b25742488/.b25742488/1%2C1%2C1%2CB/marc~b25742488'
+        data_with_bad_path = File.read('spec/data/b25742488.html')
+        stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
+        visit '/Video-UCB-Only-MRC/b25742488'
+
+        expected_title = 'Monumental crossroads'
+        expect(page).to have_content(expected_title)
+        expect(page).to have_content('Unknown file type')
+      end
     end
 
     describe 'no track info' do
