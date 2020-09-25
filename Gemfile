@@ -33,7 +33,7 @@ group :development do
   gem 'bundle-audit'
   gem 'irb', require: false # workaroundfor https://github.com/bundler/bundler/issues/6929
   gem 'listen', '>= 3.0', '< 3.2'
-  gem 'rubocop', '~> 0.89.0'
+  gem 'rubocop', '~> 0.91.1'
   gem 'web-console', '>= 3.3.0'
 end
 
