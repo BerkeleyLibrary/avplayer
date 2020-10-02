@@ -150,6 +150,13 @@ section {
       &:not(:last-child) {
         margin-bottom: $margin-small;
       }
+
+      &.missing {
+        background-color: black;
+        color: white;
+        padding: $margin-small $margin;
+        font-size: $font-size-xsmall;
+      }
     }
 
     a {

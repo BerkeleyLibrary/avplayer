@@ -1,5 +1,6 @@
 require 'av/core'
 require 'nokogiri'
+require 'net/http'
 
 module AV
   class Track
@@ -8,6 +9,8 @@ module AV
     SOURCE_TYPE_HLS = 'application/x-mpegURL'.freeze
     SOURCE_TYPE_MPEG_DASH = 'application/dash+xml'.freeze
     DASH_VTT_XPATH = "//AdaptationSet[@mimeType='text/vtt']//BaseURL".freeze
+
+    MISSING_TRACK_PARTIAL = 'missing'.freeze
 
     def hls_uri
       return @hls_uri if instance_variable_defined?(:@hls_uri)
@@ -47,6 +50,16 @@ module AV
       file_type.label
     end
 
+    def exists?
+      return @exists if instance_variable_defined?(:@exists)
+
+      @exists = hls_uri_exists?
+    end
+
+    def player_partial
+      exists? ? file_type.player_tag : MISSING_TRACK_PARTIAL
+    end
+
     private
 
     def build_hls_uri
@@ -77,6 +90,17 @@ module AV
         relative_path = path.sub(COLLECTION_RE, '')
         Track.url_safe(relative_path)
       end
+    end
+
+    def hls_uri_exists?
+      return false unless hls_uri
+      return false unless (response = make_head_request(hls_uri))
+
+      [200, 302].include?(response.code.to_i)
+    end
+
+    def make_head_request(uri)
+      Net::HTTP.start(uri.host, uri.port, use_ssl: (uri.scheme == 'https')) { |http| http.request(Net::HTTP::Head.new(uri)) }
     end
 
     class << self

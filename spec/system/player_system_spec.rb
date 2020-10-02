@@ -12,6 +12,8 @@ describe PlayerController, type: :system do
       before(:each) do
         search_url = 'http://oskicat.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
         stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b23305522.html'))
+        manifest_url = 'https://wowza.example.edu/Pacifica/mp3:PRA_NHPRC1_AZ1084_00_000_00.mp3/playlist.m3u8'
+        stub_request(:head, manifest_url).to_return(status: 200)
 
         visit '/Pacifica/b23305522'
       end
@@ -54,14 +56,15 @@ describe PlayerController, type: :system do
     describe 'multiple files' do
       it 'displays multiple players for multiple audio files' do
         collection = 'MRCAudio'
-        bib_number = 'b11082434'
+        record_id = 'b11082434'
 
-        search_url = "http://oskicat.berkeley.edu/search~S1?/.#{bib_number}/.#{bib_number}/1%2C1%2C1%2CB/marc~#{bib_number}"
-        stub_request(:get, search_url).to_return(status: 200, body: File.read("spec/data/#{bib_number}.html"))
+        search_url = "http://oskicat.berkeley.edu/search~S1?/.#{record_id}/.#{record_id}/1%2C1%2C1%2CB/marc~#{record_id}"
+        stub_request(:get, search_url).to_return(status: 200, body: File.read("spec/data/#{record_id}.html"))
+        stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
 
-        visit "/#{collection}/#{bib_number}"
+        visit "/#{collection}/#{record_id}"
 
-        record = AV::Record.from_metadata(collection: collection, record_id: bib_number)
+        record = AV::Record.from_metadata(collection: collection, record_id: record_id)
         wowza_base_uri = AV::Config.wowza_base_uri
 
         record.tracks.each_with_index do |track, index|
@@ -80,11 +83,17 @@ describe PlayerController, type: :system do
     end
 
     describe 'TIND records' do
-      before(:each) do
-        search_url = AV::Metadata::Source::TIND.marc_uri_for('(pacradio)01469')
-        stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/record-(pacradio)01469.xml'))
+      attr_reader :metadata
 
-        visit '/Pacifica/(pacradio)01469'
+      before(:each) do
+        collection = 'Pacifica'
+        record_id = '(pacradio)01469'
+
+        search_url = AV::Metadata::Source::TIND.marc_uri_for(record_id)
+        stub_request(:get, search_url).to_return(status: 200, body: File.read("spec/data/record-#{record_id}.xml"))
+        stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
+
+        visit "/#{collection}/#{record_id}"
       end
 
       it 'displays the metadata' do
@@ -127,33 +136,38 @@ describe PlayerController, type: :system do
         search_url = 'http://oskicat.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
         data_with_bad_path = File.read('spec/data/b23305522.html').gsub('PRA_NHPRC1_AZ1084_00_000_00.mp3', 'this is not a valid path.mp3')
         stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
+        stub_request(:head, /playlist.m3u8$/).to_return(status: 404)
+
         visit '/Pacifica/b23305522'
 
-        audio = find(:xpath, '//audio')
-        expect(audio).not_to be_nil
+        expected_title = 'Wanda Coleman'
+        expect(page).to have_content(expected_title)
+        expect(page).to have_content('File not found')
       end
 
       it 'still displays video records' do
-        stub_request(:get, /manifest.mpd$/).to_return(status: 404)
-
         search_url = 'http://oskicat.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
         data_with_bad_path = File.read('spec/data/b22139658.html').gsub('6927.mp4', 'this is not a valid path.mp4')
         stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
-        visit '/MRCVideo/b22139658'
+        stub_request(:head, /playlist.m3u8$/).to_return(status: 404)
 
-        video = find(:xpath, '//video')
-        expect(video).not_to be_nil
+        visit '/Video-Public-MRC/b22139658'
+
+        expected_title = 'Communists on campus'
+        expect(page).to have_content(expected_title)
+        expect(page).to have_content('File not found')
       end
 
       it "displays something useful when it can't determine file type" do
         search_url = 'http://oskicat.berkeley.edu/search~S1?/.b25742488/.b25742488/1%2C1%2C1%2CB/marc~b25742488'
         data_with_bad_path = File.read('spec/data/b25742488.html')
         stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
+        stub_request(:head, /playlist.m3u8$/).to_return(status: 404)
         visit '/Video-UCB-Only-MRC/b25742488'
 
         expected_title = 'Monumental crossroads'
         expect(page).to have_content(expected_title)
-        expect(page).to have_content('Unknown file type')
+        expect(page).to have_content('unsupported file type')
       end
     end
 
@@ -175,7 +189,7 @@ describe PlayerController, type: :system do
         search_url = 'http://oskicat.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
         data_with_bad_path = File.read('spec/data/b22139658.html').gsub(/^998.*/, '')
         stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
-        visit '/MRCVideo/b22139658'
+        visit '/Video-Public-MRC/b22139658'
 
         expected_title = 'Communists on campus'
         expect(page).to have_content(expected_title)
@@ -193,7 +207,8 @@ describe PlayerController, type: :system do
         search_url = 'http://oskicat.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
         stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b22139658.html'))
         stub_request(:get, /manifest.mpd$/).to_return(status: 404)
-        visit '/MRCVideo/b22139658'
+        stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
+        visit '/Video-Public-MRC/b22139658'
       end
 
       it 'displays the metadata' do
@@ -218,7 +233,7 @@ describe PlayerController, type: :system do
 
       it 'displays the player' do
         wowza_base_uri = AV::Config.wowza_base_uri
-        collection = 'MRCVideo'
+        collection = 'Video-Public-MRC'
         path = '6927.mp4'
         expected_url = "#{wowza_base_uri}#{collection}/mp4:#{path}/manifest.mpd"
 
@@ -236,11 +251,12 @@ describe PlayerController, type: :system do
       it 'adds a <track/> tag for the VTT file when captions present' do
         search_url = 'http://oskicat.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
         stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b22139658.html'))
-        manifest_url = 'https://wowza.example.edu/MRCVideo/mp4:6927.mp4/manifest.mpd'
-        stub_request(:get, manifest_url).to_return(body: File.read('spec/data/b22139658-manifest.mpd'))
+        stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
 
+        manifest_url = 'https://wowza.example.edu/Video-Public-MRC/mp4:6927.mp4/manifest.mpd'
+        stub_request(:get, manifest_url).to_return(body: File.read('spec/data/b22139658-manifest.mpd'))
         vtt_url = manifest_url.sub(%r{[^/]+$}, 'subtitles.m4s')
-        visit '/MRCVideo/b22139658'
+        visit '/Video-Public-MRC/b22139658'
 
         track = find(:xpath, "//track[@src=\"#{vtt_url}\"]")
         expect(track).not_to be_nil
@@ -267,6 +283,7 @@ describe PlayerController, type: :system do
 
       describe 'when allowed' do
         it 'displays the player for UCB IPs' do
+          stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
           allow(UcbIpService).to receive(:ucb_request?).and_return(true)
           visit '/City/b18538031'
 
@@ -300,6 +317,7 @@ describe PlayerController, type: :system do
         collection = 'Pacifica'
         path = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'
         expected_url = "#{wowza_base_uri}#{collection}/mp3:#{path}/playlist.m3u8"
+        stub_request(:head, expected_url).to_return(status: 200)
 
         visit "/preview?#{URI.encode_www_form(collection: collection, relative_path: path)}"
 
@@ -307,20 +325,22 @@ describe PlayerController, type: :system do
         expect(source).not_to be_nil
       end
     end
-  end
 
-  describe :video do
-    it 'displays the player' do
-      wowza_base_uri = AV::Config.wowza_base_uri
-      collection = 'MRCVideo'
-      path = '6927.mp4'
-      expected_url = "#{wowza_base_uri}#{collection}/mp4:#{path}/manifest.mpd"
-      stub_request(:get, expected_url).to_return(status: 404)
+    describe :video do
+      it 'displays the player' do
+        stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
 
-      visit "/preview?#{URI.encode_www_form(collection: collection, relative_path: path)}"
+        wowza_base_uri = AV::Config.wowza_base_uri
+        collection = 'Video-Public-MRC'
+        path = '6927.mp4'
+        expected_url = "#{wowza_base_uri}#{collection}/mp4:#{path}/manifest.mpd"
+        stub_request(:get, expected_url).to_return(body: File.read('spec/data/b22139658-manifest-no-captions.mpd'))
 
-      source = find(:xpath, "//source[@src=\"#{expected_url}\"]")
-      expect(source).not_to be_nil
+        visit "/preview?#{URI.encode_www_form(collection: collection, relative_path: path)}"
+
+        source = find(:xpath, "//source[@src=\"#{expected_url}\"]")
+        expect(source).not_to be_nil
+      end
     end
   end
 
