@@ -13,6 +13,9 @@ $font-size-xlarge: 2 * $em;
 
 $line-height: 4 * $em / 3;
 
+$image-error-width: $font-size-large;
+$image-error-height: 576 * $image-error-width / 512;
+
 // //////////////////////////////
 // Box layout
 
@@ -41,6 +44,7 @@ $color-pacific: #46535e;
 $color-web-grey: #888888;
 $color-bay-fog: #ddd5c7;
 $color-california-gold: #fdb515;
+$color-golden-gate: #ed4e33;
 
 // //////////////////////////////
 // As used
@@ -59,5 +63,7 @@ $font-family-sans: 'freight-sans-pro', Helvetica, sans-serif;
 $font-family-mono: Hasklig, Menlo, Consolas, Cousine, Courier, 'Courier New', monospace;
 
 $font-weight-light: 300;
-$font-weight-medium: 400;
+$font-weight-book: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
 $font-weight-bold: 700;

@@ -13,7 +13,7 @@ body {
   display: flex;
   flex-direction: column;
   font-family: $font-family-sans;
-  font-weight: $font-weight-medium;
+  font-weight: $font-weight-book;
   height: 100%;
   line-height: $line-height;
   min-height: min-content;
@@ -144,6 +144,35 @@ section {
       margin-right: auto;
     }
 
+    div.missing-track {
+      background-color: black;
+      color: white;
+      display: flex;
+
+      img {
+        &.error {
+          display: block;
+          // #fdb515 "california gold" -- approximated per https://codepen.io/sosuke/pen/Pjoqqp
+          filter: invert(78%) sepia(58%) saturate(2459%) hue-rotate(348deg) brightness(104%) contrast(98%);
+          height: $image-error-height;
+          padding: $margin;
+          vertical-align: center;
+          width: $image-error-width;
+        }
+      }
+
+      p {
+        padding-top: $margin;
+        padding-bottom: $margin;
+        font-size: $font-size-small;
+        font-weight: $font-weight-light;
+
+        strong {
+          font-weight: $font-weight-medium;
+        }
+      }
+    }
+
     p {
       margin-right: auto;
 
@@ -151,11 +180,8 @@ section {
         margin-bottom: $margin-small;
       }
 
-      &.missing {
-        background-color: black;
-        color: white;
-        padding: $margin-small $margin;
-        font-size: $font-size-xsmall;
+      &.note {
+        font-size: $font-size-small;
       }
     }
 
@@ -203,7 +229,7 @@ h2 {
 
 h3 {
   font-size: $font-size-large;
-  font-weight: $font-weight-medium;
+  font-weight: $font-weight-book;
 }
 
 pre {
