@@ -5,7 +5,7 @@
         De-rewrites EZProxy URLs to the Wowza sever. Doesn't play well with
         Webpacker since it needs to run before MediaElement.js.
 
-        TODO: solve that
+        TODO: solve that (possibly via https://rossta.net/blog/from-sprockets-to-webpack.html#exporting-from-webpack ?)
        %>
       const ezproxy_host_re = new RegExp(/^([^.]+)\.libproxy.*\.berkeley\.edu/);
 
