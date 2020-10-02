@@ -7,10 +7,6 @@ module AV
       AV::Config.wowza_base_uri = 'https://wowza.example.edu/'
     end
 
-    after(:each) do
-      AV::Config.instance_variable_set(:@wowza_base_uri, nil)
-    end
-
     describe :collection do
       it 'treats the first path element as the collection name' do
         track = Track.new(sort_order: 0, path: 'coll/foo.mp3')

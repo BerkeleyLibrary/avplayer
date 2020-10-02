@@ -2,6 +2,10 @@ require 'rails_helper'
 
 describe PlayerController, type: :system do
 
+  before(:each) do
+    AV::Config.wowza_base_uri = 'https://wowza.example.edu/'
+  end
+
   describe :show do
 
     describe 'audio' do
@@ -232,7 +236,7 @@ describe PlayerController, type: :system do
       it 'adds a <track/> tag for the VTT file when captions present' do
         search_url = 'http://oskicat.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
         stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b22139658.html'))
-        manifest_url = 'https://vm147.lib.berkeley.edu/MRCVideo/mp4:6927.mp4/manifest.mpd'
+        manifest_url = 'https://wowza.example.edu/MRCVideo/mp4:6927.mp4/manifest.mpd'
         stub_request(:get, manifest_url).to_return(body: File.read('spec/data/b22139658-manifest.mpd'))
 
         vtt_url = manifest_url.sub(%r{[^/]+$}, 'subtitles.m4s')
