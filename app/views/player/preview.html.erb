@@ -14,7 +14,7 @@
           preload: 'auto'
       }
     %>
-    <%= render(partial: track.file_type.player_tag, locals: locals) %>
+    <%= render(partial: track.player_partial, locals: locals) %>
     <ul class="track-info">
       <li><%= track.path %></li>
     </ul>

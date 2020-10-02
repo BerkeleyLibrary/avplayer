@@ -1,0 +1,10 @@
+<%# handles missing tracks %>
+
+<div class="missing-track">
+<%= image_tag('icons/exclamation-triangle.svg', class: 'error', alt: '!err') %>
+<p>
+  <strong>File not found, unsupported file type, or unsupported codec:</strong>
+  <br/>
+  <%= track.path %>
+</p>
+</div>

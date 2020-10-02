@@ -19,7 +19,7 @@
               preload: preload
           }
         %>
-        <%= render(partial: track.file_type.player_tag, locals: locals) %>
+        <%= render(partial: track.player_partial, locals: locals) %>
         <% if track.duration || !track.title.blank? %>
           <ul class="track-info">
             <% unless track.title.blank? %>
