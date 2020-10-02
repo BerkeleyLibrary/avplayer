@@ -1,0 +1,42 @@
+<% content_for(:head_additional) do %>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script>
+      <%#
+        De-rewrites EZProxy URLs to the Wowza sever. Doesn't play well with
+        Webpacker since it needs to run before MediaElement.js.
+
+        TODO: solve that
+       %>
+      const ezproxy_host_re = new RegExp(/^([^.]+)\.libproxy.*\.berkeley\.edu/);
+
+      function deproxify(url_str) {
+          if (!url_str) return url_str;
+
+          let url = new URL(url_str);
+          let hostname_orig = url.hostname;
+          if (!hostname_orig) return url_str;
+
+          let match_data = hostname_orig.match(ezproxy_host_re);
+          if (!match_data) return url_str;
+
+          url.hostname = match_data[1].replaceAll('-', '.');
+          return url.toString();
+      }
+
+      function rewrite_src(index, element) {
+          let source_or_track = $(element);
+          let src_url = source_or_track.attr('src')
+          let src_safe = deproxify(src_url)
+          if (src_safe !== src_url) {
+              console.log(`${index}: rewriting ${src_url} -> ${src_safe}`)
+              source_or_track.attr('src', src_safe)
+          }
+      }
+
+      function rewrite_src_tags() {
+          $("source,track").each(rewrite_src);
+      }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mediaelement@4.2.16/build/mediaelement-and-player.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.16/build/mediaelementplayer.css">
+<% end %>

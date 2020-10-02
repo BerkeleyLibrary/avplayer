@@ -37,4 +37,10 @@ RSpec.configure do |config|
     # testing, we can try to find a more permanent solutino.
     driven_by :rack_test, using: :rack_test
   end
+
+  # AVPlayer configuration, or rather deconfiguration
+  config.before(:each) do
+    attrs = %w[avplayer_base_uri millennium_base_uri tind_base_uri wowza_base_uri]
+    attrs.each { |attr| AV::Config.instance_variable_set("@#{attr}", nil) }
+  end
 end
