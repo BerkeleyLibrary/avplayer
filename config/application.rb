@@ -45,7 +45,7 @@ module AvPlayer
     config.millennium_base_uri = ENV.fetch('LIT_MILLENNIUM_BASE_URL', 'http://oskicat.berkeley.edu/')
 
     # Wowza server URL
-    config.wowza_base_uri = ENV.fetch('LIT_WOWZA_BASE_URL', 'https://vm147.lib.berkeley.edu/')
+    config.wowza_base_uri = ENV.fetch('LIT_WOWZA_BASE_URL', 'https://wowza.lib.berkeley.edu/')
 
     # AV Player URL
     config.avplayer_base_uri = ENV.fetch('LIT_AVPLAYER_BASE_URL', 'https://avplayer.lib.berkeley.edu/') # production
