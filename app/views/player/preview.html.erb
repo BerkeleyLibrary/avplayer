@@ -1,4 +1,4 @@
-<% content_for(:title, "#{track.type_label}: #{track.path}") %>
+<% content_for(:title, tracks.map { |t| "#{t.path} (#{t.type_label})" }.join('; ')) %>
 
 <%= render(partial: 'player_head_additional') %>
 
@@ -6,17 +6,20 @@
 
   <h2>Preview</h2>
 
-  <section class="player">
-    <%
-      locals = {
-          track: track,
-          index: 0,
-          preload: 'auto'
-      }
-    %>
-    <%= render(partial: track.player_partial, locals: locals) %>
-    <ul class="track-info">
-      <li><%= track.path %></li>
-    </ul>
-  </section>
+  <% tracks.each_with_index do |track, index| %>
+    <section class="player">
+      <%
+        locals = {
+            track: track,
+            index: index,
+            preload: 'none'
+        }
+      %>
+      <%= render(partial: track.player_partial, locals: locals) %>
+      <ul class="track-info">
+        <li><%= track.path %></li>
+      </ul>
+    </section>
+  <% end %>
 </section>
+
