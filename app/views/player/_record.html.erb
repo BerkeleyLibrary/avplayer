@@ -9,7 +9,7 @@
   <% if record.tracks.empty? %>
     <p>No track information found.</p>
   <% else %>
-    <% record.tracks.each_with_index do |track, index| %>
+    <% record.tracks.reverse.each_with_index do |track, index| %>
       <section class="player">
         <%
           preload = index == 0 ? 'auto' : 'none'
