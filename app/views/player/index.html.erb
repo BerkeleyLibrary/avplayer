@@ -339,16 +339,67 @@
       <th>Without Captions</th>
       <td>
         <% without_captions.each do |f| %>
-        <p><%= link_to(
-                   f,
-                   controller: :player,
-                   action: :preview,
-                   collection: 'Video-Public-Bancroft',
-                   relative_path: "clir_rec_risk/#{f}"
-               ) %></p>
+          <p><%= link_to(
+                     f,
+                     controller: :player,
+                     action: :preview,
+                     collection: 'Video-Public-Bancroft',
+                     relative_path: "clir_rec_risk/#{f}"
+                 ) %></p>
         <% end %>
       </td>
     </tr>
+    </tbody>
+  </table>
+
+  <table>
+    <thead>
+    <tr>
+      <th colspan="2"><h3>Smoke test: Preview one file per collection</h3></th>
+    </tr>
+    </thead>
+    <tbody>
+    <%
+      {
+          'ChristmasCarol' => 'CC-side2-1644-eq-con.mp3',
+          'City' => 'CA00761.mp3',
+          'CityArts' => 'CA00761.mp3',
+          'Loyalty' => 'opposition_grant_14.mp3',
+          'MRCAudio' => 'E16.2.mp3',
+          'Pacifica' => 'PRA_NHPRC1_IZ0058_0B_000_00.mp3',
+          'ROHOAudio' => 'simpson_barclay_07_02-01-13_stereo.mp3',
+          'ROHOVideo' => 'harris1.mp4',
+          'UCBAudio' => 'Earthquake_Oral_History.mp3',
+          'Video-Public-Bancroft' => 'clir_rec_risk/cubanc_80_1_01287708a_access.mp4',
+          'Video-Public-CED' => 'lectures/1.23.12.PeterWalker.02.mp4',
+          'Video-Public-CitizensReachOut' => 'CRO00001_Oakland_Family_1.mp4',
+          'Video-Public-MRC' => '376.mp4',
+          'Video-Public-Magnes' => '76.311.1_s.mp4',
+          'Video-Public-Physics' => 'lectures/phys001.mp4',
+          'Video-Public-SFQuake1906' => 'Refugees_Jefferson_Square.mp4',
+          'Video-UCBOnly-MRC' => 'd586a.mp4',
+          'irene' => '14-1679_excerpt_filtered.mp3',
+          'mrc' => 'DVDx7957_DesigningHealthyCommnuties_EPISODE2.mp4',
+          'mrcr' => 'x2144.mp4',
+          'music' => 'C037209078.mp3',
+          'poc' => 'DVDz1494_RofA1-THE_RAISING_OF_AMERICA_EP1-SPANISH_720.mp4',
+      }.each do |coll, path|
+    %>
+      <tr>
+        <th><%= coll %></th>
+        <td>
+          <p><%= link_to(
+                     path,
+                     controller: :player,
+                     action: :preview,
+                     collection: coll,
+                     relative_path: path
+                 ) %></p>
+        </td>
+      </tr>
+    <%
+      end
+    %>
     </tbody>
   </table>
 </section>

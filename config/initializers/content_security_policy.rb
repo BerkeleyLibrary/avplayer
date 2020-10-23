@@ -31,9 +31,16 @@
 
 Rails.application.config.content_security_policy do |policy|
   config = Rails.application.config
+
   wowza_base = URI.parse(config.wowza_base_uri)
-  wowza_src_http = URI::HTTP.build(host: wowza_base.host, port: wowza_base.port)
-  wowza_src_https = URI::HTTPS.build(host: wowza_base.host)
+  wowza_alt = case wowza_base.scheme
+              when 'http'
+                URI::HTTPS.build(host: wowza_base.host)
+              when 'https'
+                URI::HTTP.build(host: wowza_base.host)
+              else
+                raise "Unsupported scheme for Wowza base URI #{wowza_base}"
+              end
 
   wowza_host_ezproxy = "#{wowza_base.host.gsub('.', '-')}.libproxy.berkeley.edu"
   wowza_src_ezproxy = URI::HTTPS.build(host: wowza_host_ezproxy)
@@ -44,8 +51,8 @@ Rails.application.config.content_security_policy do |policy|
   policy.default_src(
     :self,
     :unsafe_inline,
-    wowza_src_http.to_s,
-    wowza_src_https.to_s,
+    wowza_base.to_s,
+    wowza_alt.to_s,
     wowza_src_ezproxy.to_s,
     wowza_src_ezproxy_stg.to_s,
     # TODO: fewer CDNs?
