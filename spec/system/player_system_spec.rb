@@ -67,7 +67,7 @@ describe PlayerController, type: :system do
         record = AV::Record.from_metadata(collection: collection, record_id: record_id)
         wowza_base_uri = AV::Config.wowza_base_uri
 
-        record.tracks.each_with_index do |track, index|
+        record.tracks.each_with_index do |track, _index|
           expect(page).to have_content(track.duration.to_s)
           expect(page).to have_content(track.title)
 
@@ -76,7 +76,8 @@ describe PlayerController, type: :system do
           audio = find(:xpath, "//audio[source/@src=\"#{expected_url}\"]")
           expect(audio).not_to be_nil
 
-          expected_preload = index == 0 ? 'auto' : 'none'
+          # TODO: switch first track back to auto after fix for https://github.com/mediaelement/mediaelement/issues/2828
+          expected_preload = 'none' # index == 0 ? 'auto' : 'none'
           expect(audio['preload']).to eq(expected_preload)
         end
       end
@@ -239,7 +240,6 @@ describe PlayerController, type: :system do
 
         video = find(:xpath, "//video[source/@src=\"#{expected_url}\"]")
         expect(video).not_to be_nil
-        expect(video['preload']).to eq('auto') # TODO: test multple videos
       end
 
       it 'displays the catalog link' do

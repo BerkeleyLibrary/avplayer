@@ -12,7 +12,7 @@
     <% record.tracks.each_with_index do |track, index| %>
       <section class="player">
         <%
-          # TODO: switch back to auto after fix for https://github.com/mediaelement/mediaelement/issues/2828
+          # TODO: switch first track back to auto after fix for https://github.com/mediaelement/mediaelement/issues/2828
           # preload = index == 0 ? 'auto' : 'none'
           preload = 'none'
           locals = {
