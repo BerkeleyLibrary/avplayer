@@ -67,7 +67,7 @@ describe PlayerController, type: :system do
         record = AV::Record.from_metadata(collection: collection, record_id: record_id)
         wowza_base_uri = AV::Config.wowza_base_uri
 
-        record.tracks.each_with_index do |track, _index|
+        record.tracks.each_with_index do |track, index|
           expect(page).to have_content(track.duration.to_s)
           expect(page).to have_content(track.title)
 
@@ -75,6 +75,7 @@ describe PlayerController, type: :system do
           expected_url = "#{wowza_base_uri}#{collection}/mp3:#{path}/playlist.m3u8"
           audio = find(:xpath, "//audio[source/@src=\"#{expected_url}\"]")
           expect(audio).not_to be_nil
+          expect(audio['id']).to eq("audio-#{index}")
 
           # TODO: switch first track back to auto after fix for https://github.com/mediaelement/mediaelement/issues/2828
           expected_preload = 'none' # index == 0 ? 'auto' : 'none'
@@ -199,7 +200,7 @@ describe PlayerController, type: :system do
     end
 
     describe 'video' do
-      # http://www.lib.berkeley.edu/video/PksgQpmQEeOaQoD510pG4A
+      # TODO: test multiple files
 
       attr_reader :metadata_key
       attr_reader :metadata_record
@@ -324,6 +325,23 @@ describe PlayerController, type: :system do
         source = find(:xpath, "//source[@src=\"#{expected_url}\"]")
         expect(source).not_to be_nil
       end
+
+      it 'supports multiple files in the same collection' do
+        wowza_base_uri = AV::Config.wowza_base_uri
+        collection = 'Pacifica'
+        paths = ['PRA_NHPRC1_AZ1084_00_000_00.mp3', 'PRA_NHPRC1_AZ1010_00_000_00.mp3']
+        expected_urls = paths.map do |path|
+          "#{wowza_base_uri}#{collection}/mp3:#{path}/playlist.m3u8".tap do |expected_url|
+            stub_request(:head, expected_url).to_return(status: 200)
+          end
+        end
+
+        visit "/preview?#{URI.encode_www_form(collection: collection, relative_path: paths.join(';'))}"
+        expected_urls.each do |expected_url|
+          source = find(:xpath, "//source[@src=\"#{expected_url}\"]")
+          expect(source).not_to be_nil
+        end
+      end
     end
 
     describe :video do
@@ -341,6 +359,8 @@ describe PlayerController, type: :system do
         source = find(:xpath, "//source[@src=\"#{expected_url}\"]")
         expect(source).not_to be_nil
       end
+
+      # TODO: add spec for multiple files
     end
   end
 

@@ -37,7 +37,7 @@ class PlayerController < ApplicationController
   end
 
   def preview
-    render locals: { track: preview_track }
+    render locals: { tracks: preview_tracks }
   end
 
   def bad_request(exception)
@@ -48,12 +48,14 @@ class PlayerController < ApplicationController
 
   private
 
-  def preview_track
+  def preview_tracks
     collection = preview_params[:collection]
     relative_path = preview_params[:relative_path]
     raise ActionController::ParameterMissing unless relative_path
 
-    AV::Track.new(sort_order: 0, path: "#{collection}/#{relative_path}")
+    relative_path.split(';').each_with_index.map do |rp, index|
+      AV::Track.new(sort_order: index, path: "#{collection}/#{rp}")
+    end
   end
 
   def load_record
