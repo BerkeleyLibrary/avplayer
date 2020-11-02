@@ -322,7 +322,7 @@ describe PlayerController, type: :system do
 
         visit "/preview?#{URI.encode_www_form(collection: collection, relative_path: path)}"
 
-        source = find(:xpath, "//source[@src=\"#{expected_url}\"]")
+        source = find(:xpath, "//audio/source[@src=\"#{expected_url}\"]")
         expect(source).not_to be_nil
       end
 
@@ -338,7 +338,25 @@ describe PlayerController, type: :system do
 
         visit "/preview?#{URI.encode_www_form(collection: collection, relative_path: paths.join(';'))}"
         expected_urls.each do |expected_url|
-          source = find(:xpath, "//source[@src=\"#{expected_url}\"]")
+          source = find(:xpath, "//audio/source[@src=\"#{expected_url}\"]")
+          expect(source).not_to be_nil
+        end
+      end
+
+      it 'works with all MP4 file types' do
+        wowza_base_uri = AV::Config.wowza_base_uri
+        collection = 'Video-Public-MRC'
+        paths = AV::Types::FileType::MP4_EXTENSIONS.each_with_index.map { |ext, i| "file-#{i}#{ext}" }
+        paths.each { |path| stub_request(:head, "#{wowza_base_uri}#{collection}/mp4:#{path}/playlist.m3u8").to_return(status: 200) }
+        source_urls = paths.map do |path|
+          "#{wowza_base_uri}#{collection}/mp4:#{path}/manifest.mpd".tap do |manifest_url|
+            stub_request(:get, manifest_url).to_return(status: 200)
+          end
+        end
+
+        visit "/preview?#{URI.encode_www_form(collection: collection, relative_path: paths.join(';'))}"
+        source_urls.each do |expected_url|
+          source = find(:xpath, "//video/source[@src=\"#{expected_url}\"]")
           expect(source).not_to be_nil
         end
       end
