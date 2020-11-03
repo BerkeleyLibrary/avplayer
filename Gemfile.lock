@@ -1,11 +1,11 @@
 GIT
   remote: https://git.lib.berkeley.edu/lap/av_core.git
-  revision: fef6a44326b870b0ddf170ae3bf96f1e0fc529d8
+  revision: 5551f3a3e0e0152def8acc70aff1e5bb4c975549
   specs:
     av_core (0.0.1)
       marc (~> 1.0)
       rest-client (~> 2.1)
-      typesafe_enum (~> 0.2)
+      typesafe_enum (~> 0.3)
 
 GEM
   remote: https://rubygems.org/
@@ -280,7 +280,7 @@ GEM
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    typesafe_enum (0.2.2)
+    typesafe_enum (0.3.0)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
     unf (0.1.4)
