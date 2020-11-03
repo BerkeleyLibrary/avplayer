@@ -80,6 +80,9 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
-  # Prevent users from accessing the app via plain HTTP
-  config.force_ssl = true
+  # Force TLS redirects, secure cookies, and HSTS; see
+  # https://api.rubyonrails.org/v6.0.3.4/classes/ActionDispatch/SSL.html
+  #
+  # Set LIT_NO_FORCE_SSL when running/testing with RAILS_ENV=production locally
+  config.force_ssl = ENV['LIT_NO_FORCE_SSL'] ? false : true
 end
