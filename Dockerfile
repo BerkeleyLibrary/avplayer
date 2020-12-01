@@ -42,7 +42,6 @@ RUN apk --no-cache --update upgrade && \
         libc6-compat \
         nodejs \
         openssl \
-        sqlite-libs \
         tzdata \
         xz-libs \
         yarn \
@@ -62,8 +61,7 @@ RUN apk --update --no-cache add \
         build-base \
         coreutils \
         git \
-        sqlite-dev && \
-    rm -rf /var/cache/apk/*
+    && rm -rf /var/cache/apk/*
 
 USER $APP_USER
 
