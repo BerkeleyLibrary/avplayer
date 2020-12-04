@@ -1,0 +1,34 @@
+require 'webpacker/instance'
+
+require 'lib_it/logging/events'
+require 'lib_it/logging/formatters'
+require 'lib_it/logging/loggers'
+
+module LibIT
+  module Logging
+    class << self
+
+      # Configures custom logging for a Rails application.
+      def configure!
+        config = Rails.application.config
+        configure_lograge!(config.lograge)
+
+        logger = Loggers.new_default_logger
+        logger.info("Custom logger initialized for environment #{Rails.env.inspect}")
+
+        config.logger = logger
+        Webpacker::Instance.logger = logger
+      end
+
+      private
+
+      def configure_lograge!(lograge)
+        return unless lograge
+
+        lograge.enabled = true
+        lograge.custom_options = Events.extract_data_for_lograge
+        lograge.formatter = Formatters.lograge_formatter
+      end
+    end
+  end
+end

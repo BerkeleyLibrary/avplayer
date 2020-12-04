@@ -31,8 +31,8 @@ module AvPlayer
     # ############################################################
     # Customize logging
 
-    require 'av_player/logging'
-    AvPlayer::Logging.configure(config)
+    require 'lib_it/logging'
+    LibIT::Logging.configure!
 
     # ############################################################
     # External services
