@@ -17,6 +17,11 @@ Bundler.require(*Rails.groups)
 
 module AvPlayer
   class Application < Rails::Application
+    # Customize logging
+
+    require 'ucblit/logging'
+    UCBLIT::Logging.configure!
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 
@@ -27,12 +32,6 @@ module AvPlayer
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-
-    # ############################################################
-    # Customize logging
-
-    require 'ucblit/logging'
-    UCBLIT::Logging.configure!
 
     # ############################################################
     # External services
