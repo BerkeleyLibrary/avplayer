@@ -3,14 +3,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.1'
 
-gem 'amazing_print', '~> 1.1'
 gem 'av_core', git: 'https://git.lib.berkeley.edu/lap/av_core.git'
 gem 'browser', '~> 4.2'
 gem 'jbuilder', '~> 2.7'
-gem 'lograge', '~> 0.11'
 gem 'marc', '~> 1.0'
 gem 'non-stupid-digest-assets', '~> 1.0' # Allow static pages (e.g. 404.html) to link to compiled assets
-gem 'ougai', '~> 1.8'
 gem 'puma', '~> 4.3', '>= 4.3.5'
 gem 'rails', '~> 6.0', '>= 6.0.3.4'
 gem 'rest-client', '~> 2.1'
