@@ -7,6 +7,16 @@ GIT
       rest-client (~> 2.1)
       typesafe_enum (~> 0.3)
 
+GIT
+  remote: https://git.lib.berkeley.edu/lap/ucblit-logging.git
+  revision: 345e764a5bcd3e9e58e76bbf1c8135e102236ded
+  specs:
+    ucblit-logging (0.0.1)
+      amazing_print (~> 1.1)
+      lograge (~> 0.11)
+      ougai (~> 1.8)
+      rails (~> 6.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -341,6 +351,7 @@ DEPENDENCIES
   simplecov (~> 0.18)
   simplecov-rcov
   typesafe_enum (~> 0.2)
+  ucblit-logging!
   web-console (>= 3.3.0)
   webmock
   webpacker (~> 5.2)

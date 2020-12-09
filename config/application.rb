@@ -31,8 +31,8 @@ module AvPlayer
     # ############################################################
     # Customize logging
 
-    require 'lib_it/logging'
-    LibIT::Logging.configure!
+    require 'ucblit/logging'
+    UCBLIT::Logging.configure!
 
     # ############################################################
     # External services
