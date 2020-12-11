@@ -17,10 +17,6 @@ Bundler.require(*Rails.groups)
 
 module AvPlayer
   class Application < Rails::Application
-    # Customize logging
-
-    require 'ucblit/logging'
-    UCBLIT::Logging.configure!
 
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
@@ -60,15 +56,17 @@ module AvPlayer
     # Allow direct track previews (defaults to false)
     config.allow_preview = ENV.fetch('LIT_ALLOW_PREVIEW', false)
 
-    %i[
-      tind_base_uri
-      millennium_base_uri
-      wowza_base_uri
-      avplayer_base_uri
-      campus_networks_uri
-      show_homepage
-    ].each do |setting|
-      config.logger.info("#{setting} = #{config.send(setting)}")
+    config.after_initialize do
+      %i[
+        tind_base_uri
+        millennium_base_uri
+        wowza_base_uri
+        avplayer_base_uri
+        campus_networks_uri
+        show_homepage
+      ].each do |setting|
+        Rails.logger.info("#{setting} = #{config.send(setting)}")
+      end
     end
 
   end

@@ -9,13 +9,13 @@ GIT
 
 GIT
   remote: https://git.lib.berkeley.edu/lap/ucblit-logging.git
-  revision: 907941eb3dc44dbd073a39c4f80107c406528954
+  revision: d3b4e5de5da80fe95577e0e4dc5cff91c4d078ba
   specs:
     ucblit-logging (0.0.1)
+      activesupport (~> 6.0)
       amazing_print (~> 1.1)
       lograge (~> 0.11)
       ougai (~> 1.8)
-      rails (~> 6.0)
 
 GEM
   remote: https://rubygems.org/
