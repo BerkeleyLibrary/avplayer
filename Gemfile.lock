@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: https://git.lib.berkeley.edu/lap/ucblit-logging.git
-  revision: d3b4e5de5da80fe95577e0e4dc5cff91c4d078ba
+  revision: 82a760743b02c6f67163e2ffc089e8f82044b452
   specs:
     ucblit-logging (0.0.1)
       activesupport (~> 6.0)
