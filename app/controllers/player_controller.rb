@@ -66,35 +66,20 @@ class PlayerController < ApplicationController
     raise AvPlayer::RecordNotAvailable, "Record #{record_id.inspect} is UCB access only"
   end
 
-  # TODO: collapse to one params method
   def preview_params
-    @preview_params ||= begin
-      required = %i[collection relative_path]
-
-      # :format is a default parameter added from routes.rb
-      permitted_params = params.permit(required + %i[format])
-
-      # You'd think require() would behave like permit(), but you'd be wrong
-      values = required.map do |k|
-        [k, permitted_params.require(k)]
-      end.to_h
-      ActionController::Parameters.new(values)
-    end
+    @preview_params ||= valid_params(:collection, :relative_path)
   end
 
-  # TODO: collapse to one params method
   def player_params
-    @player_params ||= begin
-      required = %i[collection record_id]
+    @player_params ||= valid_params(:collection, :record_id)
+  end
 
+  def valid_params(*required_params)
+    params.tap do |pp|
       # :format is a default parameter added from routes.rb
-      permitted_params = params.permit(required + %i[format])
-
-      # You'd think require() would behave like permit(), but you'd be wrong
-      values = required.map do |k|
-        [k, permitted_params.require(k)]
-      end.to_h
-      ActionController::Parameters.new(values)
+      # TODO: do we still need this?
+      pp.permit(required_params + %i[format])
+      required_params.each { |p| pp.require(p) }
     end
   end
 
