@@ -12,16 +12,6 @@ FROM ruby:3.0.0-alpine AS base
 EXPOSE 3000
 
 # =============================================================================
-# Labels
-
-LABEL edu.berkeley.lib.build-number="${BUILD_NUMBER}"
-LABEL edu.berkeley.lib.build-url="${BUILD_URL}"
-LABEL edu.berkeley.lib.git-commit="${GIT_COMMIT}"
-LABEL edu.berkeley.lib.git-repo="${GIT_URL}"
-LABEL edu.berkeley.lib.project-tier="4-hour response during business hours"
-LABEL edu.berkeley.lib.project-description="Audio/video player"
-
-# =============================================================================
 # Global configuration
 
 ENV APP_USER=avplayer
