@@ -31,19 +31,7 @@ module AV
     end
 
     def collection
-      @collection ||= begin
-        match_data = COLLECTION_RE.match(path)
-        match_data && match_data[1]
-      end
-    end
-
-    def log_invalid_uri(relative_path, e)
-      message = "Error parsing relative path #{relative_path.inspect}"
-      message << "#{e.class} (#{e.message}):\n"
-      message << '  ' << e.backtrace.join("\n  ")
-      log.warn(message)
-
-      nil
+      @collection ||= (match_data = COLLECTION_RE.match(path)) && match_data[1]
     end
 
     def type_label
@@ -53,11 +41,15 @@ module AV
     def exists?
       return @exists if instance_variable_defined?(:@exists)
 
-      @exists = hls_uri_exists?
+      @exists = hls_uri_exists? || false
     end
 
     def player_partial
       exists? ? file_type.player_tag : MISSING_TRACK_PARTIAL
+    end
+
+    def relative_path
+      @relative_path ||= (rp_raw = path.sub(COLLECTION_RE, '')) && Track.url_safe(rp_raw)
     end
 
     private
@@ -85,22 +77,29 @@ module AV
       dash_uri.merge(dash_vtt_path_relative)
     end
 
-    def relative_path
-      @relative_path ||= begin
-        relative_path = path.sub(COLLECTION_RE, '')
-        Track.url_safe(relative_path)
-      end
-    end
-
     def hls_uri_exists?
-      return false unless hls_uri
-      return false unless (response = make_head_request(hls_uri))
+      return nil_with_warning("No HLS URI for track: #{self}") unless hls_uri
+      return nil_with_warning("HEAD request for #{hls_uri} did not return a response") unless (response = make_head_request(hls_uri))
+      return true if [200, 302].include?(response.code.to_i)
 
-      [200, 302].include?(response.code.to_i)
+      nil_with_warning("HEAD request for #{hls_uri} returned #{response.code}")
     end
 
     def make_head_request(uri)
       Net::HTTP.start(uri.host, uri.port, use_ssl: (uri.scheme == 'https')) { |http| http.request(Net::HTTP::Head.new(uri)) }
+    end
+
+    def log_invalid_uri(relative_path, e)
+      msg = ["Error parsing relative path #{relative_path.inspect} (#{e.class} (#{e.message})"]
+      msg.concat(e.backtrace) if e.backtrace
+
+      nil_with_warning(msg.join("\n  "))
+    end
+
+    def nil_with_warning(msg)
+      nil
+    ensure
+      log.warn(msg)
     end
 
     class << self
