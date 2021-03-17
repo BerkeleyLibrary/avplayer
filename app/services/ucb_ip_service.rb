@@ -7,22 +7,22 @@ class UcbIpService
   IP_RANGE_RE = /\b((?:\d{1,3}\.){3}\d{1,3})-((?:\d{1,3}\.){3}\d{1,3})\b/.freeze
 
   # Internal ranges don't show up in the campus networks table
-  AIRBEARS_RANGE = IPAddr.new('10.142.0.0/16').to_range
-  SPLIT_TUNNEL_RANGE = IPAddr.new('10.136.0.0/16').to_range
+  AIRBEARS_RANGE = IPAddr.new('10.142.0.0/16')
+  SPLIT_TUNNEL_RANGE = IPAddr.new('10.136.0.0/16')
   ALLOWED_INTERNAL_RANGES = [SPLIT_TUNNEL_RANGE, AIRBEARS_RANGE].freeze
 
   # These ranges are our internal infrastructure and if they show up in
   # remote_ip or X-Forwarded-For we shouldn't trust them
-  LIBRARY_VM_RANGE = IPAddr.new('128.32.10.0/24').to_range
-  INGRESS_RANGE = IPAddr.new('10.255.0.0/16').to_range
+  LIBRARY_VM_RANGE = IPAddr.new('128.32.10.0/24')
+  INGRESS_RANGE = IPAddr.new('10.255.0.0/16')
   INVALID_INTERNAL_RANGES = [LIBRARY_VM_RANGE, INGRESS_RANGE].freeze
 
   # EZProxy is a special case of the Library VM range
-  EZPROXY_RANGE = (IPAddr.new('128.32.10.230')..IPAddr.new('128.32.10.233')).freeze
+  EZPROXY_ADDRS = (230..233).map { |q| IPAddr.new("128.32.10.#{q}") }.freeze
+
+  LOCALHOST = IPAddr.new('127.0.0.1')
 
   class << self
-    LOCALHOST = '127.0.0.1'.freeze
-
     # Determine whether the specified request is from a UCB IP.
     # @return true if to the best of our knowledge the specified request is from
     # a UCB IP address, or from localhost; false otherwise
@@ -48,16 +48,22 @@ class UcbIpService
     private
 
     def ucb_address?(addr)
-      return true if addr == LOCALHOST
-      return true if EZPROXY_RANGE.include?(addr)
-      return false if service.invalid_internal?(addr)
-
-      service.campus_ip?(addr)
+      service.ucb_address?(addr)
     end
 
     def service
       @service ||= UcbIpService.new
     end
+  end
+
+  def ucb_address?(addr)
+    ipaddr = ipaddr_or_nil(addr)
+    return false unless ipaddr
+    return true if ipaddr == LOCALHOST
+    return true if EZPROXY_ADDRS.include?(ipaddr)
+    return false if invalid_internal?(ipaddr)
+
+    campus_ip?(ipaddr)
   end
 
   def campus_ip?(addr)
@@ -89,13 +95,17 @@ class UcbIpService
   end
 
   def campus_network_ranges
-    @campus_network_ranges ||= [].tap do |ranges|
-      campus_networks_data.scan(IP_RANGE_RE).each do |first, last|
-        first_addr, last_addr = [first, last].map { |s| ipaddr_or_nil(s) }
-        next unless first_addr && last_addr
+    @campus_network_ranges ||= parse_campus_networks
+  end
 
-        ranges << (first_addr..last_addr)
-      end
+  def parse_campus_networks
+    campus_networks_data.scan(IP_RANGE_RE).each_with_object([]) do |(first, last), ranges|
+      first_addr, last_addr = [first, last].map { |s| ipaddr_or_nil(s) }
+      next unless first_addr && last_addr
+
+      # Range.include? is just going to iterate through every address anyway,
+      # so let's just do it once
+      ranges << (first_addr..last_addr).to_a.freeze
     end
   rescue RestClient::Exception => e
     log.warn("Error loading IP ranges from #{campus_networks_uri}: #{e.message}")
