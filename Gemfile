@@ -33,6 +33,8 @@ group :development do
   gem 'irb', require: false # workaround for https://github.com/bundler/bundler/issues/6929
   gem 'listen', '>= 3.0', '< 3.2'
   gem 'rubocop', '1.11'
+  gem 'rubocop-rails', '~> 2.9'
+  gem 'rubocop-rspec', '~> 2.2'
   gem 'ruby-prof', '~> 1.4', require: false
   gem 'web-console', '>= 3.3.0'
 end

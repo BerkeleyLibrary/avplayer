@@ -4,7 +4,7 @@ require 'restclient'
 class UcbIpService
 
   # We basically trust the Framework campus networks page not to contain invalid numeric garbage
-  IP_RANGE_RE = /\b((?:\d{1,3}\.){3}\d{1,3})-((?:\d{1,3}\.){3}\d{1,3})\b/.freeze
+  IP_RANGE_RE = /\b((?:\d{1,3}\.){3}\d{1,3})-((?:\d{1,3}\.){3}\d{1,3})\b/
 
   # Internal ranges don't show up in the campus networks table
   AIRBEARS_RANGE = IPAddr.new('10.142.0.0/16')

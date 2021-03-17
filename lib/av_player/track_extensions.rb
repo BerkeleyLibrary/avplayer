@@ -4,7 +4,7 @@ require 'net/http'
 
 module AV
   class Track
-    COLLECTION_RE = %r{(^[^/]+)/}.freeze
+    COLLECTION_RE = %r{(^[^/]+)/}
 
     SOURCE_TYPE_HLS = 'application/x-mpegURL'.freeze
     SOURCE_TYPE_MPEG_DASH = 'application/dash+xml'.freeze
