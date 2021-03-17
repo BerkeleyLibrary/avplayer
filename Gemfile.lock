@@ -170,6 +170,8 @@ GEM
     nio4r (2.5.7)
     nokogiri (1.11.2-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.11.2-x86_64-linux)
+      racc (~> 1.4)
     non-stupid-digest-assets (1.0.9)
       sprockets (>= 2.0)
     oj (3.11.3)
@@ -333,6 +335,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-19
+  x86_64-linux-musl
 
 DEPENDENCIES
   av_core!

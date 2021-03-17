@@ -2,7 +2,7 @@
 # Target: base
 #
 
-FROM ruby:2.7.1-alpine AS base
+FROM ruby:3.0.0-alpine AS base
 
 # This is just metadata and doesn't actually "expose" this port. Rather, it
 # tells other tools (e.g. Traefik) what port the service in this image is
@@ -68,16 +68,12 @@ USER $APP_USER
 # Workaround for certificate issue pulling av_core gem from git.lib.berkeley.edu
 ENV GIT_SSL_NO_VERIFY=1
 
-# The base image ships bundler 1.17.2, but on macOS, Ruby 2.6.4 comes with
-# bundler 1.17.3 as a default gem, and there's no good way to downgrade.
-# So let's upgrade!
-RUN gem install bundler -v 2.1.4
-
 # Install gems. We do this first in order to maximize cache reuse, and we
 # do it only in the development image in order to minimize the size of the
 # final production image (which just copies the build products from dev)
 COPY --chown=$APP_USER Gemfile* ./
-RUN bundle install --jobs=$(nproc) --path=/usr/local/bundle
+RUN bundle config set --local path /usr/local/bundle
+RUN bundle install --jobs=$(nproc)
 
 # Copy the rest of the codebase.
 COPY --chown=$APP_USER . .
