@@ -77,6 +77,9 @@ ENV LIT_SHOW_HOMEPAGE=1
 ENV PATH "/opt/app/bin:$PATH"
 ENV RAILS_LOG_TO_STDOUT=yes
 
+# ==============================
+# Default command
+
 CMD ["rails", "server"]
 
 # =============================================================================
@@ -107,4 +110,26 @@ ENV RAILS_LOG_TO_STDOUT=yes
 # Pre-compile assets so we don't have to do it in production.
 RUN rails assets:precompile
 
+# ==============================
+# Default command
+
 CMD ["rails", "server"]
+
+# ==============================
+# Build arguments
+
+# passed in by Jenkins
+ARG BUILD_TIMESTAMP
+ARG BUILD_URL
+ARG DOCKER_TAG
+ARG GIT_BRANCH
+ARG GIT_COMMIT
+ARG GIT_URL
+
+# build arguments aren't persisted in the image, but ENV values are
+ENV BUILD_TIMESTAMP="${BUILD_TIMESTAMP}"
+ENV BUILD_URL="${BUILD_URL}"
+ENV DOCKER_TAG="${DOCKER_TAG}"
+ENV GIT_BRANCH="${GIT_BRANCH}"
+ENV GIT_COMMIT="${GIT_COMMIT}"
+ENV GIT_URL="${GIT_URL}"

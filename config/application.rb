@@ -57,16 +57,18 @@ module AvPlayer
     config.allow_preview = ENV.fetch('LIT_ALLOW_PREVIEW', false)
 
     config.after_initialize do
-      %i[
+      AvPlayer::BuildInfo.log_to(Rails.logger)
+
+      avplayer_config = %i[
         tind_base_uri
         millennium_base_uri
         wowza_base_uri
         avplayer_base_uri
         campus_networks_uri
         show_homepage
-      ].each do |setting|
-        Rails.logger.info("#{setting} = #{config.send(setting)}")
-      end
+      ].map { |k| [k, config.send(k)] }.to_h
+
+      Rails.logger.info('Configuration', data: avplayer_config)
     end
 
   end
