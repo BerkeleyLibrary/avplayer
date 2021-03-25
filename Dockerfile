@@ -32,6 +32,7 @@ RUN apk --no-cache --update upgrade && \
         libc6-compat \
         nodejs \
         openssl \
+        shared-mime-info \
         tzdata \
         xz-libs \
         yarn \
