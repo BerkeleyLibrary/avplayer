@@ -2,7 +2,7 @@
 
 dockerComposePipeline(
   commands: [
-    'rake coverage',
+    'rake coverage RAILS_ENV=test',
     'rake rubocop',
     'rake brakeman',
     'rake bundle:audit'
