@@ -19,6 +19,31 @@ body {
   min-height: min-content;
 }
 
+.visually-hidden {
+  position: absolute !important;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  width: 1px;
+  height: 1px;
+  word-wrap: normal;
+
+  &.focusable:active, &.focusable:focus {
+    position: relative !important;
+    display: block;
+    overflow: visible;
+    clip: auto;
+    width: auto;
+    height: auto;
+    z-index: 999;
+  }
+}
+
+a.skip-link {
+  color: #fff !important;
+  background-color: #46535e; // $color-pacific
+  box-shadow: none;
+}
+
 main {
   flex-grow: 999;
 }

@@ -32,7 +32,7 @@ group :development do
   gem 'debase', '0.2.5.beta2', require: false # workaround for https://youtrack.jetbrains.com/issue/RUBY-27575
   gem 'irb', require: false # workaround for https://github.com/bundler/bundler/issues/6929
   gem 'listen', '>= 3.0', '< 3.2'
-  gem 'rubocop', '1.11'
+  gem 'rubocop', '~> 1.18.0'
   gem 'rubocop-rails', '~> 2.9'
   gem 'rubocop-rspec', '~> 2.2'
   gem 'ruby-prof', '~> 1.4', require: false
