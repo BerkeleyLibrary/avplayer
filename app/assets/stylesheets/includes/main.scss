@@ -116,7 +116,7 @@ footer {
   a {
     color: white;
 
-    &:hover {
+    &:hover, &:focus {
       color: $color-anchor-highlight;
     }
   }
@@ -129,24 +129,37 @@ footer {
   }
 
   section {
-    &.social-media {
+    &#copyright-info {
+      a {
+        border-bottom: 1px dotted white;
+      }
+    }
+
+    &#social-media {
       display: grid;
       grid-column-gap: $em / 6;
       grid-template-columns: min-content min-content min-content min-content;
 
-      img {
-        &.social-media-icon {
-          padding-right: 2pt;
-          width: $font-size-xlarge;
-
-          &:not(:hover) {
+      a {
+        &:not(:hover):not(:focus) {
+          img {
             filter: grayscale(100%) brightness(200%);
             transition: filter 0.25s;
           }
+        }
 
-          &:hover {
+        &:hover, &:focus {
+          img {
             transition: filter 0.25s;
           }
+        }
+      }
+
+      img {
+        &.social-media-icon {
+          padding-right: 2pt;
+          margin-bottom: -2pt;
+          width: $font-size-xlarge;
         }
       }
     }

@@ -57,9 +57,9 @@
 </main>
 
 <footer>
-  <section class="copyright-info">
+  <section id="copyright-info">
     <p>
-      Copyright &copy; <%= Date.today.year %> The Regents of the University of California. All rights reserved.
+      Copyright &copy; <%= Date.current.year %> The Regents of the University of California. All rights reserved.
     </p>
     <p>
       Except where otherwise noted, this work is subject to a
@@ -67,14 +67,21 @@
         License</a>.
     </p>
   </section>
-  <section class="social-media">
+  <section id="social-media">
     <a href="https://www.facebook.com/ucberkeleylibrary/"><%= image_tag('icons/facebook-square.svg', class: 'social-media-icon', alt: 'Facebook') %></a>
     <a href="https://twitter.com/UCBerkeleyLib"><%= image_tag('icons/twitter-square.svg', class: 'social-media-icon', alt: 'Twitter') %></a>
     <a href="https://www.youtube.com/channel/UCrwP3Cw1FHwqslSAG5JkLTQ"><%= image_tag('icons/youtube-square.svg', class: 'social-media-icon', alt: 'YouTube') %></a>
     <a href="https://www.instagram.com/ucberkeleylibrary/"><%= image_tag('icons/instagram.svg', class: 'social-media-icon', alt: 'Instagram') %></a>
   </section>
-  <section class="footer-logo">
-    <a href="http://www.berkeley.edu/"><%= image_tag('UCBerkeley_wordmark_white.svg', class: 'footer-logo', alt: 'UC Berkeley') %></a>
+  <section id="footer-links">
+    <ul>
+      <li><a href="https://lib.berkeley.edu/about/privacy-policy">Privacy</a></li>
+      <li><a href="https://dac.berkeley.edu/web-accessibility">Accessibility</a></li>
+      <li><a href="https://ophd.berkeley.edu/policies-and-procedures/nondiscrimination-policy-statement">Nondiscrimination</a></li>
+    </ul>
+  </section>
+  <section id="footer-logo">
+    <%= image_tag('UCBerkeley_wordmark_white.svg', class: 'footer-logo', alt: 'UC Berkeley') %>
   </section>
 </footer>
 </body>
