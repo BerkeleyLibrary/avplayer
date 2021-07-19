@@ -16,9 +16,9 @@
           # preload = index == 0 ? 'auto' : 'none'
           preload = 'none'
           locals = {
-              track: track,
-              index: index,
-              preload: preload
+            track: track,
+            index: index,
+            preload: preload
           }
         %>
         <%= render(partial: track.player_partial, locals: locals) %>
@@ -64,19 +64,23 @@
     </tr>
     </thead>
     <tbody>
+
     <% record.metadata.tap do |metadata| %>
       <% metadata.values.each do |v| %>
         <% next if v.tag == '520' # skip description displayed above %>
+        <%
+          lines = v.respond_to?(:lines) ? v.lines : []
+          links = [].tap do |ll|
+            next unless v.respond_to?(:links)
+            v.links.each { |l| ll << l unless l.match?(url: /oskicat/) }
+          end
+          next unless lines.any? || links.any?
+        %>
         <tr>
           <th><p><%= v.label %></p></th>
           <td>
-            <% if v.respond_to?(:lines) %>
-              <% v.lines.each { |line| %><p><%= line %></p>
-              <% } %>
-            <% elsif v.respond_to?(:links) %>
-              <% v.links.each { |link| %><p><%= link_to(link.body, link.url) %></p>
-              <% } %>
-            <% end %>
+            <% lines.each { |line| %><p><%= line %></p><% } %>
+            <% links.each { |link| %><p><%= link_to(link.body, link.url) %></p><% } %>
           </td>
         </tr>
       <% end %>

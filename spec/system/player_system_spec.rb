@@ -48,8 +48,13 @@ describe PlayerController, type: :system do
         expect(source).not_to be_nil
       end
 
-      it 'displays the catalog link' do
+      # TODO: ALMA: restore this once we have Alma/Primo catalog links
+      xit 'displays the catalog link' do
         expect(page).to have_link('View library catalog record.', href: 'http://oskicat.berkeley.edu/record=b23305522')
+      end
+
+      it 'displays the catalog link' do
+        expect(page).not_to have_link('View library catalog record.', href: 'http://oskicat.berkeley.edu/record=b23305522')
       end
     end
 
@@ -128,8 +133,14 @@ describe PlayerController, type: :system do
         expect(source).not_to be_nil
       end
 
-      it 'displays the catalog link' do
+      # TODO: ALMA: restore this once we have Alma/Primo catalog links
+      xit 'displays the catalog link' do
         expect(page).to have_link('View library catalog record.', href: 'http://oskicat.berkeley.edu/record=b23305522')
+      end
+
+      # TODO: ALMA: restore this once we have Alma/Primo catalog links
+      it 'suppresses the OskiCat link' do
+        expect(page).not_to have_link('View library catalog record.', href: 'http://oskicat.berkeley.edu/record=b23305522')
       end
     end
 
@@ -243,8 +254,13 @@ describe PlayerController, type: :system do
         expect(video).not_to be_nil
       end
 
-      it 'displays the catalog link' do
+      # TODO: ALMA: restore this once we have Alma/Primo catalog links
+      xit 'displays the catalog link' do
         expect(page).to have_link('View library catalog record.', href: 'http://oskicat.berkeley.edu/record=b22139658')
+      end
+
+      it 'displays the catalog link' do
+        expect(page).not_to have_link('View library catalog record.', href: 'http://oskicat.berkeley.edu/record=b22139658')
       end
     end
 
