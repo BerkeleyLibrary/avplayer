@@ -5,21 +5,16 @@
 
 @media (max-width: $media-breakpoint-width) {
 
-  body {
-    font-size: 12pt;
-  }
-
   main {
-    margin: $margin-xlarge;
+    margin: $margin-xxlarge;
   }
 
   header {
-    padding: $margin $margin 0;
-
-    h1 {
-      &.header-logo {
+    div {
+      &.branding {
         align-items: center;
         flex-direction: column;
+        padding: $margin-xlarge;
 
         span {
           &.site-name {
@@ -31,8 +26,8 @@
     }
 
     nav {
-      margin-bottom: $margin-xlarge;
-      margin-top: $margin-xlarge;
+      margin-bottom: $margin-xxlarge;
+      margin-top: $margin-xxlarge;
 
       // sass-lint:disable-block no-ids, no-qualifying-elements
       input {
@@ -41,11 +36,13 @@
 
           &:checked ~ ul {
             display: block;
+            padding-top: $margin;
+            padding-bottom: $margin-large;
 
             li {
-              font-size: $font-size-xlarge;
+              font-size: $font-size-xxlarge;
               line-height: $line-height;
-              margin-top: $margin;
+              margin-top: $margin-xlarge;
               text-align: center;
             }
           }
@@ -57,15 +54,13 @@
           display: block;
 
           img {
-            max-height: 2em;
+            max-height: $font-size-xxlarge;
           }
         }
       }
 
       ul {
         display: none;
-        margin-top: $margin-large;
-        padding: $margin-large $margin-small;
       }
     }
   }
@@ -80,14 +75,29 @@
 
       &#copyright-info {
         text-align: center;
+        padding-bottom: $margin-large;
+      }
+
+      &#footer-links {
+        font-size: $font-size-xlarge;
+        text-align: center;
+
+        ul {
+          margin-top: $margin-xxlarge;
+          margin-bottom: $margin-xxlarge;
+
+          li {
+            margin-bottom: $margin-xxlarge;
+          }
+        }
       }
     }
   }
 
   section {
     &.record {
-      h2 {
-        line-height: $em;
+      h1 {
+        line-height: $rem;
       }
     }
   }
@@ -103,11 +113,11 @@
       }
 
       td {
-        padding-left: $em;
+        padding-left: $rem;
 
         &.description {
-          padding-left: $margin-xsmall;
-          padding-right: $margin-xsmall;
+          padding-left: $margin-small;
+          padding-right: $margin-small;
         }
       }
     }

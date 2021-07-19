@@ -5,6 +5,7 @@
 
 html {
   height: 100%;
+  font-size: 16.8px;
 }
 
 body {
@@ -47,6 +48,7 @@ body {
 main {
   flex-grow: 999;
   background-color: white;
+  line-height: $line-height-small;
 }
 
 header {
@@ -55,8 +57,8 @@ header {
   flex-direction: column;
   background-color: white;
 
-  h1 {
-    &.header-logo {
+  div {
+    &.branding {
       display: flex;
       flex-direction: column;
 
@@ -109,8 +111,8 @@ header {
 footer {
   background: $color-pacific;
   color: white;
-  font-size: $font-size-small;
-  margin-top: $margin-large;
+  line-height: $line-height;
+  margin-top: $margin-xlarge;
   padding: $padding-header-footer;
 
   a {
@@ -135,9 +137,14 @@ footer {
       }
     }
 
+    &#footer-links {
+      text-transform: uppercase;
+      font-weight: $font-weight-bold;
+    }
+
     &#social-media {
       display: grid;
-      grid-column-gap: $em / 6;
+      grid-column-gap: $rem / 6;
       grid-template-columns: min-content min-content min-content min-content;
 
       a {
@@ -159,7 +166,7 @@ footer {
         &.social-media-icon {
           padding-right: 2pt;
           margin-bottom: -2pt;
-          width: $font-size-xlarge;
+          width: 2rem;
         }
       }
     }
@@ -180,7 +187,7 @@ section {
     margin-right: auto;
     width: 100%;
 
-    h2 {
+    h1 {
       margin-right: auto;
     }
 
@@ -222,6 +229,8 @@ section {
 
       &.note {
         font-size: $font-size-small;
+        line-height: $line-height-small;
+        margin-top: $margin;
       }
     }
 
@@ -259,15 +268,15 @@ section {
 // ////////////////////////////////////////////////////////////
 // General block elements
 
-h2 {
+h1 {
   color: black;
   font-size: $font-size-xlarge;
-  margin-block-end: $margin-large;
-  margin-block-start: $margin-large;
-  margin-bottom: $margin;
+  margin-block-end: $margin-xlarge;
+  margin-block-start: $margin-xlarge;
+  margin-bottom: $margin-large;
 }
 
-h3 {
+h2 {
   font-size: $font-size-large;
   font-weight: $font-weight-book;
 }

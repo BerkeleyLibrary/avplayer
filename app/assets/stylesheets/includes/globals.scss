@@ -4,15 +4,19 @@
 // //////////////////////////////
 // Text
 
-$em: 1em; // SCSS math works better on variables than literals
+// SCSS math works better on variables than literals
+$em: 1em;
+$rem: 1rem;
 
-$font-size-xsmall: 3 * $em / 4;
-$font-size-small: 11 * $em / 12;
-$font-size-large: 7 * $em / 6;
-$font-size-xlarge: 2 * $em;
+$font-size-xsmall: .75rem;
+$font-size-small: .875rem;
+$font-size-large: 1.25rem;
+$font-size-xlarge: 1.625rem;
+$font-size-xxlarge: 2.25rem;
 
-$line-height: 4 * $em / 3;
-$line-height-xsmall: 7 * $em / 6;
+$line-height-xsmall: 1.125em;
+$line-height-small: 1.25em;
+$line-height: 1.5em;
 
 $image-error-width: $font-size-large;
 $image-error-height: 576 * $image-error-width / 512;
@@ -20,14 +24,14 @@ $image-error-height: 576 * $image-error-width / 512;
 // //////////////////////////////
 // Box layout
 
-$margin-xsmall: $em / 6;
-$margin-small: $em / 3;
-$margin: $em / 2;
-$margin-large: 2 * $margin-small;
-$margin-xlarge: $em;
+$margin-small: 0.25rem;
+$margin: 0.5rem;
+$margin-large: 0.875rem;
+$margin-xlarge: 1rem;
+$margin-xxlarge: 1.625rem;
 
-$padding-header-footer: $em;
-$sitename-baseline-adjust: 5 * $em / 6;
+$padding-header-footer: $rem;
+$sitename-baseline-adjust: 5 * $rem / 6;
 
 // //////////////////////////////
 // Mobile/desktop layout

@@ -30,12 +30,12 @@
 <a href="#main" class="visually-hidden focusable skip-link">Skip to main content</a>
 
 <header>
-  <h1 class="header-logo">
+  <div class="branding">
     <a href="https://www.lib.berkeley.edu/">
       <%= image_tag('UCBerkeley_Library_wordmark_black.svg', class: 'header-logo', alt: 'UC Berkeley Library') %>
       <span class="site-name">Audio / Video</span>
     </a>
-  </h1>
+  </div>
   <nav>
     <input type="checkbox" id="nav-menu">
     <label class="nav-menu-label" for="nav-menu">
@@ -59,7 +59,8 @@
 <footer>
   <section id="copyright-info">
     <p>
-      Copyright &copy; <%= Date.current.year %> The Regents of the University of California. All rights reserved.
+      Copyright &copy; <%= Date.current.year %> The Regents of the University of California.
+      All rights reserved.
     </p>
     <p>
       Except where otherwise noted, this work is subject to a
