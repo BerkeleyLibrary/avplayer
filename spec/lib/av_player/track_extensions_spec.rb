@@ -44,7 +44,7 @@ module AV
       it 'logs a warning in the event of an invalid URI' do
         track = Track.new(sort_order: 0, path: "coll/foo\tbar.mp4")
         msg_re = /foo\\tbar.mp4/ # NOTE: tab is escaped in message
-        expect(AV.logger).to receive(:warn).with(msg_re)
+        expect(UCBLIT::Logging.logger).to receive(:warn).with(msg_re)
         hls_uri = track.hls_uri
         expect(hls_uri).to be_nil
       end
@@ -64,15 +64,15 @@ module AV
     describe :exists do
       it 'logs a warning and returns false in the event of an invalid URI' do
         track = Track.new(sort_order: 0, path: "coll/foo\tbar.mp4")
-        allow(AV.logger).to receive(:warn).with(/foo\\tbar.mp4/) # from `build_hls_uri`
-        expect(AV.logger).to receive(:warn).with("No HLS URI for track: #{track}") # from `hls_uri_exists?`
+        allow(UCBLIT::Logging.logger).to receive(:warn).with(/foo\\tbar.mp4/) # from `build_hls_uri`
+        expect(UCBLIT::Logging.logger).to receive(:warn).with("No HLS URI for track: #{track}") # from `hls_uri_exists?`
         expect(track.exists?).to eq(false)
       end
 
       it 'logs a warning and returns false in the event of a nil HTTP response' do
         track = Track.new(sort_order: 0, path: 'coll/foo/bar.mp4')
         msg_re = /#{track.relative_path}/
-        expect(AV.logger).to receive(:warn).with(msg_re)
+        expect(UCBLIT::Logging.logger).to receive(:warn).with(msg_re)
 
         # Shouldn't happen but let's be sure
         allow(Net::HTTP).to receive(:start).and_return(nil)
@@ -83,7 +83,7 @@ module AV
         track = Track.new(sort_order: 0, path: 'coll/foo/bar.mp4')
         response_code = 404
         msg_re = /#{track.relative_path}.*#{response_code}/
-        expect(AV.logger).to receive(:warn).with(msg_re)
+        expect(UCBLIT::Logging.logger).to receive(:warn).with(msg_re)
 
         stub_request(:head, track.hls_uri).to_return(status: 404)
         expect(track.exists?).to eq(false)
@@ -108,7 +108,7 @@ module AV
       it 'logs an error in the event of an invalid URI' do
         track = Track.new(sort_order: 0, path: "coll/foo\tbar.mp4")
         msg_re = /foo\\tbar.mp4/
-        expect(AV.logger).to receive(:warn).with(msg_re)
+        expect(UCBLIT::Logging.logger).to receive(:warn).with(msg_re)
         mpeg_dash_uri = track.mpeg_dash_uri
         expect(mpeg_dash_uri).to be_nil
       end

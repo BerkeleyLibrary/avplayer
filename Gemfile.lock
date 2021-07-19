@@ -1,17 +1,19 @@
 GIT
   remote: https://git.lib.berkeley.edu/lap/av_core.git
-  revision: b0123fe32ea63271499b6e9c32eef6f91a82423f
+  revision: 83c16823981dc7097642b19436c09239daca3ebe
   specs:
     av_core (0.0.1)
       marc (~> 1.0)
       rest-client (~> 2.1)
       typesafe_enum (~> 0.3)
+      ucblit-logging (~> 0.1, >= 0.1.1)
 
 GIT
   remote: https://git.lib.berkeley.edu/lap/ucblit-logging.git
-  revision: 5186a1689669f56043133daf14d6b5fa12e58af2
+  revision: 7e52bbe2f36c1ae6fcb7378b1538b0c46c8ec7e8
+  branch: main
   specs:
-    ucblit-logging (0.1.0)
+    ucblit-logging (0.1.1)
       activesupport (~> 6.0)
       amazing_print (~> 1.1)
       lograge (~> 0.11)
@@ -260,7 +262,7 @@ GEM
       rubocop-ast (>= 1.7.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.7.0)
+    rubocop-ast (1.8.0)
       parser (>= 3.0.1.1)
     rubocop-rails (2.11.3)
       activesupport (>= 4.2.0)
@@ -367,7 +369,7 @@ DEPENDENCIES
   simplecov (~> 0.18)
   simplecov-rcov
   typesafe_enum (~> 0.2)
-  ucblit-logging!
+  ucblit-logging (~> 0.1, >= 0.1.1)!
   web-console (>= 3.3.0)
   webmock
   webpacker (~> 5.2)

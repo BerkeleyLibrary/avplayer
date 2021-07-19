@@ -1,9 +1,12 @@
 require 'av/core'
 require 'nokogiri'
 require 'net/http'
+require 'ucblit/logging'
 
 module AV
   class Track
+    include UCBLIT::Logging
+
     COLLECTION_RE = %r{(^[^/]+)/}
 
     SOURCE_TYPE_HLS = 'application/x-mpegURL'.freeze
@@ -99,7 +102,7 @@ module AV
     def nil_with_warning(msg)
       nil
     ensure
-      log.warn(msg)
+      logger.warn(msg)
     end
 
     class << self

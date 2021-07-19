@@ -13,7 +13,7 @@ gem 'rails', '~> 6.1', '>= 6.1.3.2'
 gem 'rest-client', '~> 2.1'
 gem 'sass-rails', '~> 6'
 gem 'typesafe_enum', '~> 0.2'
-gem 'ucblit-logging', git: 'https://git.lib.berkeley.edu/lap/ucblit-logging.git'
+gem 'ucblit-logging', '~> 0.1', '>= 0.1.1', git: 'https://git.lib.berkeley.edu/lap/ucblit-logging.git', branch: 'main'
 gem 'webpacker', '~> 5.2'
 
 gem 'bootsnap', '>= 1.4.2', require: false
