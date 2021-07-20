@@ -5,7 +5,7 @@
 
 html {
   height: 100%;
-  font-size: 16.8px;
+  font-size: $font-size-root;
 }
 
 body {
@@ -112,7 +112,7 @@ footer {
   background: $color-pacific;
   color: white;
   line-height: $line-height;
-  margin-top: $margin-xlarge;
+  margin-top: $margin-2xl;
   padding: $padding-header-footer;
 
   a {
@@ -144,7 +144,7 @@ footer {
 
     &#social-media {
       display: grid;
-      grid-column-gap: $rem / 6;
+      grid-column-gap: $rem / 4;
       grid-template-columns: min-content min-content min-content min-content;
 
       a {
@@ -164,9 +164,7 @@ footer {
 
       img {
         &.social-media-icon {
-          padding-right: 2pt;
-          margin-bottom: -2pt;
-          width: 2rem;
+          width: $image-social-media-icon-width;
         }
       }
     }
@@ -271,9 +269,9 @@ section {
 h1 {
   color: black;
   font-size: $font-size-xlarge;
-  margin-block-end: $margin-xlarge;
-  margin-block-start: $margin-xlarge;
-  margin-bottom: $margin-large;
+  margin-block-end: $margin-2xl;
+  margin-block-start: $margin-2xl;
+  margin-bottom: $margin-xl;
 }
 
 h2 {

@@ -6,7 +6,7 @@
 @media (max-width: $media-breakpoint-width) {
 
   main {
-    margin: $margin-xxlarge;
+    margin: $margin-3xl;
   }
 
   header {
@@ -14,7 +14,7 @@
       &.branding {
         align-items: center;
         flex-direction: column;
-        padding: $margin-xlarge;
+        padding: $margin-2xl;
 
         span {
           &.site-name {
@@ -26,8 +26,8 @@
     }
 
     nav {
-      margin-bottom: $margin-xxlarge;
-      margin-top: $margin-xxlarge;
+      margin-bottom: $margin-3xl;
+      margin-top: $margin-3xl;
 
       // sass-lint:disable-block no-ids, no-qualifying-elements
       input {
@@ -37,12 +37,12 @@
           &:checked ~ ul {
             display: block;
             padding-top: $margin;
-            padding-bottom: $margin-large;
+            padding-bottom: $margin-xl;
 
             li {
               font-size: $font-size-xxlarge;
               line-height: $line-height;
-              margin-top: $margin-xlarge;
+              margin-top: $margin-2xl;
               text-align: center;
             }
           }
@@ -69,13 +69,14 @@
     align-items: center;
     display: flex;
     flex-direction: column;
+    padding-bottom: $margin-large;
 
     section {
-      margin-bottom: $margin-large;
+      margin-bottom: $margin-xl;
 
       &#copyright-info {
         text-align: center;
-        padding-bottom: $margin-large;
+        padding-bottom: $margin-xl;
       }
 
       &#footer-links {
@@ -83,11 +84,11 @@
         text-align: center;
 
         ul {
-          margin-top: $margin-xxlarge;
-          margin-bottom: $margin-xxlarge;
+          margin-top: $margin-3xl;
+          margin-bottom: $margin-3xl;
 
           li {
-            margin-bottom: $margin-xxlarge;
+            margin-bottom: $margin-3xl;
           }
         }
       }
@@ -97,7 +98,7 @@
   section {
     &.record {
       h1 {
-        line-height: $rem;
+        line-height: $line-height-xsmall;
       }
     }
   }

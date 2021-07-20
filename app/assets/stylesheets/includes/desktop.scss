@@ -37,11 +37,11 @@
       ul {
         display: flex;
         justify-content: flex-end;
-        padding-bottom: $margin-xlarge;
+        padding-bottom: $margin-2xl;
 
         li {
-          margin-left: 1em;
-          margin-right: 1em;
+          margin-left: $font-size-large;
+          margin-right: $font-size-large;
         }
       }
     }
@@ -51,12 +51,11 @@
     align-items: end;
     display: grid;
     grid-template-columns: min-content auto 1fr;
-    padding-bottom: 1.5em;
     align-content: end;
 
     section {
       &#copyright-info {
-        grid-column: 1 / 3;
+        grid-column: 1 / 4;
         grid-row: 1;
         margin-bottom: $font-size-xlarge;
       }
@@ -74,15 +73,15 @@
         ul {
           display: flex;
           justify-content: flex-start;
-          margin-left: 1em;
+          margin-left: $margin-footer-links;
 
           li {
-            margin-right: 1em;
+            margin-right: $margin-footer-links;
 
             &:not(:last-of-type) {
               &:after {
                 content: '|';
-                margin-left: 1em;
+                margin-left: $margin-footer-links;
               }
             }
           }
