@@ -10,7 +10,7 @@ describe PlayerController, type: :system do
 
     describe 'audio' do
       before(:each) do
-        search_url = 'http://oskicat.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
+        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
         stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b23305522.html'))
         manifest_url = 'https://wowza.example.edu/Pacifica/mp3:PRA_NHPRC1_AZ1084_00_000_00.mp3/playlist.m3u8'
         stub_request(:head, manifest_url).to_return(status: 200)
@@ -146,7 +146,7 @@ describe PlayerController, type: :system do
 
     describe 'bad track paths' do
       it 'still displays audio records' do
-        search_url = 'http://oskicat.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
+        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
         data_with_bad_path = File.read('spec/data/b23305522.html').gsub('PRA_NHPRC1_AZ1084_00_000_00.mp3', 'this is not a valid path.mp3')
         stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
         stub_request(:head, /playlist.m3u8$/).to_return(status: 404)
@@ -159,7 +159,7 @@ describe PlayerController, type: :system do
       end
 
       it 'still displays video records' do
-        search_url = 'http://oskicat.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
+        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
         data_with_bad_path = File.read('spec/data/b22139658.html').gsub('6927.mp4', 'this is not a valid path.mp4')
         stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
         stub_request(:head, /playlist.m3u8$/).to_return(status: 404)
@@ -172,7 +172,7 @@ describe PlayerController, type: :system do
       end
 
       it "displays something useful when it can't determine file type" do
-        search_url = 'http://oskicat.berkeley.edu/search~S1?/.b25742488/.b25742488/1%2C1%2C1%2CB/marc~b25742488'
+        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b25742488/.b25742488/1%2C1%2C1%2CB/marc~b25742488'
         data_with_bad_path = File.read('spec/data/b25742488.html')
         stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
         stub_request(:head, /playlist.m3u8$/).to_return(status: 404)
@@ -186,7 +186,7 @@ describe PlayerController, type: :system do
 
     describe 'no track info' do
       it 'still displays audio records' do
-        search_url = 'http://oskicat.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
+        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
         data_with_bad_path = File.read('spec/data/b23305522.html').gsub(/^998.*/, '')
         stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
         visit '/Pacifica/b23305522'
@@ -199,7 +199,7 @@ describe PlayerController, type: :system do
       it 'still displays video records' do
         stub_request(:get, /manifest.mpd$/).to_return(status: 404)
 
-        search_url = 'http://oskicat.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
+        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
         data_with_bad_path = File.read('spec/data/b22139658.html').gsub(/^998.*/, '')
         stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
         visit '/Video-Public-MRC/b22139658'
@@ -217,7 +217,7 @@ describe PlayerController, type: :system do
       attr_reader :metadata_record
 
       before(:each) do
-        search_url = 'http://oskicat.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
+        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
         stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b22139658.html'))
         stub_request(:get, /manifest.mpd$/).to_return(status: 404)
         stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
@@ -266,7 +266,7 @@ describe PlayerController, type: :system do
 
     describe 'captions' do
       it 'adds a <track/> tag for the VTT file when captions present' do
-        search_url = 'http://oskicat.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
+        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
         stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b22139658.html'))
         stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
 
@@ -294,7 +294,7 @@ describe PlayerController, type: :system do
 
     describe 'UCB-only records' do
       before(:each) do
-        search_url = 'http://oskicat.berkeley.edu/search~S1?/.b18538031/.b18538031/1%2C1%2C1%2CB/marc~b18538031'
+        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b18538031/.b18538031/1%2C1%2C1%2CB/marc~b18538031'
         stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b18538031.html'))
       end
 
