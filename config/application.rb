@@ -37,7 +37,7 @@ module AvPlayer
     # config.tind_base_uri = ENV.fetch('LIT_TIND_BASE_URL', 'https://berkeley-test.tind.io/') # test
 
     # Search URL for Millennium metadata
-    config.millennium_base_uri = ENV.fetch('LIT_MILLENNIUM_BASE_URL', 'http://oskicat.berkeley.edu/')
+    config.millennium_base_uri = ENV.fetch('LIT_MILLENNIUM_BASE_URL', 'http://oskicatp.berkeley.edu/')
 
     # Wowza server URL
     config.wowza_base_uri = ENV.fetch('LIT_WOWZA_BASE_URL', 'https://wowza.lib.berkeley.edu/')
