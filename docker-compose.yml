@@ -3,8 +3,6 @@ services:
     build:
       context: .
       target: development
-    env_file:
-      - .env
     ports:
       - target: 3000
         published: 3000

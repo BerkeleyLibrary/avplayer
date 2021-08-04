@@ -2,7 +2,7 @@
 # Target: base
 #
 
-FROM ruby:3.0.0-alpine AS base
+FROM ruby:3.0.1-alpine AS base
 
 # This is just metadata and doesn't actually "expose" this port. Rather, it
 # tells other tools (e.g. Traefik) what port the service in this image is

@@ -1,6 +1,6 @@
 GIT
   remote: https://git.lib.berkeley.edu/lap/av_core.git
-  revision: 83c16823981dc7097642b19436c09239daca3ebe
+  revision: 64eec20d436eeabb106a0dbf2e8c7172b3dbaa63
   specs:
     av_core (0.0.1)
       marc (~> 1.0)
@@ -150,7 +150,7 @@ GEM
       activesupport (>= 4)
       railties (>= 4)
       request_store (~> 1.0)
-    loofah (2.10.0)
+    loofah (2.11.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -169,13 +169,13 @@ GEM
     msgpack (1.4.2)
     netrc (0.11.0)
     nio4r (2.5.7)
-    nokogiri (1.11.7-x86_64-darwin)
+    nokogiri (1.12.1-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.11.7-x86_64-linux)
+    nokogiri (1.12.1-x86_64-linux)
       racc (~> 1.4)
     non-stupid-digest-assets (1.0.9)
       sprockets (>= 2.0)
-    oj (3.12.1)
+    oj (3.12.3)
     ougai (1.9.1)
       oj (~> 3.10)
     parallel (1.20.1)
@@ -375,7 +375,7 @@ DEPENDENCIES
   webpacker (~> 5.2)
 
 RUBY VERSION
-   ruby 3.0.0p0
+   ruby 3.0.1p64
 
 BUNDLED WITH
-   2.2.3
+   2.2.15
