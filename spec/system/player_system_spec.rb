@@ -63,7 +63,7 @@ describe PlayerController, type: :system do
         collection = 'MRCAudio'
         record_id = 'b11082434'
 
-        search_url = "http://oskicat.berkeley.edu/search~S1?/.#{record_id}/.#{record_id}/1%2C1%2C1%2CB/marc~#{record_id}"
+        search_url = "http://oskicatp.berkeley.edu/search~S1?/.#{record_id}/.#{record_id}/1%2C1%2C1%2CB/marc~#{record_id}"
         stub_request(:get, search_url).to_return(status: 200, body: File.read("spec/data/#{record_id}.html"))
         stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
 
