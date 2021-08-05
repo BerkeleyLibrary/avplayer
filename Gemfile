@@ -1,9 +1,11 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.1'
+ruby_version_file = File.expand_path('.ruby-version', __dir__)
+ruby_version_exact = File.read(ruby_version_file).strip
+ruby ruby_version_exact
 
-gem 'av_core', git: 'https://git.lib.berkeley.edu/lap/av_core.git'
+gem 'av_core', '>= 0.1.0', git: 'https://git.lib.berkeley.edu/lap/av_core.git'
 gem 'browser', '~> 4.2'
 gem 'jbuilder', '~> 2.7'
 gem 'marc', '~> 1.0'
