@@ -62,7 +62,7 @@ ENV GIT_SSL_NO_VERIFY=1
 # Install gems. We do this first in order to maximize cache reuse, and we
 # do it only in the development image in order to minimize the size of the
 # final production image (which just copies the build products from dev)
-COPY --chown=$APP_USER Gemfile* ./
+COPY --chown=$APP_USER .ruby-version Gemfile* ./
 RUN bundle config set --local path /usr/local/bundle
 RUN bundle install --jobs=$(nproc)
 
