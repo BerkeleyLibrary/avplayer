@@ -1,405 +1,114 @@
 <% content_for(:title, 'Audio / Video: Home') %>
 
 <!--suppress HtmlUnknownTarget -->
-<section class="record">
 
-  <h1>Examples: Millennium metadata</h1>
+<h1>Examples</h1>
 
+<%
+  {
+    'Public' => {
+      'MRCAudio' => {
+        'Robert Frost: Poetry reading, November 8, 1953 (2 files)' => {
+          AV::RecordId::Type::ALMA => '991038544199706532',
+          AV::RecordId::Type::MILLENNIUM => 'b11082434'
+        }
+      },
+      'Pacifica' => {
+        'Author Alice Walker reads the short story, Roselily.' => {
+          AV::RecordId::Type::ALMA => '991035377049706532',
+          AV::RecordId::Type::MILLENNIUM => 'b23305516',
+          AV::RecordId::Type::TIND => '(pacradio)00107'
+        },
+        'Wanda Coleman' => {
+          AV::RecordId::Type::ALMA => '991035377279706532',
+          AV::RecordId::Type::MILLENNIUM => 'b23305522',
+          AV::RecordId::Type::TIND => '(pacradio)-01469'
+        }
+      },
+      'Video-Public-MRC' => {
+        'Communists on campus' => {
+          AV::RecordId::Type::ALMA => '991010948099706532',
+          AV::RecordId::Type::MILLENNIUM => 'b22139658'
+        }
+      },
+      'Video-Public-Physics' => {
+        'Particle Fever: Physics Department screening' => {
+          AV::RecordId::Type::TIND => 'physcolloquia-bk00169017b'
+        }
+      },
+      'music' => {
+        'Instructional tape: piobareachd (20 files)' => {
+          AV::RecordId::Type::ALMA => '991033920629706532',
+          AV::RecordId::Type::MILLENNIUM => 'b23161018'
+        }
+      }
+    },
+    'Restricted' => {
+      'City' => {
+        'Interview with Joyce Carol Oates, January 26, 2016' => {
+          AV::RecordId::Type::ALMA => '991042518099706532',
+          AV::RecordId::Type::MILLENNIUM => 'b24071548',
+          AV::RecordId::Type::TIND => '(cityarts)00773'
+        },
+        'Spelling Bee for Cheaters' => {
+          AV::RecordId::Type::ALMA => '991079960029706532',
+          AV::RecordId::Type::MILLENNIUM => 'b18538031',
+          AV::RecordId::Type::TIND => '(cityarts)00002'
+        }
+      },
+      'Video-UCBOnly-MRC' => {
+        'Voices of the Rainforest' => {
+          AV::RecordId::Type::ALMA => '991053883429706532',
+          AV::RecordId::Type::MILLENNIUM => 'b25596697'
+        },
+        'XXXY' => {
+          AV::RecordId::Type::MILLENNIUM => 'b23935657'
+        }
+      }
+    },
+    'Nonexistent' => {
+      'Pandall' => {
+        'Arno Waltiri: Das Unendlichkeit Konzert, Opus 45.' => {
+          AV::RecordId::Type::ALMA => '991099999999996532',
+          AV::RecordId::Type::MILLENNIUM => 'b999999999',
+          AV::RecordId::Type::TIND => '999999999'
+        }
+      }
+    }
+  }.each do |coll_type, records_by_collection|
+%>
   <table>
     <thead>
-    <tr>
-      <th colspan="2"><h2>Public</h2></th>
-    </tr>
+    <th>
+      <h2><%= coll_type %> collections</h2>
+    </th>
     </thead>
-    <tbody>
-    <tr>
-      <th>Audio</th>
-      <td>
-        <p><%= link_to(
-                   'Wanda Coleman',
-                   controller: :player,
-                   action: :show,
-                   collection: 'Pacifica',
-                   record_id: 'b23305522'
-               ) %></p>
-      </td>
-    </tr>
-    <tr>
-      <th>Audio</th>
-      <td>
-        <p><%= link_to(
-                   'Author Alice Walker reads the short story, Roselily.',
-                   controller: :player,
-                   action: :show,
-                   collection: 'Pacifica',
-                   record_id: 'b23305516'
-               ) %></p>
-      </td>
-    </tr>
-    <tr>
-      <th>Audio</th>
-      <td>
-        <p><%= link_to(
-                   'Robert Frost: Poetry reading, November 8, 1953 (2 files)',
-                   controller: :player,
-                   action: :show,
-                   collection: 'MRCAudio',
-                   record_id: 'b11082434'
-               ) %></p>
-      </td>
-    </tr>
-    <tr>
-      <th>Audio</th>
-      <td>
-        <p>
-          <%= link_to(
-                  'Instructional tape: piobareachd (20 files)',
-                  controller: :player,
-                  action: :show,
-                  collection: 'music',
-                  record_id: 'b23161018') %>
-        </p>
-        <p class="note">
-          Note that the development license used on the staging Wowza server is limited
-          to 10 simultaneous connections, so this record may not load properly when
-          streaming from that server.
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <th>Video</th>
-      <td>
-        <p><%= link_to(
-                   'Communists on campus',
-                   controller: :player,
-                   action: :show,
-                   collection: 'Video-Public-MRC',
-                   record_id: 'b22139658'
-               ) %></p>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-
-  <table class="metadata">
-    <thead>
-    <tr>
-      <th colspan="2"><h2>Restricted</h2></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <th>Audio</th>
-      <td>
-        <p><%= link_to(
-                   'Interview with Joyce Carol Oates, January 26, 2016',
-                   controller: :player,
-                   action: :show,
-                   collection: 'City',
-                   record_id: 'b24071548'
-               ) %></p>
-      </td>
-    </tr>
-    <tr>
-      <th>Audio</th>
-      <td>
-        <p><%= link_to(
-                   'Spelling Bee for Cheaters',
-                   controller: :player,
-                   action: :show,
-                   collection: 'City',
-                   record_id: 'b18538031') %> (2 files)</p>
-      </td>
-    </tr>
-    <tr>
-      <th>Video</th>
-      <td>
-        <p><%= link_to(
-                   'XXXY',
-                   controller: :player,
-                   action: :show,
-                   collection: 'Video-UCBOnly-MRC',
-                   record_id: 'b23935657'
-               ) %></p>
-      </td>
-    </tr>
-    <tr>
-      <th>Video</th>
-      <td>
-        <p><%= link_to(
-                   'Voices of the Rainforest',
-                   controller: :player,
-                   action: :show,
-                   collection: 'Video-UCBOnly-MRC',
-                   record_id: 'b25596697'
-               ) %></p>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-
-  <table class="metadata">
-    <thead>
-    <tr>
-      <th colspan="2"><h2>Missing or nonexistent records</h2></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <th>Audio</th>
-      <td>
-        <p><%= link_to(
-                   'Arno Waltiri: Das Unendlichkeit Konzert, Opus 45.',
-                   controller: :player,
-                   action: :show,
-                   collection: 'Pandall',
-                   record_id: 'b999999999'
-               ) %></p>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-
-</section>
-
-<section class="record">
-
-  <h1>Examples: TIND metadata</h1>
-
-  <table>
-    <thead>
-    <tr>
-      <th colspan="2"><h2>Public</h2></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <th>Audio</th>
-      <td>
-        <p><%= link_to(
-                   'Wanda Coleman',
-                   controller: :player,
-                   action: :show,
-                   collection: 'Pacifica',
-                   record_id: '(pacradio)-01469'
-               ) %></p>
-      </td>
-    </tr>
-    <tr>
-      <th>Audio</th>
-      <td>
-        <p><%= link_to(
-                   'Author Alice Walker reads the short story, Roselily.',
-                   controller: :player,
-                   action: :show,
-                   collection: 'Pacifica',
-                   record_id: '(pacradio)00107'
-               ) %></p>
-      </td>
-    </tr>
-    <tr>
-      <th>Video</th>
-      <td>
-        <p>Communists on campus <strong>(not yet in TIND)</strong></p>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-
-  <table class="metadata">
-    <thead>
-    <tr>
-      <th colspan="2"><h2>Restricted</h2></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <th>Audio</th>
-      <td>
-        <p><%= link_to(
-                   'Interview with Joyce Carol Oates, January 26, 2016',
-                   controller: :player,
-                   action: :show,
-                   collection: 'City',
-                   record_id: '(cityarts)00773'
-               ) %></p>
-      </td>
-    </tr>
-    <tr>
-      <th>Audio</th>
-      <td>
-        <p><%= link_to(
-                   'Spelling Bee for Cheaters',
-                   controller: :player,
-                   action: :show,
-                   collection: 'City',
-                   record_id: '(cityarts)00002') %> (2 files)</p>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-
-  <table class="metadata">
-    <thead>
-    <tr>
-      <th colspan="2"><h2>Missing or nonexistent records</h2></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <th>Audio</th>
-      <td>
-        <p><%= link_to(
-                   'Arno Waltiri: Das Unendlichkeit Konzert, Opus 45.',
-                   controller: :player,
-                   action: :show,
-                   collection: 'Pandall',
-                   record_id: '999999999'
-               ) %></p>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-
-  <table class="metadata">
-    <thead>
-    <tr>
-      <th colspan="2"><h2>Physics colloquia</h2></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <th>Public</th>
-      <td>
-        <p><%= link_to(
-                   'Particle Fever: Physics Department screening',
-                   controller: :player,
-                   action: :show,
-                   collection: 'Video-Public-Physics',
-                   record_id: 'physcolloquia-bk00169017b'
-               ) %></p>
-      </td>
-    </tr>
-    <tr>
-      <th>Dark</th>
-      <td>
-        <p><%= link_to(
-                   'The Great Debate: Are We Alone?',
-                   controller: :player,
-                   action: :show,
-                   collection: 'Video-Public-Physics',
-                   record_id: 'physcolloquia-bk0013n8q67'
-               ) %></p>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-
-</section>
-
-<section class="record">
-  <h1>Examples: Raw track preview</h1>
-  <p>(not available in production)</p>
-
-  <%# CLIR recordings at risk %>
-  <table class="metadata">
-    <thead>
-    <%
-      with_captions = %w[
-      cubanc_80_1_01287725a_access.mp4
-      cubanc_80_1_01287771a_access.mp4
-      cubanc_80_1_01287818a_access.mp4
-  ]
-      without_captions = %w[
-      cubanc_80_1_01287708a_access.mp4
-      cubanc_80_1_01287734a_access.mp4
-      cubanc_80_1_01287746a_access.mp4
-  ]
-    %>
-    <tr>
-      <th colspan="2"><h2>CLIR Recordings at Risk</h2></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <th>With Captions</th>
-      <td>
-        <% with_captions.each do |f| %>
-          <p><%= link_to(
-                     f,
-                     controller: :player,
-                     action: :preview,
-                     collection: 'Video-Public-Bancroft',
-                     relative_path: "clir_rec_risk/#{f}"
-                 ) %></p>
-        <% end %>
-      </td>
-    </tr>
-    <tr>
-      <th>Without Captions</th>
-      <td>
-        <% without_captions.each do |f| %>
-          <p><%= link_to(
-                     f,
-                     controller: :player,
-                     action: :preview,
-                     collection: 'Video-Public-Bancroft',
-                     relative_path: "clir_rec_risk/#{f}"
-                 ) %></p>
-        <% end %>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-
-  <table>
-    <thead>
-    <tr>
-      <th colspan="2"><h2>Smoke test: Preview one file per collection</h2></th>
-    </tr>
-    </thead>
-    <tbody>
-    <%
-      {
-          'ChristmasCarol' => 'CC-side2-1644-eq-con.mp3',
-          'City' => 'CA00761.mp3',
-          'CityArts' => 'CA00761.mp3',
-          'Loyalty' => 'opposition_grant_14.mp3',
-          'MRCAudio' => 'E16.2.mp3',
-          'Pacifica' => 'PRA_NHPRC1_IZ0058_0B_000_00.mp3',
-          'ROHOAudio' => 'simpson_barclay_07_02-01-13_stereo.mp3',
-          'ROHOVideo' => 'harris1.mp4',
-          'UCBAudio' => 'Earthquake_Oral_History.mp3',
-          'Video-Public-Bancroft' => 'clir_rec_risk/cubanc_80_1_01287708a_access.mp4',
-          'Video-Public-CED' => 'lectures/1.23.12.PeterWalker.02.mp4',
-          'Video-Public-CitizensReachOut' => 'CRO00001_Oakland_Family_1.mp4',
-          'Video-Public-MRC' => '376.mp4',
-          'Video-Public-Magnes' => '76.311.1_s.mp4',
-          'Video-Public-Physics' => 'lectures/phys001.mp4',
-          'Video-Public-SFQuake1906' => 'Refugees_Jefferson_Square.mp4',
-          'Video-UCBOnly-MRC' => 'd586a.mp4',
-          'irene' => '14-1679_excerpt_filtered.mp3',
-          'mrc' => 'DVDx7957_DesigningHealthyCommnuties_EPISODE2.mp4',
-          'mrcr' => 'x2144.mp4',
-          'music' => 'C037209078.mp3',
-          'poc' => 'DVDz1494_RofA1-THE_RAISING_OF_AMERICA_EP1-SPANISH_720.mp4',
-      }.each do |coll, path|
-    %>
+    <% records_by_collection.each do |collection, records_by_title| %>
+      <tbody>
       <tr>
-        <th><%= coll %></th>
-        <td>
-          <p><%= link_to(
-                     path,
-                     controller: :player,
-                     action: :preview,
-                     collection: coll,
-                     relative_path: path
-                 ) %></p>
-        </td>
+        <td class="description"><%= collection %></td>
       </tr>
-    <%
-      end
-    %>
-    </tbody>
-  </table>
-</section>
+      <% records_by_title.each do |title, record_ids_by_type| %>
+        <% record_ids_by_type.each do |type, record_id| %>
+          <tr>
+            <td><%= type.to_s %></td>
+          <tr>
+            <td>
+              <%= link_to(
+                    title,
+                    controller: :player,
+                    action: :show,
+                    collection: collection,
+                    record_id: record_id
+                  ) %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+      </tbody>
+      <%= collection %>
+      </table>
+    <% end %>
+<% end %>
+
+<%# TODO: add file preview %>

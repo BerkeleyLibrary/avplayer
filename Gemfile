@@ -5,7 +5,8 @@ ruby_version_file = File.expand_path('.ruby-version', __dir__)
 ruby_version_exact = File.read(ruby_version_file).strip
 ruby ruby_version_exact
 
-gem 'av_core', '>= 0.1.0', git: 'https://git.lib.berkeley.edu/lap/av_core.git'
+gem 'av_core', '>= 0.2.0', git: 'https://git.lib.berkeley.edu/lap/av_core.git', branch: 'LIT-2365-alma'
+gem 'berkeley_library-logging', '~> 0.2'
 gem 'browser', '~> 4.2'
 gem 'jbuilder', '~> 2.7'
 gem 'marc', '~> 1.0'
@@ -15,7 +16,7 @@ gem 'rails', '~> 6.1', '>= 6.1.3.2'
 gem 'rest-client', '~> 2.1'
 gem 'sass-rails', '~> 6'
 gem 'typesafe_enum', '~> 0.2'
-gem 'ucblit-logging', '~> 0.1', '>= 0.1.1', git: 'https://git.lib.berkeley.edu/lap/ucblit-logging.git', branch: 'main'
+#gem 'ucblit-logging', '~> 0.1', '>= 0.1.1', git: 'https://git.lib.berkeley.edu/lap/ucblit-logging.git', branch: 'main'
 gem 'webpacker', '~> 5.2'
 
 gem 'bootsnap', '>= 1.4.2', require: false
