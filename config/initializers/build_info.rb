@@ -1,7 +1,7 @@
 require 'action_view/buffers'
 require 'cgi'
 
-require 'ucblit/logging'
+require 'berkeley_library/logging'
 
 module AvPlayer
   class BuildInfo

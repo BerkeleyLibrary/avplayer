@@ -8,7 +8,7 @@ module AvPlayer
 
     describe :initialize! do
       it 'uses a custom logger' do
-        expect(Rails.logger).to be_a(UCBLIT::Logging::Logger)
+        expect(Rails.logger).to be_a(BerkeleyLibrary::Logging::Logger)
       end
     end
 

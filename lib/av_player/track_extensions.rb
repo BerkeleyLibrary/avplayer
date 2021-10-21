@@ -1,11 +1,11 @@
 require 'av/core'
 require 'nokogiri'
 require 'net/http'
-require 'ucblit/logging'
+require 'berkeley_library/logging'
 
 module AV
   class Track
-    include UCBLIT::Logging
+    include BerkeleyLibrary::Logging
 
     COLLECTION_RE = %r{(^[^/]+)/}
 
