@@ -1,6 +1,6 @@
 GIT
   remote: https://git.lib.berkeley.edu/lap/av_core.git
-  revision: 6ec4a7907df88354b56b15ff1e2936a745ada4e0
+  revision: 1457d6bab8900695c8743cdb7f2b38bedea073b9
   branch: LIT-2365-alma
   specs:
     av_core (0.2.0)
@@ -341,7 +341,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.5.0)
+    zeitwerk (2.5.1)
 
 PLATFORMS
   x86_64-darwin-19

@@ -66,21 +66,20 @@
     <tbody>
 
     <% record.metadata.tap do |metadata| %>
-      <% metadata.values.each do |v| %>
-        <% next if v.tag == '520' # skip description displayed above %>
-        <%
-          lines = v.respond_to?(:lines) ? v.lines : []
-          links = [].tap do |ll|
-            next unless v.respond_to?(:links)
-            v.links.each { |l| ll << l unless l.match?(url: /oskicat/) }
-          end
-          next unless lines.any? || links.any?
-        %>
+      <% metadata.values_by_field.each do |f, v| %>
+        <% next if f == AV::Metadata::Fields::DESCRIPTION # skip description displayed above %>
         <tr>
           <th><p><%= v.label %></p></th>
           <td>
-            <% lines.each { |line| %><p><%= line %></p><% } %>
-            <% links.each { |link| %><p><%= link_to(link.body, link.url) %></p><% } %>
+            <% v.entries.each do |entry| %>
+              <p>
+                <% if entry.is_a?(AV::Metadata::Link) %>
+                  <%= link_to(entry.body, entry.url) %>
+                <% else %>
+                  <%= entry %>
+                <% end %>
+              </p>
+            <% end %>
           </td>
         </tr>
       <% end %>

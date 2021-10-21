@@ -5,110 +5,118 @@
 <h1>Examples</h1>
 
 <%
-  {
+  def video?(coll)
+    coll.downcase.include?('video')
+  end
+  records = {
     'Public' => {
       'MRCAudio' => {
         'Robert Frost: Poetry reading, November 8, 1953 (2 files)' => {
-          AV::RecordId::Type::ALMA => '991038544199706532',
-          AV::RecordId::Type::MILLENNIUM => 'b11082434'
+          'Alma' => '991038544199706532',
+          'Millennium' => 'b11082434'
         }
       },
       'Pacifica' => {
         'Author Alice Walker reads the short story, Roselily.' => {
-          AV::RecordId::Type::ALMA => '991035377049706532',
-          AV::RecordId::Type::MILLENNIUM => 'b23305516',
-          AV::RecordId::Type::TIND => '(pacradio)00107'
+          'Alma' => '991035377049706532',
+          'Millennium' => 'b23305516',
+          'TIND' => '(pacradio)00107'
         },
         'Wanda Coleman' => {
-          AV::RecordId::Type::ALMA => '991035377279706532',
-          AV::RecordId::Type::MILLENNIUM => 'b23305522',
-          AV::RecordId::Type::TIND => '(pacradio)-01469'
+          'Alma' => '991035377279706532',
+          'Millennium' => 'b23305522',
+          'TIND' => '(pacradio)-01469'
         }
       },
       'Video-Public-MRC' => {
         'Communists on campus' => {
-          AV::RecordId::Type::ALMA => '991010948099706532',
-          AV::RecordId::Type::MILLENNIUM => 'b22139658'
+          'Alma' => '991010948099706532',
+          'Millennium' => 'b22139658'
         }
       },
       'Video-Public-Physics' => {
         'Particle Fever: Physics Department screening' => {
-          AV::RecordId::Type::TIND => 'physcolloquia-bk00169017b'
+          'TIND' => 'physcolloquia-bk00169017b'
         }
       },
       'music' => {
         'Instructional tape: piobareachd (20 files)' => {
-          AV::RecordId::Type::ALMA => '991033920629706532',
-          AV::RecordId::Type::MILLENNIUM => 'b23161018'
+          'Alma' => '991033920629706532',
+          'Millennium' => 'b23161018'
         }
       }
     },
     'Restricted' => {
       'City' => {
         'Interview with Joyce Carol Oates, January 26, 2016' => {
-          AV::RecordId::Type::ALMA => '991042518099706532',
-          AV::RecordId::Type::MILLENNIUM => 'b24071548',
-          AV::RecordId::Type::TIND => '(cityarts)00773'
+          'Alma' => '991042518099706532',
+          'Millennium' => 'b24071548',
+          'TIND' => '(cityarts)00773'
         },
         'Spelling Bee for Cheaters' => {
-          AV::RecordId::Type::ALMA => '991079960029706532',
-          AV::RecordId::Type::MILLENNIUM => 'b18538031',
-          AV::RecordId::Type::TIND => '(cityarts)00002'
+          'Alma' => '991079960029706532',
+          'Millennium' => 'b18538031',
+          'TIND' => '(cityarts)00002'
         }
       },
       'Video-UCBOnly-MRC' => {
         'Voices of the Rainforest' => {
-          AV::RecordId::Type::ALMA => '991053883429706532',
-          AV::RecordId::Type::MILLENNIUM => 'b25596697'
+          'Alma' => '991053883429706532',
+          'Millennium' => 'b25596697'
         },
         'XXXY' => {
-          AV::RecordId::Type::MILLENNIUM => 'b23935657'
+          'Millennium' => 'b23935657'
         }
       }
     },
-    'Nonexistent' => {
+    'Missing or nonexistent' => {
       'Pandall' => {
         'Arno Waltiri: Das Unendlichkeit Konzert, Opus 45.' => {
-          AV::RecordId::Type::ALMA => '991099999999996532',
-          AV::RecordId::Type::MILLENNIUM => 'b999999999',
-          AV::RecordId::Type::TIND => '999999999'
+          'Alma' => '991099999999996532',
+          'Millennium' => 'b999999999',
+          'TIND' => '999999999'
         }
       }
     }
-  }.each do |coll_type, records_by_collection|
+  }
 %>
-  <table>
-    <thead>
-    <th>
-      <h2><%= coll_type %> collections</h2>
-    </th>
-    </thead>
-    <% records_by_collection.each do |collection, records_by_title| %>
-      <tbody>
+
+<% records.each do |viz, records_by_coll| %>
+  <section class="record">
+    <table>
+      <thead>
       <tr>
-        <td class="description"><%= collection %></td>
+        <th>
+          <h2><%= viz %></h2>
+        </th>
       </tr>
-      <% records_by_title.each do |title, record_ids_by_type| %>
-        <% record_ids_by_type.each do |type, record_id| %>
+      </thead>
+      <tbody>
+      <% records_by_coll.each do |collection, records_by_title| %>
+        <% rtype = video?(collection) ? 'Video' : 'Audio' %>
+        <% records_by_title.each do |title, records_by_source| %>
           <tr>
-            <td><%= type.to_s %></td>
-          <tr>
+            <th><%= rtype %></th>
             <td>
-              <%= link_to(
-                    title,
-                    controller: :player,
-                    action: :show,
-                    collection: collection,
-                    record_id: record_id
-                  ) %>
+              <p><%= title %></p>
+              <table>
+                <tbody>
+                <tr>
+                  <% records_by_source.each do |source, record_id| %>
+                    <% record_url = player_url(collection: collection, record_id: record_id) %>
+                    <th><%= source %></th>
+                    <td><%= link_to(record_url, record_url) %></td>
+                  <% end %>
+                </tr>
+                </tbody>
+              </table>
             </td>
           </tr>
         <% end %>
       <% end %>
       </tbody>
-      <%= collection %>
-      </table>
-    <% end %>
+    </table>
+  </section>
 <% end %>
 
 <%# TODO: add file preview %>

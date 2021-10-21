@@ -46,6 +46,18 @@ module AvPlayer
     config.avplayer_base_uri = ENV.fetch('LIT_AVPLAYER_BASE_URL', 'https://avplayer.lib.berkeley.edu/') # production
     # config.avplayer_base_uri = ENV.fetch('LIT_AVPLAYER_BASE_URL', 'https://avplayer-staging.swarm-ewh-staging.devlib.berkeley.edu/') # staging
 
+    # Alma SRU hostname
+    config.alma_sru_host = ENV.fetch('LIT_ALMA_SRU_HOST', 'berkeley.alma.exlibrisgroup.com')
+
+    # Alma institution code
+    config.alma_institution_code = ENV.fetch('LIT_ALMA_INSTITUTION_CODE', '01UCS_BER')
+
+    # Alma Primo host
+    config.alma_primo_host = ENV.fetch('LIT_ALMA_PRIMO_HOST', 'search.library.berkeley.edu')
+
+    # Alma view state key to use when generating Alma permalinks
+    config.alma_permalink_key = ENV.fetch('LIT_ALMA_PERMALINK_KEY', 'iqob43')
+
     # Campus networks URL
     # Note that this includes LBNL, and that's intentional
     config.campus_networks_uri = ENV.fetch('CAMPUS_NETWORKS_URL', 'https://framework.lib.berkeley.edu/campus-networks/')
@@ -59,14 +71,9 @@ module AvPlayer
     config.after_initialize do
       AvPlayer::BuildInfo.log_to(Rails.logger)
 
-      avplayer_config = %i[
-        tind_base_uri
-        millennium_base_uri
-        wowza_base_uri
-        avplayer_base_uri
-        campus_networks_uri
-        show_homepage
-      ].map { |k| [k, config.send(k)] }.to_h
+      avplayer_config = AV::Config::REQUIRED_SETTINGS.each_with_object({}) do |attr, configs|
+        configs[attr] = config.send(attr)
+      end
 
       Rails.logger.info('Configuration', data: avplayer_config)
     end
