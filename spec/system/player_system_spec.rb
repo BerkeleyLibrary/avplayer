@@ -10,8 +10,8 @@ describe PlayerController, type: :system do
 
     describe 'audio' do
       before(:each) do
-        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
-        stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b23305522.html'))
+        stub_sru_request('b23305522')
+
         manifest_url = 'https://wowza.example.edu/Pacifica/mp3:PRA_NHPRC1_AZ1084_00_000_00.mp3/playlist.m3u8'
         stub_request(:head, manifest_url).to_return(status: 200)
 
@@ -48,13 +48,9 @@ describe PlayerController, type: :system do
         expect(source).not_to be_nil
       end
 
-      # TODO: ALMA: restore this once we have Alma/Primo catalog links
-      xit 'displays the catalog link' do
-        expect(page).to have_link('View library catalog record.', href: 'http://oskicat.berkeley.edu/record=b23305522')
-      end
-
       it 'displays the catalog link' do
-        expect(page).not_to have_link('View library catalog record.', href: 'http://oskicat.berkeley.edu/record=b23305522')
+        expected_url = "#{permalink_base}991035377279706532"
+        expect(page).to have_link('View library catalog record.', href: expected_url)
       end
     end
 
@@ -63,8 +59,7 @@ describe PlayerController, type: :system do
         collection = 'MRCAudio'
         record_id = 'b11082434'
 
-        search_url = "http://oskicatp.berkeley.edu/search~S1?/.#{record_id}/.#{record_id}/1%2C1%2C1%2CB/marc~#{record_id}"
-        stub_request(:get, search_url).to_return(status: 200, body: File.read("spec/data/#{record_id}.html"))
+        stub_sru_request('b11082434')
         stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
 
         visit "/#{collection}/#{record_id}"
@@ -133,12 +128,6 @@ describe PlayerController, type: :system do
         expect(source).not_to be_nil
       end
 
-      # TODO: ALMA: restore this once we have Alma/Primo catalog links
-      xit 'displays the catalog link' do
-        expect(page).to have_link('View library catalog record.', href: 'http://oskicat.berkeley.edu/record=b23305522')
-      end
-
-      # TODO: ALMA: restore this once we have Alma/Primo catalog links
       it 'suppresses the OskiCat link' do
         expect(page).not_to have_link('View library catalog record.', href: 'http://oskicat.berkeley.edu/record=b23305522')
       end
@@ -146,9 +135,9 @@ describe PlayerController, type: :system do
 
     describe 'bad track paths' do
       it 'still displays audio records' do
-        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
-        data_with_bad_path = File.read('spec/data/b23305522.html').gsub('PRA_NHPRC1_AZ1084_00_000_00.mp3', 'this is not a valid path.mp3')
-        stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
+        data_path = alma_sru_data_path_for('b23305522')
+        data_with_bad_path = File.read(data_path).gsub('PRA_NHPRC1_AZ1084_00_000_00.mp3', 'this is not a valid path.mp3')
+        stub_sru_request('b23305522', body: data_with_bad_path)
         stub_request(:head, /playlist.m3u8$/).to_return(status: 404)
 
         visit '/Pacifica/b23305522'
@@ -159,9 +148,9 @@ describe PlayerController, type: :system do
       end
 
       it 'still displays video records' do
-        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
-        data_with_bad_path = File.read('spec/data/b22139658.html').gsub('6927.mp4', 'this is not a valid path.mp4')
-        stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
+        data_path = alma_sru_data_path_for('b22139658')
+        data_with_bad_path = File.read(data_path).gsub('6927.mp4', 'this is not a valid path.mp4')
+        stub_sru_request('b22139658', body: data_with_bad_path)
         stub_request(:head, /playlist.m3u8$/).to_return(status: 404)
 
         visit '/Video-Public-MRC/b22139658'
@@ -170,25 +159,13 @@ describe PlayerController, type: :system do
         expect(page).to have_content(expected_title)
         expect(page).to have_content('File not found')
       end
-
-      it "displays something useful when it can't determine file type" do
-        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b25742488/.b25742488/1%2C1%2C1%2CB/marc~b25742488'
-        data_with_bad_path = File.read('spec/data/b25742488.html')
-        stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
-        stub_request(:head, /playlist.m3u8$/).to_return(status: 404)
-        visit '/Video-UCB-Only-MRC/b25742488'
-
-        expected_title = 'Monumental crossroads'
-        expect(page).to have_content(expected_title)
-        expect(page).to have_content('unsupported file type')
-      end
     end
 
     describe 'no track info' do
       it 'still displays audio records' do
-        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
-        data_with_bad_path = File.read('spec/data/b23305522.html').gsub(/^998.*/, '')
-        stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
+        data_path = alma_sru_data_path_for('b23305522')
+        data_with_bad_path = File.read(data_path).gsub('tag="998"', 'tag="999"')
+        stub_sru_request('b23305522', body: data_with_bad_path)
         visit '/Pacifica/b23305522'
 
         expected_title = 'Wanda Coleman'
@@ -197,11 +174,9 @@ describe PlayerController, type: :system do
       end
 
       it 'still displays video records' do
-        stub_request(:get, /manifest.mpd$/).to_return(status: 404)
-
-        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
-        data_with_bad_path = File.read('spec/data/b22139658.html').gsub(/^998.*/, '')
-        stub_request(:get, search_url).to_return(status: 200, body: data_with_bad_path)
+        data_path = alma_sru_data_path_for('b22139658')
+        data_with_bad_path = File.read(data_path).gsub('tag="998"', 'tag="999"')
+        stub_sru_request('b22139658', body: data_with_bad_path)
         visit '/Video-Public-MRC/b22139658'
 
         expected_title = 'Communists on campus'
@@ -217,8 +192,8 @@ describe PlayerController, type: :system do
       attr_reader :metadata_record
 
       before(:each) do
-        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
-        stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b22139658.html'))
+        stub_sru_request('b22139658')
+
         stub_request(:get, /manifest.mpd$/).to_return(status: 404)
         stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
         visit '/Video-Public-MRC/b22139658'
@@ -266,8 +241,8 @@ describe PlayerController, type: :system do
 
     describe 'captions' do
       it 'adds a <track/> tag for the VTT file when captions present' do
-        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b22139658/.b22139658/1%2C1%2C1%2CB/marc~b22139658'
-        stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b22139658.html'))
+        stub_sru_request('b22139658')
+
         stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
 
         manifest_url = 'https://wowza.example.edu/Video-Public-MRC/mp4:6927.mp4/manifest.mpd'
@@ -294,8 +269,8 @@ describe PlayerController, type: :system do
 
     describe 'UCB-only records' do
       before(:each) do
-        search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b18538031/.b18538031/1%2C1%2C1%2CB/marc~b18538031'
-        stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b18538031.html'))
+        stub_sru_request('b18538031')
+
       end
 
       describe 'when allowed' do

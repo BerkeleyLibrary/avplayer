@@ -94,7 +94,7 @@
       <tbody>
       <% records_by_coll.each do |collection, records_by_title| %>
         <% rtype = video?(collection) ? 'Video' : 'Audio' %>
-        <% records_by_title.each do |title, records_by_source| %>
+        <% records_by_title.each do |title, records_by_id_type| %>
           <tr>
             <th><%= rtype %></th>
             <td>
@@ -102,10 +102,15 @@
               <table>
                 <tbody>
                 <tr>
-                  <% records_by_source.each do |source, record_id| %>
+                  <% records_by_id_type.each do |id_type, record_id| %>
                     <% record_url = player_url(collection: collection, record_id: record_id) %>
-                    <th><%= source %></th>
-                    <td><%= link_to(record_url, record_url) %></td>
+                    <th><%= id_type %></th>
+                    <td>
+                      <%= link_to(record_url, record_url) %>
+                      <% if id_type == 'Millennium' %>
+                      (using Alma metadata)
+                      <% end %>
+                    </td>
                   <% end %>
                 </tr>
                 </tbody>

@@ -5,16 +5,16 @@ require 'health/check'
 
 module Health
   describe Check do
-    attr_reader :wowza_uri, :millennium_uri, :tind_uri, :all_checks
+    attr_reader :wowza_uri, :alma_uri, :tind_uri, :all_checks
 
     before(:each) do
       @wowza_uri = AV::Track.hls_uri_for(collection: Check::TEST_WOWZA_COLLECTION, relative_path: Check::TEST_WOWZA_PATH)
 
-      @millennium_uri = AV::Metadata::Source::MILLENNIUM.marc_uri_for(Check::TEST_BIB_NUMBER)
+      @alma_uri = AV::Metadata::Source::ALMA.marc_uri_for(Check::TEST_BIB_NUMBER)
       @tind_uri = AV::Metadata::Source::TIND.marc_uri_for(Check::TEST_TIND_ID)
 
       @all_checks = {
-        Check::MILLENNIUM_CHECK => millennium_uri,
+        Check::ALMA_CHECK => alma_uri,
         Check::TIND_CHECK => tind_uri,
         Check::WOWZA_CHECK => wowza_uri
       }

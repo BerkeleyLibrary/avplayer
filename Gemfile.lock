@@ -1,7 +1,7 @@
 GIT
   remote: https://git.lib.berkeley.edu/lap/av_core.git
-  revision: 1457d6bab8900695c8743cdb7f2b38bedea073b9
-  branch: LIT-2365-alma
+  revision: 15a7fcf5d7f857c00e266ac84dabd1f3f863ede5
+  branch: master
   specs:
     av_core (0.2.0)
       berkeley_library-logging (~> 0.2)

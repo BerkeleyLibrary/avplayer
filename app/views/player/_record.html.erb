@@ -68,10 +68,12 @@
     <% record.metadata.tap do |metadata| %>
       <% metadata.values_by_field.each do |f, v| %>
         <% next if f == AV::Metadata::Fields::DESCRIPTION # skip description displayed above %>
+        <% entries = v.entries.reject { |e| e.to_s.include?('oskicat') } %>
+        <% next if entries.empty? %>
         <tr>
           <th><p><%= v.label %></p></th>
           <td>
-            <% v.entries.each do |entry| %>
+            <% entries.each do |entry| %>
               <p>
                 <% if entry.is_a?(AV::Metadata::Link) %>
                   <%= link_to(entry.body, entry.url) %>

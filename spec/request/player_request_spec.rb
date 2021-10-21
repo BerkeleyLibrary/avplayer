@@ -29,8 +29,7 @@ describe PlayerController, type: :request do
 
   describe :index do
     it 'includes build information in comments' do
-      search_url = 'http://oskicatp.berkeley.edu/search~S1?/.b23305522/.b23305522/1%2C1%2C1%2CB/marc~b23305522'
-      stub_request(:get, search_url).to_return(status: 200, body: File.read('spec/data/b23305522.html'))
+      stub_sru_request('b23305522')
       manifest_url = 'https://wowza.example.edu/Pacifica/mp3:PRA_NHPRC1_AZ1084_00_000_00.mp3/playlist.m3u8'
       stub_request(:head, manifest_url).to_return(status: 200)
 

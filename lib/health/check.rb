@@ -11,7 +11,7 @@ module Health
     # TODO: use Typesafe::Enum
     TIND_CHECK = 'TIND'.freeze
     WOWZA_CHECK = 'Wowza'.freeze
-    MILLENNIUM_CHECK = 'Millennium'.freeze
+    ALMA_CHECK = 'Alma'.freeze
 
     TEST_BIB_NUMBER = 'b23305522'.freeze
     TEST_TIND_ID = '21178'.freeze
@@ -44,7 +44,7 @@ module Health
     class << self
       def all_checks
         {
-          MILLENNIUM_CHECK => method(:try_millennium),
+          ALMA_CHECK => method(:try_alma),
           TIND_CHECK => method(:try_tind),
           WOWZA_CHECK => method(:try_wowza)
         }
@@ -52,8 +52,8 @@ module Health
 
       private
 
-      def try_millennium
-        service_uri = AV::Metadata::Source::MILLENNIUM.marc_uri_for(TEST_BIB_NUMBER)
+      def try_alma
+        service_uri = AV::Metadata::Source::ALMA.marc_uri_for(TEST_BIB_NUMBER)
         make_head_request(service_uri)
       end
 
