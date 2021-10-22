@@ -224,12 +224,6 @@ section {
       &:not(:last-child) {
         margin-bottom: $margin-small;
       }
-
-      &.note {
-        font-size: $font-size-small;
-        line-height: $line-height-small;
-        margin-top: $margin;
-      }
     }
 
     a {
@@ -282,6 +276,16 @@ h2 {
 pre {
   font-family: $font-family-mono;
   font-size: small;
+}
+
+p.note {
+  font-size: $font-size-small;
+  line-height: $line-height-small;
+  margin-top: $margin;
+
+  display: list-item;
+  list-style-type: '⚠️';
+  margin-left: $margin-2xl;
 }
 
 // ////////////////////////////////////////////////////////////

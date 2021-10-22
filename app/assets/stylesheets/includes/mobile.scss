@@ -26,24 +26,51 @@
     }
 
     nav {
-      margin-bottom: $margin-3xl;
-      margin-top: $margin-3xl;
+      $nav-menu-height: $font-size-xxlarge;
+
+      position: relative;
+      margin-bottom: $margin-xl;
+      margin-top: $margin-xl;
+      text-align: center;
+
+      min-height: $nav-menu-height;
 
       // sass-lint:disable-block no-ids, no-qualifying-elements
       input {
         &#nav-menu {
-          margin: 0;
+          appearance: none;
+          -webkit-appearance: none;
+          height: $nav-menu-height;
+          width: $nav-menu-height + 1rem;
+          padding: 0;
+          margin-left: auto;
+          margin-right: auto;
+          position: absolute;
+          top: 0;
+          left: calc(50% - 1.5rem);
 
           &:checked ~ ul {
             display: block;
-            padding-top: $margin;
-            padding-bottom: $margin-xl;
 
             li {
-              font-size: $font-size-xxlarge;
+              font-size: $nav-menu-height;
               line-height: $line-height;
-              margin-top: $margin-2xl;
+              margin-top: $margin;
               text-align: center;
+            }
+          }
+
+          &:focus ~ label.nav-menu-label {
+            svg {
+              color: $color-anchor-highlight;
+              transition: color 0.25s;
+            }
+          }
+
+          &:hover ~ label.nav-menu-label {
+            svg {
+              color: $color-anchor-highlight;
+              transition: color 0.25s;
             }
           }
         }
@@ -52,15 +79,22 @@
       label {
         &.nav-menu-label {
           display: block;
+          position: absolute;
+          top: 0;
+          left: calc(50% - 1rem);
+          padding-left: 2px;
+          padding-top: 2px;
 
-          img {
-            max-height: $font-size-xxlarge;
+          svg {
+            height: $nav-menu-height;
           }
         }
       }
 
       ul {
         display: none;
+        margin-top: $margin-2xl;
+        padding: $margin-2xl $margin-small;
       }
     }
   }
