@@ -4,6 +4,12 @@
 
 <h1>Examples</h1>
 
+<p class="note">
+  Note that the development license used on the staging Wowza server is limited
+  to 10 simultaneous connections, so records with large numbers of tracks may not
+  load properly when streaming from that server.
+</p>
+
 <%
   def video?(coll)
     coll.downcase.include?('video')
