@@ -188,9 +188,6 @@ describe PlayerController, type: :system do
     describe 'video' do
       # TODO: test multiple files
 
-      attr_reader :metadata_key
-      attr_reader :metadata_record
-
       before(:each) do
         stub_sru_request('b22139658')
 
@@ -229,12 +226,14 @@ describe PlayerController, type: :system do
         expect(video).not_to be_nil
       end
 
-      # TODO: ALMA: restore this once we have Alma/Primo catalog links
-      xit 'displays the catalog link' do
-        expect(page).to have_link('View library catalog record.', href: 'http://oskicat.berkeley.edu/record=b22139658')
+      it 'displays the catalog link' do
+        metadata = AV::Metadata.for_record(record_id: 'b22139658')
+        expected_uri = metadata.display_uri
+
+        expect(page).to have_link('View library catalog record.', href: expected_uri)
       end
 
-      it 'displays the catalog link' do
+      it 'does not display an OskiCat catalog link' do
         expect(page).not_to have_link('View library catalog record.', href: 'http://oskicat.berkeley.edu/record=b22139658')
       end
     end
