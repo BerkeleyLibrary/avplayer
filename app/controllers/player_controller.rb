@@ -61,9 +61,9 @@ class PlayerController < ApplicationController
   def load_record
     record = AV::Record.from_metadata(collection: collection, record_id: record_id)
     return record unless record.ucb_access?
-    return record if ucb_request?
+    return record if authenticated? || ucb_request?
 
-    raise AvPlayer::RecordNotAvailable, "Record #{record_id.inspect} is UCB access only"
+    raise AvPlayer::RecordNotAvailable, record
   end
 
   def preview_params

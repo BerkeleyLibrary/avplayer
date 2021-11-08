@@ -40,7 +40,7 @@ RSpec.configure do |config|
 
   # AVPlayer configuration, or rather deconfiguration
   config.before(:each) do
-    AV::Config.send(:clear!)
+    AV::Config.send(:clear!) if defined?(AV::Config)
   end
 end
 
