@@ -10,6 +10,16 @@ GIT
       ruby-marc-spec (~> 0.1, >= 0.1.1)
       typesafe_enum (~> 0.3)
 
+GIT
+  remote: https://github.com/dlindahl/omniauth-cas.git
+  revision: 7087bda829e14c0f7cab2aece5045ad7015669b1
+  ref: 7087bda829e14c0f7cab2aece5045ad7015669b1
+  specs:
+    omniauth-cas (1.1.1)
+      addressable (~> 2.3)
+      nokogiri (~> 1.5)
+      omniauth (~> 1.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -137,6 +147,7 @@ GEM
     globalid (1.0.0)
       activesupport (>= 5.0)
     hashdiff (1.0.1)
+    hashie (5.0.0)
     http-accept (1.7.0)
     http-cookie (1.0.4)
       domain_name (~> 0.5)
@@ -182,6 +193,9 @@ GEM
     non-stupid-digest-assets (1.0.9)
       sprockets (>= 2.0)
     oj (3.13.10)
+    omniauth (1.9.1)
+      hashie (>= 3.4.6)
+      rack (>= 1.6.2, < 3)
     ougai (1.9.1)
       oj (~> 3.10)
     parallel (1.21.0)
@@ -368,6 +382,7 @@ DEPENDENCIES
   listen (>= 3.0, < 3.2)
   marc (~> 1.0)
   non-stupid-digest-assets (~> 1.0)
+  omniauth-cas!
   puma (~> 5.3, >= 5.3.1)
   rails (~> 6.1, >= 6.1.4.4)
   rest-client (~> 2.1)

@@ -11,6 +11,9 @@ gem 'browser', '~> 4.2'
 gem 'jbuilder', '~> 2.7'
 gem 'marc', '~> 1.0'
 gem 'non-stupid-digest-assets', '~> 1.0' # Allow static pages (e.g. 404.html) to link to compiled assets
+gem 'omniauth-cas',
+    git: 'https://github.com/dlindahl/omniauth-cas.git',
+    ref: '7087bda829e14c0f7cab2aece5045ad7015669b1'
 gem 'puma', '~> 5.3', '>= 5.3.1'
 gem 'rails', '~> 6.1', '>= 6.1.4.4'
 gem 'rest-client', '~> 2.1'
