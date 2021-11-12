@@ -46,7 +46,7 @@ module CalnetHelper
 
   # Logs out. Suitable for calling in an after() block.
   def logout!
-    unless respond_to?(:page)
+    unless defined?(CapybaraHelper)
       # Selenium doesn't know anything about webmock and will just hit the real logout path
       stub_request(:get, 'https://auth-test.berkeley.edu/cas/logout').to_return(status: 200)
       without_redirects { do_get logout_path }

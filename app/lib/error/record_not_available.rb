@@ -1,7 +1,7 @@
 require 'av/core'
 
-module AvPlayer
-  class RecordNotAvailable < StandardError
+module Error
+  class RecordNotAvailable < ApplicationError
     # TODO: use Rails i18n
     MSG_FMT_CALNET_ONLY = 'Record %s is for UC Berkeley faculty, staff, and students only'.freeze
     MSG_FMT_UCB_ACCESS = 'Record %s is UCB access only'.freeze
@@ -31,9 +31,6 @@ module AvPlayer
       rec_id = record.record_id
       return format(MSG_FMT_CALNET_ONLY, rec_id) if record.calnet_only?
       return format(MSG_FMT_UCB_ACCESS, rec_id) if record.ucb_access?
-
-      raise ArgumentError, "Not a restricted record: #{rec_id}"
     end
-
   end
 end

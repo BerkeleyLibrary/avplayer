@@ -1,7 +1,6 @@
-require 'spec_helper'
-require 'av_player/record_not_available'
+require 'rails_helper'
 
-module AvPlayer
+module Error
   describe RecordNotAvailable do
     it 'accepts a raw string message' do
       msg = 'the message'

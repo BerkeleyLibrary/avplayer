@@ -88,18 +88,24 @@ class User
     !uid.nil?
   end
 
-  def ucb_faculty?
-    affiliations&.include?('EMPLOYEE-TYPE-ACADEMIC')
-  end
+  # TODO: do we care?
+  #
+  # def ucb_faculty?
+  #   affiliations&.include?('EMPLOYEE-TYPE-ACADEMIC')
+  # end
+  #
+  # def ucb_staff?
+  #   affiliations&.include?('EMPLOYEE-TYPE-STAFF')
+  # end
+  #
+  # def ucb_student?
+  #   return unless affiliations
+  #
+  #   STUDENT_AFFILIATIONS.any? { |a9n| affiliations.include?(a9n) }
+  # end
 
-  def ucb_staff?
-    affiliations&.include?('EMPLOYEE-TYPE-STAFF')
-  end
-
-  def ucb_student?
-    return unless affiliations
-
-    STUDENT_AFFILIATIONS.any? { |a9n| affiliations.include?(a9n) }
+  def authorized?
+    authenticated? # && (ucb_student? || ucb_staff? || ucb_faculty?)
   end
 
   def inspect

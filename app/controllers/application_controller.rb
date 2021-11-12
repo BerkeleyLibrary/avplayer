@@ -3,16 +3,16 @@ class ApplicationController < ActionController::Base
   # ------------------------------
   # Authentication/Authorization
 
-  # Require that the current user be authenticated
+  # # Require that the current user be authenticated
+  # #
+  # # @return [void]
+  # # @raise [Error::UnauthorizedError] If the user is not
+  # #   authenticated
+  # def authenticate!
+  #   raise Error::UnauthorizedError, "Endpoint #{controller_name}/#{action_name} requires authentication" unless authenticated?
   #
-  # @return [void]
-  # @raise [Error::UnauthorizedError] If the user is not
-  #   authenticated
-  def authenticate!
-    raise Error::UnauthorizedError, "Endpoint #{controller_name}/#{action_name} requires authentication" unless authenticated?
-
-    yield current_user if block_given?
-  end
+  #   yield current_user if block_given?
+  # end
 
   # Return whether the current user is authenticated
   #
@@ -21,6 +21,14 @@ class ApplicationController < ActionController::Base
     current_user.authenticated?
   end
   helper_method :authenticated?
+
+  # Return whether the current user is authorized
+  #
+  # @return [Boolean]
+  def authorized?
+    current_user.authorized?
+  end
+  helper_method :authorized?
 
   # Return the current user
   #

@@ -303,6 +303,10 @@ describe PlayerController, type: :system do
             mock_login(:student)
           end
 
+          after(:each) do
+            logout!
+          end
+
           describe 'with UCB IP' do
             before(:each) do
               allow(UcbIpService).to receive(:ucb_request?).and_return(true)
@@ -346,6 +350,10 @@ describe PlayerController, type: :system do
         describe 'with CalNet login' do
           before(:each) do
             mock_login(:student)
+          end
+
+          after(:each) do
+            logout!
           end
 
           describe 'with UCB IP' do

@@ -1,12 +1,11 @@
 require 'active_record'
 require 'av/core'
 require 'health/check'
-require 'av_player/record_not_available'
 
 class PlayerController < ApplicationController
 
   rescue_from AV::RecordNotFound, with: :record_not_found
-  rescue_from AvPlayer::RecordNotAvailable, with: :record_not_available
+  rescue_from Error::RecordNotAvailable, with: :record_not_available
   rescue_from ActionController::ParameterMissing, with: :bad_request
 
   def show
@@ -58,10 +57,10 @@ class PlayerController < ApplicationController
   end
 
   def ensure_record_available!
-    return if authenticated?
+    return if authorized?
 
-    raise(AvPlayer::RecordNotAvailable, record) if record.calnet_only?
-    raise(AvPlayer::RecordNotAvailable, record) if record.ucb_access? && external_request?
+    raise(Error::RecordNotAvailable, record) if record.calnet_only?
+    raise(Error::RecordNotAvailable, record) if record.ucb_access? && external_request?
   end
 
   def preview_tracks

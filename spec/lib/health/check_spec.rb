@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 require 'av/core'
-require 'health/check'
 
 module Health
   describe Check do

@@ -1,14 +1,19 @@
 <% content_for(:title, 'Audio / Video: Record not available') %>
-
+<%
+  calnet_only = record&.calnet_only?
+  access_methods = [].tap do |mm|
+    mm << login_link unless authenticated?
+    mm << vpn_link unless calnet_only
+  end
+%>
 <section class="record">
   <h1>Record not available</h1>
 
   <p>
-    The specified record is available to UC Berkeley users only. For full access,
-    <% unless record&.calnet_only? %>
-      <%= link_to('use the bSecure VPN', 'https://www.lib.berkeley.edu/using-the-libraries/vpn') %>, or
+    The specified record is available to UC Berkeley users only.
+    <% unless access_methods.empty? %>
+      For full access, <%= access_methods.join(', or ').html_safe %>.
     <% end %>
-    <%= link_to('log in with Calnet', login_path(url: request.fullpath)) %>.
   </p>
 
   <table>
