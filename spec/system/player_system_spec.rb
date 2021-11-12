@@ -266,24 +266,23 @@ describe PlayerController, type: :system do
       end
     end
 
-    describe 'UCB-only records' do
-
-      let(:record_id) { '991047179369706532' }
-
-      before(:each) do
-        stub_sru_request(record_id)
-        stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
-      end
+    describe 'restricted records' do
 
       describe 'CalNet only' do
+        collection = 'Video-UCBOnly-MRC'
+        record_id = '991047179369706532'
+
+        before(:each) do
+          stub_sru_request(record_id)
+        end
+
         describe 'without CalNet login' do
           describe 'with UCB IP' do
             before(:each) do
               allow(UcbIpService).to receive(:ucb_request?).and_return(true)
             end
 
-            xit 'displays the "Record not available" page'
-            xit 'includes an explicit CalNet login link'
+            it_behaves_like('the record is not available', collection, record_id)
           end
 
           describe 'without UCB IP' do
@@ -291,8 +290,7 @@ describe PlayerController, type: :system do
               allow(UcbIpService).to receive(:ucb_request?).and_return(false)
             end
 
-            xit 'displays the "Record not available" page'
-            xit 'includes an explicit CalNet login link'
+            it_behaves_like('the record is not available', collection, record_id)
           end
         end
 
@@ -306,14 +304,14 @@ describe PlayerController, type: :system do
               allow(UcbIpService).to receive(:ucb_request?).and_return(true)
             end
 
-            xit 'displays the player'
+            it_behaves_like('the record is available', collection, record_id)
           end
           describe 'without UCB IP' do
             before(:each) do
               allow(UcbIpService).to receive(:ucb_request?).and_return(false)
             end
 
-            xit 'displays the player'
+            it_behaves_like('the record is available', collection, record_id)
           end
         end
       end

@@ -4,7 +4,9 @@
   <h1>Record not available</h1>
 
   <p>
-    The specified record is available to UC Berkeley users only.
+    The specified record is available to UC Berkeley users only. For full access,
+    <%= link_to('log in with Calnet', login_path(url: request.fullpath)) %> or
+    <%= link_to('use the bSecure VPN', 'https://www.lib.berkeley.edu/using-the-libraries/vpn') %>.
   </p>
 
   <table>
