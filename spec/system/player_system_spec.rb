@@ -274,6 +274,8 @@ describe PlayerController, type: :system do
 
         before(:each) do
           stub_sru_request(record_id)
+          manifest_url = 'https://wowza.example.edu/Video-UCBOnly-MRC/mp4:MRC_BeforeMyFeetTouchtheGround.mp4/manifest.mpd'
+          stub_request(:get, manifest_url).to_return(body: File.read('spec/data/991047179369706532-manifest.mpd'))
         end
 
         describe 'without CalNet login' do
@@ -283,6 +285,7 @@ describe PlayerController, type: :system do
             end
 
             it_behaves_like('the record is not available', collection, record_id)
+            it_behaves_like('CalNet only', collection, record_id)
           end
 
           describe 'without UCB IP' do
@@ -291,6 +294,7 @@ describe PlayerController, type: :system do
             end
 
             it_behaves_like('the record is not available', collection, record_id)
+            it_behaves_like('CalNet only', collection, record_id)
           end
         end
 
@@ -335,6 +339,7 @@ describe PlayerController, type: :system do
             end
 
             it_behaves_like('the record is not available', collection, record_id)
+            it_behaves_like('available from UCB IPs', collection, record_id)
           end
         end
 

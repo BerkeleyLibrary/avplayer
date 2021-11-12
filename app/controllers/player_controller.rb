@@ -10,7 +10,9 @@ class PlayerController < ApplicationController
   rescue_from ActionController::ParameterMissing, with: :bad_request
 
   def show
-    render locals: { record: load_record }
+    ensure_record_available!
+
+    render locals: { record: record }
   end
 
   def record_not_found(exception)
@@ -25,9 +27,12 @@ class PlayerController < ApplicationController
   def record_not_available(exception)
     logger.warn(exception) if exception
 
+    ex_record = exception.respond_to?(:record) ? exception.record : nil
+
     render :record_not_available, status: :forbidden, locals: {
       collection: collection,
-      record_id: record_id
+      record_id: record_id,
+      record: ex_record
     }
   end
 
@@ -48,6 +53,17 @@ class PlayerController < ApplicationController
 
   private
 
+  def record
+    @record ||= AV::Record.from_metadata(collection: collection, record_id: record_id)
+  end
+
+  def ensure_record_available!
+    return if authenticated?
+
+    raise(AvPlayer::RecordNotAvailable, record) if record.calnet_only?
+    raise(AvPlayer::RecordNotAvailable, record) if record.ucb_access? && external_request?
+  end
+
   def preview_tracks
     collection = preview_params[:collection]
     relative_path = preview_params[:relative_path]
@@ -56,14 +72,6 @@ class PlayerController < ApplicationController
     relative_path.split(';').each_with_index.map do |rp, index|
       AV::Track.new(sort_order: index, path: "#{collection}/#{rp}")
     end
-  end
-
-  def load_record
-    record = AV::Record.from_metadata(collection: collection, record_id: record_id)
-    return record unless record.ucb_access?
-    return record if authenticated? || ucb_request?
-
-    raise AvPlayer::RecordNotAvailable, record
   end
 
   def preview_params

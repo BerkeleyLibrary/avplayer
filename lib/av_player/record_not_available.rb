@@ -11,10 +11,10 @@ module AvPlayer
     def initialize(arg)
       if arg.is_a?(AV::Record)
         super(message_for(arg))
+        @record = arg
       else
         super(arg.to_s)
       end
-      @record = record
     end
 
     class << self

@@ -5,8 +5,10 @@
 
   <p>
     The specified record is available to UC Berkeley users only. For full access,
-    <%= link_to('log in with Calnet', login_path(url: request.fullpath)) %> or
-    <%= link_to('use the bSecure VPN', 'https://www.lib.berkeley.edu/using-the-libraries/vpn') %>.
+    <% unless record&.calnet_only? %>
+      <%= link_to('use the bSecure VPN', 'https://www.lib.berkeley.edu/using-the-libraries/vpn') %>, or
+    <% end %>
+    <%= link_to('log in with Calnet', login_path(url: request.fullpath)) %>.
   </p>
 
   <table>

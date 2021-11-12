@@ -31,3 +31,21 @@ RSpec.shared_examples 'the record is not available' do |collection, record_id|
     expect(page).to have_link(href: expected_link)
   end
 end
+
+RSpec.shared_examples 'available from UCB IPs' do |collection, record_id|
+  it 'displays the VPN link' do
+    visit player_path(collection: collection, record_id: record_id)
+
+    expected_link = 'https://www.lib.berkeley.edu/using-the-libraries/vpn'
+    expect(page).to have_link(href: expected_link)
+  end
+end
+
+RSpec.shared_examples 'CalNet only'  do |collection, record_id|
+  it 'does not display the VPN link' do
+    visit player_path(collection: collection, record_id: record_id)
+
+    expected_link = 'https://www.lib.berkeley.edu/using-the-libraries/vpn'
+    expect(page).not_to have_link(href: expected_link)
+  end
+end

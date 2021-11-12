@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-  <meta name="EZproxyRewriting" content="disable" />
+  <title><%= yield(:title) %></title>
+
+  <meta name="EZproxyRewriting" content="disable"/>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= yield(:title) %></title>
+
   <!-- Favicon -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -28,67 +30,11 @@
 
 <body>
 <a href="#main" class="visually-hidden focusable skip-link">Skip to main content</a>
-
-<header>
-  <div class="branding">
-    <a href="https://www.lib.berkeley.edu/">
-      <%= image_tag('UCBerkeley_Library_wordmark_black.svg', class: 'header-logo', alt: 'UC Berkeley Library') %>
-      <span class="site-name">Audio / Video</span>
-    </a>
-  </div>
-  <nav>
-    <input type="checkbox" id="nav-menu">
-    <label class="nav-menu-label" for="nav-menu">
-      <svg aria-label="Menu" xmlns="http://www.w3.org/2000/svg" focusable="false" viewBox="0 0 448 512">
-        <title>Menu</title>
-        <path fill="currentColor"
-              d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/>
-      </svg>
-    </label>
-    <ul>
-      <li>
-        <a href="https://digital.lib.berkeley.edu/">Digital Collections Home</a>
-      </li>
-      <li>
-        <a href="https://www.lib.berkeley.edu/">Library Home</a>
-      </li>
-    </ul>
-  </nav>
-</header>
-
+<%= render(partial: 'layouts/header') %>
 <main id="main">
-<%= yield %>
+  <%= yield %>
 </main>
-
-<footer>
-  <section id="copyright-info">
-    <p>
-      Copyright &copy; <%= Date.current.year %> The Regents of the University of California.
-      All rights reserved.
-    </p>
-    <p>
-      Except where otherwise noted, this work is subject to a
-      <a href="http://www.lib.berkeley.edu/about/creative-commons">Creative Commons Attribution-Noncommercial 4.0
-        License</a>.
-    </p>
-  </section>
-  <section id="social-media">
-    <a href="https://www.facebook.com/ucberkeleylibrary/"><%= image_tag('icons/facebook-square.svg', class: 'social-media-icon', alt: 'Facebook') %></a>
-    <a href="https://twitter.com/UCBerkeleyLib"><%= image_tag('icons/twitter-square.svg', class: 'social-media-icon', alt: 'Twitter') %></a>
-    <a href="https://www.youtube.com/channel/UCrwP3Cw1FHwqslSAG5JkLTQ"><%= image_tag('icons/youtube-square.svg', class: 'social-media-icon', alt: 'YouTube') %></a>
-    <a href="https://www.instagram.com/ucberkeleylibrary/"><%= image_tag('icons/instagram.svg', class: 'social-media-icon', alt: 'Instagram') %></a>
-  </section>
-  <section id="footer-links">
-    <ul>
-      <li><a href="https://lib.berkeley.edu/about/privacy-policy">Privacy</a></li>
-      <li><a href="https://dac.berkeley.edu/web-accessibility">Accessibility</a></li>
-      <li><a href="https://ophd.berkeley.edu/policies-and-procedures/nondiscrimination-policy-statement">Nondiscrimination</a></li>
-    </ul>
-  </section>
-  <section id="footer-logo">
-    <%= image_tag('UCBerkeley_wordmark_white.svg', class: 'footer-logo', alt: 'UC Berkeley') %>
-  </section>
-</footer>
+<%= render(partial: 'layouts/footer') %>
 </body>
 <%= AvPlayer::BuildInfo.as_html_comment %>
 </html>

@@ -53,4 +53,7 @@ class ApplicationController < ActionController::Base
     UcbIpService.ucb_request?(request)
   end
 
+  def external_request?
+    !ucb_request?
+  end
 end
