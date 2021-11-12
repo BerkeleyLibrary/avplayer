@@ -267,35 +267,94 @@ describe PlayerController, type: :system do
     end
 
     describe 'UCB-only records' do
-      before(:each) do
-        stub_sru_request('b18538031')
 
+      let(:record_id) { '991047179369706532' }
+
+      before(:each) do
+        stub_sru_request(record_id)
+        stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
       end
 
-      describe 'when allowed' do
-        it 'displays the player for UCB IPs' do
-          stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
-          allow(UcbIpService).to receive(:ucb_request?).and_return(true)
-          visit '/City/b18538031'
+      describe 'CalNet only' do
+        describe 'without CalNet login' do
+          describe 'with UCB IP' do
+            before(:each) do
+              allow(UcbIpService).to receive(:ucb_request?).and_return(true)
+            end
 
-          audio = find_all(:xpath, '//audio')
-          expect(audio.size).to eq(2)
+            xit 'displays the "Record not available" page'
+            xit 'includes an explicit CalNet login link'
+          end
+
+          describe 'without UCB IP' do
+            before(:each) do
+              allow(UcbIpService).to receive(:ucb_request?).and_return(false)
+            end
+
+            xit 'displays the "Record not available" page'
+            xit 'includes an explicit CalNet login link'
+          end
+        end
+
+        describe 'with CalNet login' do
+          before(:each) do
+            mock_login(:student)
+          end
+
+          describe 'with UCB IP' do
+            before(:each) do
+              allow(UcbIpService).to receive(:ucb_request?).and_return(true)
+            end
+
+            xit 'displays the player'
+          end
+          describe 'without UCB IP' do
+            before(:each) do
+              allow(UcbIpService).to receive(:ucb_request?).and_return(false)
+            end
+
+            xit 'displays the player'
+          end
         end
       end
 
-      describe 'when forbidden' do
-        it 'displays the "Record not available" page for non-UCB IPs' do
-          allow(UcbIpService).to receive(:ucb_request?).and_return(false)
-          visit '/City/b18538031'
+      describe 'UCB IP or CalNet' do
+        collection = 'City'
+        record_id = 'b18538031'
 
-          audio = find_all(:xpath, '//audio')
-          expect(audio.size).to eq(0)
+        before(:each) do
+          stub_sru_request(record_id)
+        end
 
-          expect(page).to have_content('Record not available')
-          expect(page).to have_content('City')
-          expect(page).to have_content('b18538031')
+        describe 'without CalNet login' do
+          describe 'with UCB IP' do
+            it_behaves_like('the record is available', collection, record_id)
+          end
 
-          expect(page.status_code).to eq(403)
+          describe 'without UCB IP' do
+            before(:each) do
+              allow(UcbIpService).to receive(:ucb_request?).and_return(false)
+            end
+
+            it_behaves_like('the record is not available', collection, record_id)
+          end
+        end
+
+        describe 'with CalNet login' do
+          before(:each) do
+            mock_login(:student)
+          end
+
+          describe 'with UCB IP' do
+            it_behaves_like('the record is available', collection, record_id)
+          end
+
+          describe 'without UCB IP' do
+            before(:each) do
+              allow(UcbIpService).to receive(:ucb_request?).and_return(false)
+            end
+            it_behaves_like('the record is available', collection, record_id)
+          end
         end
       end
     end
