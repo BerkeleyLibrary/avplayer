@@ -27,8 +27,8 @@ RSpec.shared_examples 'the record is not available' do |collection, record_id|
     expect(page).to have_content(collection)
     expect(page).to have_content(record_id)
 
-    expected_link = login_path(url: show_path)
-    expect(page).to have_link(href: expected_link)
+    show_url = player_url(collection: collection, record_id: record_id)
+    expect(page).to have_link(href: login_path(url: show_url))
   end
 end
 

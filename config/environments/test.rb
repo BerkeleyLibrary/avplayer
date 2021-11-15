@@ -42,4 +42,7 @@ Rails.application.configure do
   # Always allow direct track previews in test
   config.allow_preview = '1'
 
+  # Test mode short-circuits the entire auth flow
+  OmniAuth.config.test_mode = true
+
 end

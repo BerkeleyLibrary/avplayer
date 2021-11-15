@@ -2,11 +2,11 @@
 <%
   calnet_only = record&.calnet_only?
   access_methods = [].tap do |mm|
-    mm << login_link unless authenticated?
+    mm << login_link('log in with CalNet') unless authenticated?
     mm << vpn_link unless calnet_only
   end
 %>
-<section class="record">
+<section class="record unavailable">
   <h1>Record not available</h1>
 
   <p>

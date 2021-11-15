@@ -65,6 +65,11 @@ module AvPlayer
     # Allow direct track previews (defaults to false)
     config.allow_preview = ENV.fetch('LIT_ALLOW_PREVIEW', false)
 
+    # TODO: configure this more elegantly and make it play better with Selenium tests
+    config.cas_host = ENV.fetch('CAS_HOST') do
+      "auth#{'-test' unless Rails.env.production?}.berkeley.edu"
+    end
+
     config.after_initialize do
       AvPlayer::BuildInfo.log_to(Rails.logger)
 

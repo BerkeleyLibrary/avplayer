@@ -32,11 +32,20 @@ class SessionsController < ApplicationController
   def destroy
     sign_out
 
-    # TODO: configure this more elegantly and make it play better with Selenium tests
-    redirect_to "https://auth#{'-test' unless Rails.env.production?}.berkeley.edu/cas/logout"
+    redirect_to cas_logout_url
   end
 
   private
+
+  def cas_host
+    Rails.application.config.cas_host
+  end
+
+  def cas_logout_url
+    raise ArgumentError, "invalid cas_host #{cas_host.inspect}" if (host = cas_host).blank?
+
+    URI::HTTPS.build(host: host, path: '/cas/logout').to_s
+  end
 
   def auth_params
     request.env['omniauth.auth']

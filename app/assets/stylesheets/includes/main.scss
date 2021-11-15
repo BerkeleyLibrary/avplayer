@@ -255,6 +255,19 @@ section {
       }
     }
   }
+
+  &.unavailable {
+    p {
+      a {
+        box-shadow: inset 0 -4px 0 $color-anchor-highlight;
+
+        &:hover {
+          background: $color-anchor-highlight;
+          border: 1px solid $color-anchor-highlight;
+        }
+      }
+    }
+  }
 }
 
 // ////////////////////////////////////////////////////////////

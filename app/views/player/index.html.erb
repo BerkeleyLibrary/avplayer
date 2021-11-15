@@ -64,18 +64,24 @@
           'Millennium' => 'b18538031',
           'TIND' => '(cityarts)00002'
         }
-      },
+      }
+    },
+    'CalNet only' => {
       'Video-UCBOnly-MRC' => {
         'Voices of the Rainforest' => {
           'Alma' => '991053883429706532',
           'Millennium' => 'b25596697'
         },
+      }
+    },
+    'Not in Alma (?)' => {
+      'Video-UCBOnly-MRC' => {
         'XXXY' => {
           'Millennium' => 'b23935657'
         }
       }
     },
-    'Missing or nonexistent' => {
+    'Nonexistent record' => {
       'Pandall' => {
         'Arno Waltiri: Das Unendlichkeit Konzert, Opus 45.' => {
           'Alma' => '991099999999996532',
@@ -114,7 +120,7 @@
                     <td>
                       <%= link_to(record_url, record_url) %>
                       <% if id_type == 'Millennium' %>
-                      (using Alma metadata)
+                        (using Alma metadata)
                       <% end %>
                     </td>
                   <% end %>

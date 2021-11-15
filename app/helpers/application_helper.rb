@@ -1,10 +1,14 @@
 module ApplicationHelper
-  def logout_link
-    link_to 'CalNet Logout', logout_path if authenticated?
+  def calnet_link
+    authenticated? ? logout_link : login_link
   end
 
-  def login_link
-    link_to('log in with Calnet', login_path(url: request.fullpath))
+  def logout_link(text = 'CalNet Logout')
+    link_to(text, logout_path)
+  end
+
+  def login_link(text = 'CalNet Login')
+    link_to(text, login_path(url: request.original_url))
   end
 
   def vpn_link
