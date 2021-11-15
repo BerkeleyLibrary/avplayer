@@ -3,7 +3,7 @@
   calnet_only = record&.calnet_only?
   access_methods = [].tap do |mm|
     mm << login_link('log in with CalNet') unless authenticated?
-    mm << vpn_link unless calnet_only
+    mm << vpn_link unless calnet_only || ucb_request?
   end
 %>
 <section class="record unavailable">
@@ -11,7 +11,7 @@
 
   <p>
     The specified record is available to UC Berkeley users only.
-    <% unless access_methods.empty? %>
+    <% unless access_methods.empty? # should never happen %>
       For full access, <%= access_methods.join(', or ').html_safe %>.
     <% end %>
   </p>

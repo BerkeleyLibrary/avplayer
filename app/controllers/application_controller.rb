@@ -60,6 +60,7 @@ class ApplicationController < ActionController::Base
   def ucb_request?
     UcbIpService.ucb_request?(request)
   end
+  helper_method :ucb_request?
 
   def external_request?
     !ucb_request?
