@@ -14,6 +14,12 @@
     <inspection_tool class="RubyInstanceVariableNamingConvention" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="RubyLiteralArrayInspection" enabled="true" level="INFORMATION" enabled_by_default="true" />
     <inspection_tool class="RubyLocalVariableNamingConvention" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="RubyMismatchedArgumentType" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myCheckNilability" value="false" />
+    </inspection_tool>
+    <inspection_tool class="RubyMismatchedParameterType" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myCheckNilability" value="false" />
+    </inspection_tool>
     <inspection_tool class="RubyNilAnalysis" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="RubyParameterNamingConvention" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="RubyStringKeysInHashInspection" enabled="true" level="INFORMATION" enabled_by_default="true" />

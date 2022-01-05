@@ -12,7 +12,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'marc', '~> 1.0'
 gem 'non-stupid-digest-assets', '~> 1.0' # Allow static pages (e.g. 404.html) to link to compiled assets
 gem 'puma', '~> 5.3', '>= 5.3.1'
-gem 'rails', '~> 6.1', '>= 6.1.3.2'
+gem 'rails', '~> 6.1', '>= 6.1.4.4'
 gem 'rest-client', '~> 2.1'
 gem 'sass-rails', '~> 6'
 gem 'typesafe_enum', '~> 0.2'
