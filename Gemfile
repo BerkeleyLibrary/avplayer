@@ -5,7 +5,7 @@ ruby_version_file = File.expand_path('.ruby-version', __dir__)
 ruby_version_exact = File.read(ruby_version_file).strip
 ruby ruby_version_exact
 
-gem 'av_core', '>= 0.2.1', git: 'https://git.lib.berkeley.edu/lap/av_core.git', branch: 'master'
+gem 'av_core', '~> 0.3.0', git: 'https://git.lib.berkeley.edu/lap/av_core.git', tag: '0.3.0'
 gem 'berkeley_library-logging', '~> 0.2'
 gem 'browser', '~> 4.2'
 gem 'jbuilder', '~> 2.7'

@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 module Error
-  describe RecordNotAvailable do
+  describe AccessRestricted do
     it 'accepts a raw string message' do
       msg = 'the message'
 
-      expect { raise(RecordNotAvailable, msg) }.to raise_error(RecordNotAvailable) do |ex|
+      expect { raise(AccessRestricted, msg) }.to raise_error(AccessRestricted) do |ex|
         expect(ex.message).to eq(msg)
       end
     end
@@ -21,11 +21,11 @@ module Error
           metadata: metadata,
           tracks: AV::Track.tracks_from(metadata.marc_record, collection: collection)
         )
-        expect(record.ucb_access?).to eq(true) # just to be sure
+        expect(record.calnet_or_ip?).to eq(true) # just to be sure
         expect(record.calnet_only?).to eq(false) # just to be sure
 
-        expected_message = format(RecordNotAvailable::MSG_FMT_UCB_ACCESS, record_id)
-        expect { raise(RecordNotAvailable, record) }.to raise_error(RecordNotAvailable, expected_message)
+        expected_message = format(AccessRestricted::MSG_FMT_UCB_ACCESS, record_id)
+        expect { raise(AccessRestricted, record) }.to raise_error(AccessRestricted, expected_message)
       end
 
       it 'returns a custom message for CalNet records' do
@@ -38,11 +38,11 @@ module Error
           metadata: metadata,
           tracks: AV::Track.tracks_from(metadata.marc_record, collection: collection)
         )
-        expect(record.ucb_access?).to eq(true) # just to be sure
+        expect(record.calnet_or_ip?).to eq(true) # just to be sure
         expect(record.calnet_only?).to eq(true) # just to be sure
 
-        expected_message = format(RecordNotAvailable::MSG_FMT_CALNET_ONLY, record_id)
-        expect { raise(RecordNotAvailable, record) }.to raise_error(RecordNotAvailable, expected_message)
+        expected_message = format(AccessRestricted::MSG_FMT_CALNET_ONLY, record_id)
+        expect { raise(AccessRestricted, record) }.to raise_error(AccessRestricted, expected_message)
       end
 
       it 'accepts a string argument and a cause' do
@@ -54,13 +54,13 @@ module Error
             raise ArgumentError, msg_outer
           rescue StandardError => e
             ex_inner = e
-            raise RecordNotAvailable, msg_inner
+            raise AccessRestricted, msg_inner
           end
-        rescue RecordNotAvailable => e
+        rescue AccessRestricted => e
           ex_outer = e
         end
 
-        expect(ex_outer).to be_a(RecordNotAvailable)
+        expect(ex_outer).to be_a(AccessRestricted)
         expect(ex_outer.message).to eq(msg_inner)
         expect(ex_outer.cause).to eq(ex_inner)
       end
@@ -84,13 +84,13 @@ module Error
             raise ArgumentError, msg_outer
           rescue StandardError => e
             ex_inner = e
-            raise RecordNotAvailable, arg_inner
+            raise AccessRestricted, arg_inner
           end
-        rescue RecordNotAvailable => e
+        rescue AccessRestricted => e
           ex_outer = e
         end
 
-        expect(ex_outer).to be_a(RecordNotAvailable)
+        expect(ex_outer).to be_a(AccessRestricted)
         expect(ex_outer.message).to include(arg_inner.record_id)
         expect(ex_outer.cause).to eq(ex_inner)
       end

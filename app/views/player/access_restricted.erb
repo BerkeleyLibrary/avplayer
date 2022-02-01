@@ -1,4 +1,4 @@
-<% content_for(:title, 'Audio / Video: Record not available') %>
+<% content_for(:title, 'Audio / Video: Access restricted') %>
 <%
   calnet_only = record&.calnet_only?
   access_methods = [].tap do |mm|
@@ -6,8 +6,8 @@
     mm << vpn_link unless calnet_only || ucb_request?
   end
 %>
-<section class="record unavailable">
-  <h1>Record not available</h1>
+<section class="record restricted">
+  <h1>Access to this record is restricted</h1>
 
   <p>
     The specified record is available to UC Berkeley users only.

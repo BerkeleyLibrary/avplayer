@@ -284,7 +284,7 @@ describe PlayerController, type: :system do
               allow(UcbIpService).to receive(:ucb_request?).and_return(true)
             end
 
-            it_behaves_like('the record is not available', collection, record_id)
+            it_behaves_like('access to the record is restricted', collection, record_id)
             it_behaves_like('CalNet only', collection, record_id)
           end
 
@@ -293,7 +293,7 @@ describe PlayerController, type: :system do
               allow(UcbIpService).to receive(:ucb_request?).and_return(false)
             end
 
-            it_behaves_like('the record is not available', collection, record_id)
+            it_behaves_like('access to the record is restricted', collection, record_id)
             it_behaves_like('CalNet only', collection, record_id)
           end
         end
@@ -342,7 +342,7 @@ describe PlayerController, type: :system do
               allow(UcbIpService).to receive(:ucb_request?).and_return(false)
             end
 
-            it_behaves_like('the record is not available', collection, record_id)
+            it_behaves_like('access to the record is restricted', collection, record_id)
             it_behaves_like('available from UCB IPs', collection, record_id)
           end
         end

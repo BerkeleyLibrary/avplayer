@@ -1,13 +1,13 @@
 GIT
   remote: https://git.lib.berkeley.edu/lap/av_core.git
-  revision: 4b1117296173ca56a723ae90709efebd916e551f
-  branch: master
+  revision: 940240b2193e4684517df1065a5069805514d6d4
+  tag: 0.3.0
   specs:
-    av_core (0.2.3)
+    av_core (0.3.0)
       berkeley_library-logging (~> 0.2)
       berkeley_library-marc (~> 0.2, >= 0.2.1)
       berkeley_library-util (~> 0.1, >= 0.1.1)
-      ruby-marc-spec (~> 0.1, >= 0.1.1)
+      ruby-marc-spec (~> 0.1, >= 0.1.3)
       typesafe_enum (~> 0.3)
 
 GIT
@@ -92,7 +92,7 @@ GEM
       colorize (~> 0.8.1)
       lograge (~> 0.11)
       ougai (~> 1.8)
-    berkeley_library-marc (0.2.1)
+    berkeley_library-marc (0.3.1)
       marc (~> 1.0)
       parslet (~> 2.0)
       ruby-marc-spec (~> 0.1)
@@ -297,7 +297,7 @@ GEM
     rubocop-rspec (2.4.0)
       rubocop (~> 1.0)
       rubocop-ast (>= 1.1.0)
-    ruby-marc-spec (0.1.1)
+    ruby-marc-spec (0.1.3)
       marc (~> 1.1)
       parslet (~> 2.0)
       typesafe_enum (~> 0.3)
@@ -372,7 +372,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  av_core (>= 0.2.1)!
+  av_core (~> 0.3.0)!
   berkeley_library-logging (~> 0.2)
   bootsnap (>= 1.4.2)
   brakeman

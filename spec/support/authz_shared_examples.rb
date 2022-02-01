@@ -15,15 +15,15 @@ RSpec.shared_examples 'the record is available' do |collection, record_id|
   end
 end
 
-RSpec.shared_examples 'the record is not available' do |collection, record_id|
-  it 'displays the "Record not available" page' do
+RSpec.shared_examples 'access to the record is restricted' do |collection, record_id|
+  it 'displays the "Access restricted" page' do
     show_path = player_path(collection: collection, record_id: record_id)
     visit show_path
 
     expect(page).not_to have_selector('section.player')
     expect(page).not_to have_selector('source')
 
-    expect(page).to have_content('Record not available')
+    expect(page).to have_content('Access to this record is restricted')
     expect(page).to have_content(collection)
     expect(page).to have_content(record_id)
 

@@ -5,7 +5,7 @@ require 'health/check'
 class PlayerController < ApplicationController
 
   rescue_from AV::RecordNotFound, with: :record_not_found
-  rescue_from Error::RecordNotAvailable, with: :record_not_available
+  rescue_from Error::AccessRestricted, with: :access_restricted
   rescue_from ActionController::ParameterMissing, with: :bad_request
 
   def show
@@ -23,12 +23,12 @@ class PlayerController < ApplicationController
     }
   end
 
-  def record_not_available(exception)
+  def access_restricted(exception)
     logger.warn(exception) if exception
 
     ex_record = exception.respond_to?(:record) ? exception.record : nil
 
-    render :record_not_available, status: :forbidden, locals: {
+    render :access_restricted, status: :forbidden, locals: {
       collection: collection,
       record_id: record_id,
       record: ex_record
@@ -59,8 +59,8 @@ class PlayerController < ApplicationController
   def ensure_record_available!
     return if authorized?
 
-    raise(Error::RecordNotAvailable, record) if record.calnet_only?
-    raise(Error::RecordNotAvailable, record) if record.ucb_access? && external_request?
+    raise(Error::AccessRestricted, record) if record.calnet_only?
+    raise(Error::AccessRestricted, record) if record.calnet_or_ip? && external_request?
   end
 
   def preview_tracks

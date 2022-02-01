@@ -1,7 +1,7 @@
 require 'av/core'
 
 module Error
-  class RecordNotAvailable < ApplicationError
+  class AccessRestricted < ApplicationError
     # TODO: use Rails i18n
     MSG_FMT_CALNET_ONLY = 'Record %s is for UC Berkeley faculty, staff, and students only'.freeze
     MSG_FMT_UCB_ACCESS = 'Record %s is UCB access only'.freeze
@@ -21,7 +21,7 @@ module Error
       def exception(arg)
         return self if arg.nil? || equal?(arg)
 
-        RecordNotAvailable.new(arg)
+        AccessRestricted.new(arg)
       end
     end
 
@@ -30,7 +30,7 @@ module Error
     def message_for(record)
       rec_id = record.record_id
       return format(MSG_FMT_CALNET_ONLY, rec_id) if record.calnet_only?
-      return format(MSG_FMT_UCB_ACCESS, rec_id) if record.ucb_access?
+      return format(MSG_FMT_UCB_ACCESS, rec_id) if record.calnet_or_ip?
     end
   end
 end
