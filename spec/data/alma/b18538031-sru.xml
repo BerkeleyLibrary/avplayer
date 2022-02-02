@@ -107,8 +107,12 @@
           </datafield>
           <datafield ind1=" " ind2=" " tag="AVE">
             <subfield code="8">53999212620006532</subfield>
+            <subfield code="c">611021988270006532</subfield>
             <subfield code="e">Available</subfield>
+            <subfield code="m">AV Player</subfield>
             <subfield code="n">City Arts and Lectures. UCB access.</subfield>
+            <subfield code="a">01UCS_BER</subfield>
+            <subfield code="0">991079960029706532</subfield>
           </datafield>
         </record>
       </recordData>
@@ -118,6 +122,6 @@
   </records>
   <extraResponseData xmlns:xb="http://www.exlibris.com/repository/search/xmlbeans/">
     <xb:exact>true</xb:exact>
-    <xb:responseDate>2021-10-21T16:29:42-0700</xb:responseDate>
+    <xb:responseDate>2022-02-01T16:00:16-0800</xb:responseDate>
   </extraResponseData>
 </searchRetrieveResponse>
