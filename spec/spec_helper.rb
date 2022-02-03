@@ -47,6 +47,8 @@ end
 # ------------------------------------------------------------
 # Utility methods
 
+# TODO: use BerkeleyLibrary::Alma for this stuff
+
 def sru_url_base
   'https://berkeley.alma.exlibrisgroup.com/view/sru/01UCS_BER?version=1.2&operation=searchRetrieve&query='
 end
