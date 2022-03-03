@@ -14,7 +14,7 @@ module AvPlayer
     attr_reader :info
 
     def initialize(env = ENV)
-      @info = BUILD_VARS.map { |v| [v.to_sym, env[v]] }.to_h.freeze
+      @info = info_from_env(env)
     end
 
     alias to_h info
@@ -25,6 +25,16 @@ module AvPlayer
     end
 
     private
+
+    def info_from_env(env)
+      {}.tap do |info|
+        BUILD_VARS.each do |var|
+          next unless (val = env[var])
+
+          info[var.to_sym] = val.to_s
+        end
+      end.freeze
+    end
 
     def build_html_comment
       comment_lines = [].tap do |lines|

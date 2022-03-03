@@ -49,6 +49,12 @@ module AvPlayer
           expect(BuildInfo.as_html_comment).to include("#{k}: #{expected_value}")
         end
       end
+
+      it 'skips nils' do
+        without_ci = test_info.except(:CI)
+        build_info.instance_variable_set(:@info, without_ci)
+        expect(BuildInfo.as_html_comment).not_to include('CI')
+      end
     end
   end
 end
