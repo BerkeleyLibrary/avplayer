@@ -46,7 +46,8 @@ group :test do
   gem 'capybara', '~> 3.36'
   gem 'ci_reporter_rspec'
   gem 'rspec-support'
-  gem 'selenium-webdriver', '~> 4.0'
+  # TODO: figure out Selenium under GitHub Actions
+  # gem 'selenium-webdriver', '~> 4.0'
   gem 'simplecov', '~> 0.21', require: false
   gem 'simplecov-rcov', '~> 0.2', require: false
 end
