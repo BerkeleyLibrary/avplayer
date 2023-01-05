@@ -5,12 +5,11 @@ ruby_version_file = File.expand_path('.ruby-version', __dir__)
 ruby_version_exact = File.read(ruby_version_file).strip
 ruby ruby_version_exact
 
-gem 'av_core', '~> 0.3.0', git: 'https://git.lib.berkeley.edu/lap/av_core.git', tag: '0.3.0'
+gem 'berkeley_library-av-core', '~> 0.4.0'
 gem 'berkeley_library-docker', '~> 0.2.0'
 gem 'berkeley_library-logging', '~> 0.2'
 gem 'browser', '~> 4.2'
 gem 'jbuilder', '~> 2.7'
-gem 'marc', '~> 1.0'
 gem 'non-stupid-digest-assets', '~> 1.0' # Allow static pages (e.g. 404.html) to link to compiled assets
 gem 'omniauth-cas', '~> 2.0'
 gem 'puma', '~> 5.3', '>= 5.3.1'

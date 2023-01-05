@@ -1,4 +1,4 @@
-require 'av/core'
+require 'berkeley_library/av/core'
 
 module Error
   class AccessRestricted < ApplicationError
@@ -9,7 +9,7 @@ module Error
     attr_reader :record
 
     def initialize(arg)
-      if arg.is_a?(AV::Record)
+      if arg.is_a?(BerkeleyLibrary::AV::Record)
         super(message_for(arg))
         @record = arg
       else

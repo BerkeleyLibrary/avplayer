@@ -40,7 +40,7 @@ RSpec.configure do |config|
 
   # AVPlayer configuration, or rather deconfiguration
   config.before do
-    AV::Config.send(:clear!) if defined?(AV::Config)
+    BerkeleyLibrary::AV::Config.send(:clear!) if defined?(AV::Config)
   end
 end
 
@@ -58,10 +58,13 @@ def permalink_base
 end
 
 def alma_sru_url_for(record_id)
-  return "#{sru_url_base}alma.mms_id%3D#{record_id}" unless AV::RecordId::Type.for_id(record_id) == AV::RecordId::Type::MILLENNIUM
+  id_type = BerkeleyLibrary::AV::RecordId::Type.for_id(record_id)
+  if id_type == BerkeleyLibrary::AV::RecordId::Type::MILLENNIUM
+    full_bib = BerkeleyLibrary::AV::RecordId.ensure_check_digit(record_id)
+    return "#{sru_url_base}alma.other_system_number%3DUCB-#{full_bib}-01ucs_ber"
+  end
 
-  full_bib = AV::RecordId.ensure_check_digit(record_id)
-  "#{sru_url_base}alma.other_system_number%3DUCB-#{full_bib}-01ucs_ber"
+  "#{sru_url_base}alma.mms_id%3D#{record_id}"
 end
 
 def alma_sru_data_path_for(record_id)

@@ -1,15 +1,3 @@
-GIT
-  remote: https://git.lib.berkeley.edu/lap/av_core.git
-  revision: 940240b2193e4684517df1065a5069805514d6d4
-  tag: 0.3.0
-  specs:
-    av_core (0.3.0)
-      berkeley_library-logging (~> 0.2)
-      berkeley_library-marc (~> 0.2, >= 0.2.1)
-      berkeley_library-util (~> 0.1, >= 0.1.1)
-      ruby-marc-spec (~> 0.1, >= 0.1.3)
-      typesafe_enum (~> 0.3)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -82,6 +70,12 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     amazing_print (1.4.0)
     ast (2.4.2)
+    berkeley_library-av-core (0.4.0)
+      berkeley_library-logging (~> 0.2)
+      berkeley_library-marc (~> 0.2, >= 0.2.1)
+      berkeley_library-util (~> 0.1, >= 0.1.1)
+      ruby-marc-spec (~> 0.1, >= 0.1.3)
+      typesafe_enum (~> 0.3)
     berkeley_library-docker (0.2.0)
     berkeley_library-logging (0.2.7)
       activesupport (>= 6)
@@ -93,7 +87,7 @@ GEM
       marc (~> 1.0)
       parslet (~> 2.0)
       ruby-marc-spec (~> 0.1)
-    berkeley_library-util (0.1.1)
+    berkeley_library-util (0.1.5)
       berkeley_library-logging (~> 0.2)
       rest-client (~> 2.1)
       typesafe_enum (~> 0.3)
@@ -370,7 +364,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  av_core (~> 0.3.0)!
+  berkeley_library-av-core (~> 0.4.0)
   berkeley_library-docker (~> 0.2.0)
   berkeley_library-logging (~> 0.2)
   brakeman
@@ -384,7 +378,6 @@ DEPENDENCIES
   irb
   jbuilder (~> 2.7)
   listen (>= 3.0, < 3.2)
-  marc (~> 1.0)
   non-stupid-digest-assets (~> 1.0)
   omniauth-cas (~> 2.0)
   puma (~> 5.3, >= 5.3.1)

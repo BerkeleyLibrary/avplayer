@@ -53,17 +53,17 @@ module Health
       private
 
       def try_alma
-        service_uri = AV::Metadata::Source::ALMA.marc_uri_for(TEST_BIB_NUMBER)
+        service_uri = BerkeleyLibrary::AV::Metadata::Source::ALMA.marc_uri_for(TEST_BIB_NUMBER)
         make_head_request(service_uri)
       end
 
       def try_tind
-        service_uri = AV::Metadata::Source::TIND.marc_uri_for(TEST_TIND_ID)
+        service_uri = BerkeleyLibrary::AV::Metadata::Source::TIND.marc_uri_for(TEST_TIND_ID)
         make_head_request(service_uri)
       end
 
       def try_wowza
-        service_uri = AV::Track.hls_uri_for(collection: Check::TEST_WOWZA_COLLECTION, relative_path: Check::TEST_WOWZA_PATH)
+        service_uri = BerkeleyLibrary::AV::Track.hls_uri_for(collection: Check::TEST_WOWZA_COLLECTION, relative_path: Check::TEST_WOWZA_PATH)
         make_head_request(service_uri)
       end
 

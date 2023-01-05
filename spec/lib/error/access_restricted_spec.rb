@@ -14,12 +14,12 @@ module Error
       it 'returns a custom message for UCB-only records' do
         record_id = '991054360089706532'
         marc_record = MARC::XMLReader.new("spec/data/alma/#{record_id}-sru.xml").first
-        metadata = AV::Metadata.new(record_id:, source: AV::Metadata::Source::ALMA, marc_record:)
+        metadata = BerkeleyLibrary::AV::Metadata.new(record_id:, source: BerkeleyLibrary::AV::Metadata::Source::ALMA, marc_record:)
         collection = 'test'
-        record = AV::Record.new(
+        record = BerkeleyLibrary::AV::Record.new(
           collection:,
           metadata:,
-          tracks: AV::Track.tracks_from(metadata.marc_record, collection:)
+          tracks: BerkeleyLibrary::AV::Track.tracks_from(metadata.marc_record, collection:)
         )
         expect(record.calnet_or_ip?).to eq(true) # just to be sure
         expect(record.calnet_only?).to eq(false) # just to be sure
@@ -31,12 +31,12 @@ module Error
       it 'returns a custom message for CalNet records' do
         record_id = '991047179369706532'
         marc_record = MARC::XMLReader.new("spec/data/alma/#{record_id}-sru.xml").first
-        metadata = AV::Metadata.new(record_id:, source: AV::Metadata::Source::ALMA, marc_record:)
+        metadata = BerkeleyLibrary::AV::Metadata.new(record_id:, source: BerkeleyLibrary::AV::Metadata::Source::ALMA, marc_record:)
         collection = 'test'
-        record = AV::Record.new(
+        record = BerkeleyLibrary::AV::Record.new(
           collection:,
           metadata:,
-          tracks: AV::Track.tracks_from(metadata.marc_record, collection:)
+          tracks: BerkeleyLibrary::AV::Track.tracks_from(metadata.marc_record, collection:)
         )
         expect(record.calnet_or_ip?).to eq(true) # just to be sure
         expect(record.calnet_only?).to eq(true) # just to be sure
@@ -68,12 +68,12 @@ module Error
       it 'accepts a record argument and a cause' do
         record_id = '991047179369706532'
         marc_record = MARC::XMLReader.new("spec/data/alma/#{record_id}-sru.xml").first
-        metadata = AV::Metadata.new(record_id:, source: AV::Metadata::Source::ALMA, marc_record:)
+        metadata = BerkeleyLibrary::AV::Metadata.new(record_id:, source: BerkeleyLibrary::AV::Metadata::Source::ALMA, marc_record:)
         collection = 'test'
-        record = AV::Record.new(
+        record = BerkeleyLibrary::AV::Record.new(
           collection:,
           metadata:,
-          tracks: AV::Track.tracks_from(metadata.marc_record, collection:)
+          tracks: BerkeleyLibrary::AV::Track.tracks_from(metadata.marc_record, collection:)
         )
 
         arg_inner = record

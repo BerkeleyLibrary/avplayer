@@ -3,7 +3,7 @@ require 'rails_helper'
 describe PlayerController, type: :system do
 
   before do
-    AV::Config.wowza_base_uri = 'https://wowza.example.edu/'
+    BerkeleyLibrary::AV::Config.wowza_base_uri = 'https://wowza.example.edu/'
   end
 
   describe :show do
@@ -19,7 +19,7 @@ describe PlayerController, type: :system do
       end
 
       it 'displays the metadata' do
-        metadata = AV::Metadata.for_record(record_id: 'b23305522')
+        metadata = BerkeleyLibrary::AV::Metadata.for_record(record_id: 'b23305522')
         page_body = page.body
 
         aggregate_failures('fields') do
@@ -39,7 +39,7 @@ describe PlayerController, type: :system do
       end
 
       it 'displays the player' do
-        wowza_base_uri = AV::Config.wowza_base_uri
+        wowza_base_uri = BerkeleyLibrary::AV::Config.wowza_base_uri
         collection = 'Pacifica'
         path = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'
         expected_url = "#{wowza_base_uri}#{collection}/mp3:#{path}/playlist.m3u8"
@@ -64,8 +64,8 @@ describe PlayerController, type: :system do
 
         visit "/#{collection}/#{record_id}"
 
-        record = AV::Record.from_metadata(collection:, record_id:)
-        wowza_base_uri = AV::Config.wowza_base_uri
+        record = BerkeleyLibrary::AV::Record.from_metadata(collection:, record_id:)
+        wowza_base_uri = BerkeleyLibrary::AV::Config.wowza_base_uri
 
         record.tracks.each_with_index do |track, index|
           expect(page).to have_content(track.duration.to_s)
@@ -91,7 +91,7 @@ describe PlayerController, type: :system do
         collection = 'Pacifica'
         record_id = '(pacradio)01469'
 
-        search_url = AV::Metadata::Source::TIND.marc_uri_for(record_id)
+        search_url = BerkeleyLibrary::AV::Metadata::Source::TIND.marc_uri_for(record_id)
         stub_request(:get, search_url).to_return(status: 200, body: File.read("spec/data/record-#{record_id}.xml"))
         stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
 
@@ -99,7 +99,7 @@ describe PlayerController, type: :system do
       end
 
       it 'displays the metadata' do
-        metadata = AV::Metadata.for_record(record_id: '(pacradio)01469')
+        metadata = BerkeleyLibrary::AV::Metadata.for_record(record_id: '(pacradio)01469')
         page_body = page.body
 
         aggregate_failures('fields') do
@@ -119,7 +119,7 @@ describe PlayerController, type: :system do
       end
 
       it 'displays the player' do
-        wowza_base_uri = AV::Config.wowza_base_uri
+        wowza_base_uri = BerkeleyLibrary::AV::Config.wowza_base_uri
         collection = 'Pacifica'
         path = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'
         expected_url = "#{wowza_base_uri}#{collection}/mp3:#{path}/playlist.m3u8"
@@ -197,7 +197,7 @@ describe PlayerController, type: :system do
       end
 
       it 'displays the metadata' do
-        metadata = AV::Metadata.for_record(record_id: 'b22139658')
+        metadata = BerkeleyLibrary::AV::Metadata.for_record(record_id: 'b22139658')
         page_body = page.body
 
         aggregate_failures('fields') do
@@ -217,7 +217,7 @@ describe PlayerController, type: :system do
       end
 
       it 'displays the player' do
-        wowza_base_uri = AV::Config.wowza_base_uri
+        wowza_base_uri = BerkeleyLibrary::AV::Config.wowza_base_uri
         collection = 'Video-Public-MRC'
         path = '6927.mp4'
         expected_url = "#{wowza_base_uri}#{collection}/mp4:#{path}/manifest.mpd"
@@ -227,7 +227,7 @@ describe PlayerController, type: :system do
       end
 
       it 'displays the catalog link' do
-        metadata = AV::Metadata.for_record(record_id: 'b22139658')
+        metadata = BerkeleyLibrary::AV::Metadata.for_record(record_id: 'b22139658')
         expected_uri = metadata.display_uri
 
         expect(page).to have_link('View library catalog record.', href: expected_uri)
@@ -256,7 +256,7 @@ describe PlayerController, type: :system do
 
     describe 'record not found' do
       it 'displays the "Record not found" page when records aren\'t found' do
-        search_url = AV::Metadata::Source::TIND.marc_uri_for('(pacradio)01469')
+        search_url = BerkeleyLibrary::AV::Metadata::Source::TIND.marc_uri_for('(pacradio)01469')
         stub_request(:get, search_url).to_return(status: 404)
         visit '/Pacifica/(pacradio)01469'
         expect(page).to have_content('Record not found')
@@ -376,7 +376,7 @@ describe PlayerController, type: :system do
   describe :preview do
     describe :audio do
       it 'displays the player' do
-        wowza_base_uri = AV::Config.wowza_base_uri
+        wowza_base_uri = BerkeleyLibrary::AV::Config.wowza_base_uri
         collection = 'Pacifica'
         path = 'PRA_NHPRC1_AZ1084_00_000_00.mp3'
         expected_url = "#{wowza_base_uri}#{collection}/mp3:#{path}/playlist.m3u8"
@@ -389,7 +389,7 @@ describe PlayerController, type: :system do
       end
 
       it 'supports multiple files in the same collection' do
-        wowza_base_uri = AV::Config.wowza_base_uri
+        wowza_base_uri = BerkeleyLibrary::AV::Config.wowza_base_uri
         collection = 'Pacifica'
         paths = ['PRA_NHPRC1_AZ1084_00_000_00.mp3', 'PRA_NHPRC1_AZ1010_00_000_00.mp3']
         expected_urls = paths.map do |path|
@@ -406,9 +406,9 @@ describe PlayerController, type: :system do
       end
 
       it 'works with all MP4 file types' do
-        wowza_base_uri = AV::Config.wowza_base_uri
+        wowza_base_uri = BerkeleyLibrary::AV::Config.wowza_base_uri
         collection = 'Video-Public-MRC'
-        paths = AV::Types::FileType::MP4_EXTENSIONS.each_with_index.map { |ext, i| "file-#{i}#{ext}" }
+        paths = BerkeleyLibrary::AV::Types::FileType::MP4_EXTENSIONS.each_with_index.map { |ext, i| "file-#{i}#{ext}" }
         paths.each { |path| stub_request(:head, "#{wowza_base_uri}#{collection}/mp4:#{path}/playlist.m3u8").to_return(status: 200) }
         source_urls = paths.map do |path|
           "#{wowza_base_uri}#{collection}/mp4:#{path}/manifest.mpd".tap do |manifest_url|
@@ -428,7 +428,7 @@ describe PlayerController, type: :system do
       it 'displays the player' do
         stub_request(:head, /playlist.m3u8$/).to_return(status: 200)
 
-        wowza_base_uri = AV::Config.wowza_base_uri
+        wowza_base_uri = BerkeleyLibrary::AV::Config.wowza_base_uri
         collection = 'Video-Public-MRC'
         path = '6927.mp4'
         expected_url = "#{wowza_base_uri}#{collection}/mp4:#{path}/manifest.mpd"

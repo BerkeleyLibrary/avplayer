@@ -3,7 +3,7 @@ require 'health/check'
 
 describe PlayerController, type: :request do
   before do
-    AV::Config.wowza_base_uri = 'https://wowza.example.edu/'
+    BerkeleyLibrary::AV::Config.wowza_base_uri = 'https://wowza.example.edu/'
   end
 
   describe :health do
