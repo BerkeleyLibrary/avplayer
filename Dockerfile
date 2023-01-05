@@ -1,45 +1,86 @@
 # =============================================================================
 # Target: base
 #
+# The base stage scaffolds elements which are common to building and running
+# the application, such as installing ca-certificates, creating the app user,
+# and installing runtime system dependencies.
+FROM ruby:3.1.3-slim AS base
 
-FROM ruby:3.0.2-alpine AS base
+# ------------------------------------------------------------
+# Declarative metadata
 
-# This is just metadata and doesn't actually "expose" this port. Rather, it
-# tells other tools (e.g. Traefik) what port the service in this image is
-# expected to listen on.
-#
-# @see https://docs.docker.com/engine/reference/builder/#expose
+# This declares that the container intends to listen on port 3000. It doesn't
+# actually "expose" the port anywhere -- it is just metadata. It advises tools
+# like Traefik about how to treat this container in staging/production.
 EXPOSE 3000
 
-# =============================================================================
-# Global configuration
+# ------------------------------------------------------------
+# Create the application user/group and installation directory
 
 ENV APP_USER=avplayer
 ENV APP_UID=40040
 
-# Create the application user/group and installation directory
-RUN addgroup -S -g $APP_UID $APP_USER && \
-    adduser -S -u $APP_UID -G $APP_USER $APP_USER && \
-    mkdir -p /opt/app /var/opt/app && \
-    chown -R $APP_USER:$APP_USER /opt/app /var/opt/app /usr/local/bundle
+RUN groupadd --system --gid $APP_UID $APP_USER \
+    && useradd --home-dir /opt/app --system --uid $APP_UID --gid $APP_USER $APP_USER
 
+RUN mkdir -p /opt/app \
+    && chown -R $APP_USER:$APP_USER /opt/app /usr/local/bundle
+
+# ------------------------------------------------------------
 # Install packages common to dev and prod.
-RUN apk --no-cache --update upgrade && \
-    apk --no-cache add \
-        bash \
-        ca-certificates \
-        git \
-        libc6-compat \
-        nodejs \
-        openssl \
-        shared-mime-info \
-        tzdata \
-        xz-libs \
-        yarn \
-    && rm -rf /var/cache/apk/*
+
+# Get list of available packages
+RUN apt-get update -qq
+
+# Install standard packages from the Debian repository
+RUN apt-get install -y --no-install-recommends \
+    curl \
+    git \
+    gpg
+
+# Install Node.js and Yarn from their own repositories
+
+# Add Node.js package repository (version 16 LTS release) & install Node.js
+# -- note that the Node.js setup script takes care of updating the package list
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs
+
+# Add Yarn package repository, update package list, & install Yarn
+RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null \
+    && echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list \
+    && apt-get update -qq \
+    && apt-get install -y --no-install-recommends yarn
+
+# Remove packages we only needed as part of the Node.js / Yarn repository
+# setup and installation -- note that the Node.js setup scripts installs
+# a full version of Python, but at runtime we only need a minimal version
+RUN apt-mark manual python3-minimal \
+    && apt-get autoremove --purge -y \
+      curl \
+      python3
+
+# ------------------------------------------------------------
+# Run configuration
 
 # All subsequent commands are executed relative to this directory.
 WORKDIR /opt/app
+
+# Run as $APP_USER to minimize risk to the host.
+USER $APP_USER
+
+# Add binstubs to the path.
+ENV PATH="/opt/app/bin:$PATH"
+
+# If run with no other arguments, the image will start the rails server by
+# default. Note that we must bind to all interfaces (0.0.0.0) because when
+# running in a docker container, the actual public interface is created
+# dynamically at runtime (we don't know its address in advance).
+#
+# Note that at this point, the rails command hasn't actually been installed
+# yet, so if the build fails before the `bundle install` step below, you
+# will need to override the default command when troubleshooting the buggy
+# image.
+CMD ["rails", "server", "-b", "0.0.0.0"]
 
 # =============================================================================
 # Target: development
@@ -47,79 +88,92 @@ WORKDIR /opt/app
 
 FROM base AS development
 
-# Install system packages needed to build gems with C extensions.
-RUN apk --update --no-cache add \
-        build-base \
-        coreutils \
-        git \
-    && rm -rf /var/cache/apk/*
+# Temporarily switch back to root to install build packages.
+USER root
 
+# Install system packages needed to build gems with C extensions.
+RUN apt-get install -y --no-install-recommends \
+    g++ \
+    make
+
+# ------------------------------------------------------------
+# Install Ruby gems
+
+# Drop back to $APP_USER.
 USER $APP_USER
 
 # Workaround for certificate issue pulling av_core gem from git.lib.berkeley.edu
 ENV GIT_SSL_NO_VERIFY=1
 
-# Install gems. We do this first in order to maximize cache reuse, and we
-# do it only in the development image in order to minimize the size of the
-# final production image (which just copies the build products from dev)
-COPY --chown=$APP_USER .ruby-version Gemfile* ./
+# Install gems. We don't enforce the validity of the Gemfile.lock until the
+# final (production) stage.
+COPY --chown=$APP_USER:$APP_USER Gemfile* .ruby-version ./
 RUN bundle config set --local path /usr/local/bundle
-RUN bundle install --jobs=$(nproc)
+RUN bundle install
 
-# Copy the rest of the codebase.
-COPY --chown=$APP_USER . .
+# ------------------------------------------------------------
+# Install JS packages
+
+# Install JS packages
+COPY --chown=$APP_USER:$APP_USER package.json yarn.lock ./
+RUN yarn install
+
+# ------------------------------------------------------------
+# Copy codebase
+
+# Copy the rest of the codebase. We do this after installing packages so that
+# changes unrelated to the packages don't invalidate the cache and force a slow
+# re-install.
+COPY --chown=$APP_USER:$APP_USER . .
+
+# ------------------------------------------------------------
+# Development configuration
 
 # Show the home page
 ENV LIT_SHOW_HOMEPAGE=1
 
-# Extend the path to include our binstubs. Note that this must be done after
-# we've installed the application (and these scripts) otherwise you'll run
-# into weird path-related issues.
-ENV PATH "/opt/app/bin:$PATH"
-ENV RAILS_LOG_TO_STDOUT=yes
-
-# ==============================
-# Default command
-
-CMD ["rails", "server"]
-
 # =============================================================================
 # Target: production
 #
+# The production stage extends the base image with the application and gemset
+# built in the development stage. It includes runtime dependencies but not
+# heavyweight build dependencies.
 
 FROM base AS production
 
-# Run as the app user to minimize risk to the host.
-USER $APP_USER
+# ------------------------------------------------------------
+# Configure for production
+
+# Run the production stage in production mode.
+ENV RAILS_ENV=production
+ENV RAILS_SERVE_STATIC_FILES=true
+
+# ------------------------------------------------------------
+# Copy code and installed gems
 
 # Copy the built codebase from the dev stage
 COPY --from=development --chown=$APP_USER /opt/app /opt/app
 COPY --from=development --chown=$APP_USER /usr/local/bundle /usr/local/bundle
 
-ENV PATH "/opt/app/bin:$PATH"
-
-# Sanity-check gems
-RUN bundle config set deployment 'true'
+# Ensure the bundle is installed and the Gemfile.lock is synced.
+RUN bundle config set frozen 'true'
 RUN bundle install --local
 
-# Run the production stage in production mode.
-ENV RACK_ENV=production
-ENV RAILS_ENV=production
-ENV RAILS_SERVE_STATIC_FILES=true
-ENV RAILS_LOG_TO_STDOUT=yes
+# Ensure JS modules are installed and yarn.lock is synced
+RUN yarn install --immutable
 
-# Pre-compile assets so we don't have to do it in production.
-RUN rails assets:precompile
+# ------------------------------------------------------------
+# Precompile production assets
 
-# ==============================
-# Default command
+# Pre-compile assets so we don't have to do it after deployment.
+# NOTE: dummy SECRET_KEY_BASE to prevent spurious initializer issues
+#       -- see https://github.com/rails/rails/issues/32947
+RUN SECRET_KEY_BASE=1 rails assets:precompile --trace
 
-CMD ["rails", "server"]
+# ------------------------------------------------------------
+# Preserve build arguments
 
-# ==============================
-# Build arguments
-
-# passed in by Jenkins
+# passed in during build
 ARG BUILD_TIMESTAMP
 ARG BUILD_URL
 ARG DOCKER_TAG
