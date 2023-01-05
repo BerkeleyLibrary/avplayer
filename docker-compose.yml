@@ -2,7 +2,7 @@ services:
   rails: &services-rails
     build:
       context: .
-      target: development
+      target: production
     ports:
       - target: 3000
         published: 3000
