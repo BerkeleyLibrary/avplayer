@@ -46,9 +46,6 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  # Disable Webpacker integrity check in development
-  config.webpacker.check_yarn_integrity = false
-
   # Always display the home page in development
   config.show_homepage = '1'
 

@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
   def destroy
     sign_out
 
-    redirect_to cas_logout_url
+    redirect_to cas_logout_url, allow_other_host: true
   end
 
   private
