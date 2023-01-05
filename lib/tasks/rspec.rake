@@ -1,4 +1,6 @@
-require 'rspec-rails'
+return unless defined?(RSpec)
+
+require 'rspec/core/rake_task'
 
 # Defines a separate task for each system test suite, because
 #
