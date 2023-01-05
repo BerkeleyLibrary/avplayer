@@ -1,16 +1,16 @@
 require 'rails_helper'
 
-require 'av/core'
+require 'berkeley_library/av/core'
 
 module Health
   describe Check do
     attr_reader :wowza_uri, :alma_uri, :tind_uri, :all_checks
 
     before do
-      @wowza_uri = AV::Track.hls_uri_for(collection: Check::TEST_WOWZA_COLLECTION, relative_path: Check::TEST_WOWZA_PATH)
+      @wowza_uri = BerkeleyLibrary::AV::Track.hls_uri_for(collection: Check::TEST_WOWZA_COLLECTION, relative_path: Check::TEST_WOWZA_PATH)
 
-      @alma_uri = AV::Metadata::Source::ALMA.marc_uri_for(Check::TEST_BIB_NUMBER)
-      @tind_uri = AV::Metadata::Source::TIND.marc_uri_for(Check::TEST_TIND_ID)
+      @alma_uri = BerkeleyLibrary::AV::Metadata::Source::ALMA.marc_uri_for(Check::TEST_BIB_NUMBER)
+      @tind_uri = BerkeleyLibrary::AV::Metadata::Source::TIND.marc_uri_for(Check::TEST_TIND_ID)
 
       @all_checks = {
         Check::ALMA_CHECK => alma_uri,

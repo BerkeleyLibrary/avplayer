@@ -67,7 +67,7 @@
 
     <% record.metadata.tap do |metadata| %>
       <% metadata.values_by_field.each do |f, v| %>
-        <% next if f == AV::Metadata::Fields::DESCRIPTION # skip description displayed above %>
+        <% next if f == BerkeleyLibrary::AV::Metadata::Fields::DESCRIPTION # skip description displayed above %>
         <% entries = v.entries.reject { |e| e.to_s.include?('oskicat') } %>
         <% next if entries.empty? %>
         <tr>
@@ -75,7 +75,7 @@
           <td>
             <% entries.each do |entry| %>
               <p>
-                <% if entry.is_a?(AV::Metadata::Link) %>
+                <% if entry.is_a?(BerkeleyLibrary::AV::Metadata::Link) %>
                   <%= link_to(entry.body, entry.url) %>
                 <% else %>
                   <%= entry %>

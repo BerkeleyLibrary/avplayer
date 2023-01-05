@@ -1,10 +1,10 @@
 require 'active_record'
-require 'av/core'
+require 'berkeley_library/av/core'
 require 'health/check'
 
 class PlayerController < ApplicationController
 
-  rescue_from AV::RecordNotFound, with: :record_not_found
+  rescue_from BerkeleyLibrary::AV::RecordNotFound, with: :record_not_found
   rescue_from Error::AccessRestricted, with: :access_restricted
   rescue_from ActionController::ParameterMissing, with: :bad_request
 
@@ -53,7 +53,7 @@ class PlayerController < ApplicationController
   private
 
   def record
-    @record ||= AV::Record.from_metadata(collection:, record_id:)
+    @record ||= BerkeleyLibrary::AV::Record.from_metadata(collection:, record_id:)
   end
 
   def ensure_record_available!
@@ -69,7 +69,7 @@ class PlayerController < ApplicationController
     raise ActionController::ParameterMissing unless relative_path
 
     relative_path.split(';').each_with_index.map do |rp, index|
-      AV::Track.new(sort_order: index, path: "#{collection}/#{rp}")
+      BerkeleyLibrary::AV::Track.new(sort_order: index, path: "#{collection}/#{rp}")
     end
   end
 

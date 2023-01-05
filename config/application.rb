@@ -59,7 +59,7 @@ module AvPlayer
     config.after_initialize do
       AvPlayer::BuildInfo.log_to(Rails.logger)
 
-      avplayer_config = AV::Config::REQUIRED_SETTINGS.each_with_object({}) do |attr, configs|
+      avplayer_config = BerkeleyLibrary::AV::Config::REQUIRED_SETTINGS.each_with_object({}) do |attr, configs|
         configs[attr] = config.send(attr)
       end
 
