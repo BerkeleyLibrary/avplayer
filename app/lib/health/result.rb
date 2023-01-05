@@ -22,7 +22,7 @@ module Health
       end
 
       def warn(output)
-        Result.new(status: Status::WARN, output: output)
+        Result.new(status: Status::WARN, output:)
       end
     end
   end

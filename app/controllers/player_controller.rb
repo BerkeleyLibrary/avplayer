@@ -11,15 +11,15 @@ class PlayerController < ApplicationController
   def show
     ensure_record_available!
 
-    render locals: { record: record }
+    render locals: { record: }
   end
 
   def record_not_found(exception)
     logger.warn(exception) if exception
 
     render :record_not_found, status: :not_found, locals: {
-      collection: collection,
-      record_id: record_id
+      collection:,
+      record_id:
     }
   end
 
@@ -29,8 +29,8 @@ class PlayerController < ApplicationController
     ex_record = exception.respond_to?(:record) ? exception.record : nil
 
     render :access_restricted, status: :forbidden, locals: {
-      collection: collection,
-      record_id: record_id,
+      collection:,
+      record_id:,
       record: ex_record
     }
   end
@@ -53,7 +53,7 @@ class PlayerController < ApplicationController
   private
 
   def record
-    @record ||= AV::Record.from_metadata(collection: collection, record_id: record_id)
+    @record ||= AV::Record.from_metadata(collection:, record_id:)
   end
 
   def ensure_record_available!

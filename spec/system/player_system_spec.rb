@@ -2,14 +2,14 @@ require 'rails_helper'
 
 describe PlayerController, type: :system do
 
-  before(:each) do
+  before do
     AV::Config.wowza_base_uri = 'https://wowza.example.edu/'
   end
 
   describe :show do
 
     describe 'audio' do
-      before(:each) do
+      before do
         stub_sru_request('b23305522')
 
         manifest_url = 'https://wowza.example.edu/Pacifica/mp3:PRA_NHPRC1_AZ1084_00_000_00.mp3/playlist.m3u8'
@@ -64,7 +64,7 @@ describe PlayerController, type: :system do
 
         visit "/#{collection}/#{record_id}"
 
-        record = AV::Record.from_metadata(collection: collection, record_id: record_id)
+        record = AV::Record.from_metadata(collection:, record_id:)
         wowza_base_uri = AV::Config.wowza_base_uri
 
         record.tracks.each_with_index do |track, index|
@@ -87,7 +87,7 @@ describe PlayerController, type: :system do
     describe 'TIND records' do
       attr_reader :metadata
 
-      before(:each) do
+      before do
         collection = 'Pacifica'
         record_id = '(pacradio)01469'
 
@@ -188,7 +188,7 @@ describe PlayerController, type: :system do
     describe 'video' do
       # TODO: test multiple files
 
-      before(:each) do
+      before do
         stub_sru_request('b22139658')
 
         stub_request(:get, /manifest.mpd$/).to_return(status: 404)
@@ -272,7 +272,7 @@ describe PlayerController, type: :system do
         collection = 'Video-UCBOnly-MRC'
         record_id = '991047179369706532'
 
-        before(:each) do
+        before do
           stub_sru_request(record_id)
           manifest_url = 'https://wowza.example.edu/Video-UCBOnly-MRC/mp4:MRC_BeforeMyFeetTouchtheGround.mp4/manifest.mpd'
           stub_request(:get, manifest_url).to_return(body: File.read('spec/data/991047179369706532-manifest.mpd'))
@@ -280,7 +280,7 @@ describe PlayerController, type: :system do
 
         describe 'without CalNet login' do
           describe 'with UCB IP' do
-            before(:each) do
+            before do
               allow(UcbIpService).to receive(:ucb_request?).and_return(true)
             end
 
@@ -289,7 +289,7 @@ describe PlayerController, type: :system do
           end
 
           describe 'without UCB IP' do
-            before(:each) do
+            before do
               allow(UcbIpService).to receive(:ucb_request?).and_return(false)
             end
 
@@ -299,23 +299,24 @@ describe PlayerController, type: :system do
         end
 
         describe 'with CalNet login' do
-          before(:each) do
+          before do
             mock_login(:student)
           end
 
-          after(:each) do
+          after do
             logout!
           end
 
           describe 'with UCB IP' do
-            before(:each) do
+            before do
               allow(UcbIpService).to receive(:ucb_request?).and_return(true)
             end
 
             it_behaves_like('the record is available', collection, record_id)
           end
+
           describe 'without UCB IP' do
-            before(:each) do
+            before do
               allow(UcbIpService).to receive(:ucb_request?).and_return(false)
             end
 
@@ -328,7 +329,7 @@ describe PlayerController, type: :system do
         collection = 'City'
         record_id = 'b18538031'
 
-        before(:each) do
+        before do
           stub_sru_request(record_id)
         end
 
@@ -338,7 +339,7 @@ describe PlayerController, type: :system do
           end
 
           describe 'without UCB IP' do
-            before(:each) do
+            before do
               allow(UcbIpService).to receive(:ucb_request?).and_return(false)
             end
 
@@ -348,11 +349,11 @@ describe PlayerController, type: :system do
         end
 
         describe 'with CalNet login' do
-          before(:each) do
+          before do
             mock_login(:student)
           end
 
-          after(:each) do
+          after do
             logout!
           end
 
@@ -361,9 +362,10 @@ describe PlayerController, type: :system do
           end
 
           describe 'without UCB IP' do
-            before(:each) do
+            before do
               allow(UcbIpService).to receive(:ucb_request?).and_return(false)
             end
+
             it_behaves_like('the record is available', collection, record_id)
           end
         end
@@ -380,7 +382,7 @@ describe PlayerController, type: :system do
         expected_url = "#{wowza_base_uri}#{collection}/mp3:#{path}/playlist.m3u8"
         stub_request(:head, expected_url).to_return(status: 200)
 
-        visit "/preview?#{URI.encode_www_form(collection: collection, relative_path: path)}"
+        visit "/preview?#{URI.encode_www_form(collection:, relative_path: path)}"
 
         source = find(:xpath, "//audio/source[@src=\"#{expected_url}\"]")
         expect(source).not_to be_nil
@@ -396,7 +398,7 @@ describe PlayerController, type: :system do
           end
         end
 
-        visit "/preview?#{URI.encode_www_form(collection: collection, relative_path: paths.join(';'))}"
+        visit "/preview?#{URI.encode_www_form(collection:, relative_path: paths.join(';'))}"
         expected_urls.each do |expected_url|
           source = find(:xpath, "//audio/source[@src=\"#{expected_url}\"]")
           expect(source).not_to be_nil
@@ -414,7 +416,7 @@ describe PlayerController, type: :system do
           end
         end
 
-        visit "/preview?#{URI.encode_www_form(collection: collection, relative_path: paths.join(';'))}"
+        visit "/preview?#{URI.encode_www_form(collection:, relative_path: paths.join(';'))}"
         source_urls.each do |expected_url|
           source = find(:xpath, "//video/source[@src=\"#{expected_url}\"]")
           expect(source).not_to be_nil
@@ -432,7 +434,7 @@ describe PlayerController, type: :system do
         expected_url = "#{wowza_base_uri}#{collection}/mp4:#{path}/manifest.mpd"
         stub_request(:get, expected_url).to_return(body: File.read('spec/data/b22139658-manifest-no-captions.mpd'))
 
-        visit "/preview?#{URI.encode_www_form(collection: collection, relative_path: path)}"
+        visit "/preview?#{URI.encode_www_form(collection:, relative_path: path)}"
 
         source = find(:xpath, "//source[@src=\"#{expected_url}\"]")
         expect(source).not_to be_nil

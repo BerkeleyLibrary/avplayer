@@ -5,7 +5,6 @@ require 'health/status'
 module Health
 
   describe Status do
-    # rubocop:disable Lint/BinaryOperatorWithIdenticalOperands
     describe '&' do
       it 'handles nil' do
         expect(Status::PASS & nil).to eq(Status::PASS)
@@ -27,7 +26,6 @@ module Health
         expect(status).to eq(Status::WARN)
       end
     end
-    # rubocop:enable Lint/BinaryOperatorWithIdenticalOperands
 
     describe :http_status_code do
       it 'returns a unique, ascending int status' do
