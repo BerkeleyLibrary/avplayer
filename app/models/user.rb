@@ -20,6 +20,8 @@ class User
     'STUDENT-TYPE-NOT-REGISTERED'
   ].freeze
 
+  SESSION_ATTRS = %i[uid affiliations].freeze
+
   # ------------------------------------------------------------
   # Initializer
 
@@ -27,7 +29,7 @@ class User
   # @param affiliations Affiliations per CalNet (attribute `berkeleyEduAffiliations` e.g.
   #        `EMPLOYEE-TYPE-FACULTY`, `STUDENT-TYPE-REGISTERED`).
   def initialize(uid: nil, affiliations: nil)
-    super(uid: uid, affiliations: affiliations)
+    super(uid:, affiliations:)
   end
 
   # ------------------------------------------------------------
@@ -44,11 +46,8 @@ class User
     end
 
     def from_session(session)
-      attrs = OpenStruct.new((session && session[:user]) || {})
-      new(
-        uid: attrs.uid,
-        affiliations: attrs.affiliations
-      )
+      attr_hash = (session && session[:user]) || {}
+      new(**attr_hash.symbolize_keys.slice(*SESSION_ATTRS))
     end
 
     private

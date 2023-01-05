@@ -38,5 +38,5 @@ preload_app!
 plugin :tmp_restart
 
 log_formatter do |str|
-  Rails.logger.formatter.call(Logger::INFO, Time.now, nil, str)
+  Rails.logger.formatter.call(Logger::INFO, Time.zone.now, nil, str)
 end

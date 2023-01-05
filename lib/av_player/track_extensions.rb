@@ -58,13 +58,13 @@ module AV
     private
 
     def build_hls_uri
-      Track.hls_uri_for(collection: collection, relative_path: relative_path)
+      Track.hls_uri_for(collection:, relative_path:)
     rescue URI::InvalidURIError => e
       log_invalid_uri(relative_path, e)
     end
 
     def build_mpeg_dash_uri
-      Track.mpeg_dash_uri_for(collection: collection, relative_path: relative_path)
+      Track.mpeg_dash_uri_for(collection:, relative_path:)
     rescue URI::InvalidURIError => e
       log_invalid_uri(relative_path, e)
     end

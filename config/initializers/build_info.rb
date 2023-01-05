@@ -36,6 +36,7 @@ module AvPlayer
       end.freeze
     end
 
+    # rubocop:disable Rails/OutputSafety
     def build_html_comment
       comment_lines = [].tap do |lines|
         lines << '<!--'
@@ -44,6 +45,7 @@ module AvPlayer
       end
       comment_lines.join("\n").html_safe
     end
+    # rubocop:enable Rails/OutputSafety
 
     def escape_comment(v)
       v ? v.to_s.gsub(MULTIPLE_HYPHEN_ESCAPE_RE, HYPHEN_ENTITY_ESCAPE) : '<nil>'

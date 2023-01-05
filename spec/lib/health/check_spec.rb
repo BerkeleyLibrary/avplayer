@@ -6,7 +6,7 @@ module Health
   describe Check do
     attr_reader :wowza_uri, :alma_uri, :tind_uri, :all_checks
 
-    before(:each) do
+    before do
       @wowza_uri = AV::Track.hls_uri_for(collection: Check::TEST_WOWZA_COLLECTION, relative_path: Check::TEST_WOWZA_PATH)
 
       @alma_uri = AV::Metadata::Source::ALMA.marc_uri_for(Check::TEST_BIB_NUMBER)

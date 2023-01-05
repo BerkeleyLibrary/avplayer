@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'health/check'
 
 describe PlayerController, type: :request do
-  before(:each) do
+  before do
     AV::Config.wowza_base_uri = 'https://wowza.example.edu/'
   end
 
@@ -11,7 +11,7 @@ describe PlayerController, type: :request do
       expected_status = 200
       expected_json = {
         'status' => 'pass',
-        'details' => Health::Check.all_checks.keys.map { |c| [c, 'pass'] }.to_h
+        'details' => Health::Check.all_checks.keys.to_h { |c| [c, 'pass'] }
       }
 
       check = instance_double(Health::Check)

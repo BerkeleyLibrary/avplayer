@@ -3,7 +3,7 @@ require 'av_player/track_extensions'
 
 module AV
   describe Track do
-    before(:each) do
+    before do
       AV::Config.wowza_base_uri = 'https://wowza.example.edu/'
     end
 

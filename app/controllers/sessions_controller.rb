@@ -44,7 +44,7 @@ class SessionsController < ApplicationController
   def cas_logout_url
     raise ArgumentError, "invalid cas_host #{cas_host.inspect}" if (host = cas_host).blank?
 
-    URI::HTTPS.build(host: host, path: '/cas/logout').to_s
+    URI::HTTPS.build(host:, path: '/cas/logout').to_s
   end
 
   def auth_params

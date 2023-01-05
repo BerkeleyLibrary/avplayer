@@ -34,7 +34,7 @@ module Health
     end
 
     def as_json(*)
-      { status: status, details: details }
+      { status:, details: }
     end
 
     def http_status_code

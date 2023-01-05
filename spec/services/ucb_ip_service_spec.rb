@@ -5,7 +5,7 @@ describe UcbIpService do
     attr_reader :request
     attr_reader :headers
 
-    before(:each) do
+    before do
       html_source = File.read('spec/data/campus-networks.txt')
       campus_networks_uri = Rails.application.config.campus_networks_uri
       stub_request(:get, campus_networks_uri).to_return(status: 200, body: html_source)
@@ -17,7 +17,7 @@ describe UcbIpService do
 
     describe 'x-forwarded-for' do
       describe 'staging' do
-        before(:each) do
+        before do
           remote_ip = instance_double(ActionDispatch::RemoteIp::GetIp)
           allow(remote_ip).to receive(:to_s).and_return('128.32.10.191')
           allow(headers).to receive(:[]).with('action_dispatch.remote_ip').and_return(remote_ip)
@@ -52,19 +52,19 @@ describe UcbIpService do
       describe 'production' do
         attr_reader :remote_ip
 
-        before(:each) do
+        before do
           @remote_ip = instance_double(ActionDispatch::RemoteIp::GetIp)
           allow(headers).to receive(:[]).with('action_dispatch.remote_ip').and_return(remote_ip)
         end
 
-        it 'returns true for a campus IP' do
+        it 'returns true for an IP in the campus networks table' do
           ip_addr = '136.152.24.200'
           allow(remote_ip).to receive(:to_s).and_return(ip_addr)
           allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return("#{ip_addr}, 10.255.0.10")
           expect(UcbIpService.ucb_request?(request)).to eq(true)
         end
 
-        it 'returns true for a campus IP' do
+        it 'returns true for a campus IP in the AirBears range' do
           ip_addr = '10.142.128.127'
           allow(remote_ip).to receive(:to_s).and_return(ip_addr)
           allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return("#{ip_addr}, 10.255.0.10")
@@ -95,7 +95,7 @@ describe UcbIpService do
     end
 
     describe 'remote IP without x-forwarded-for' do
-      before(:each) do
+      before do
         allow(headers).to receive(:[]).with('HTTP_X_FORWARDED_FOR').and_return(nil)
       end
 
@@ -112,12 +112,12 @@ describe UcbIpService do
   describe :campus_ip? do
     attr_reader :service
 
-    before(:each) do
+    before do
       @service = UcbIpService.new
     end
 
     describe 'with IP list available' do
-      before(:each) do
+      before do
         html_source = File.read('spec/data/campus-networks.txt')
         campus_networks_uri = Rails.application.config.campus_networks_uri
         stub_request(:get, campus_networks_uri).to_return(status: 200, body: html_source)

@@ -22,8 +22,8 @@ RSpec.configure do |config|
   config.color = true
   config.tty = true
   config.formatter = :documentation
-  config.before(:each) { WebMock.disable_net_connect!(allow_localhost: true) }
-  config.after(:each) { WebMock.allow_net_connect! }
+  config.before { WebMock.disable_net_connect!(allow_localhost: true) }
+  config.after { WebMock.allow_net_connect! }
 
   # Required for shared contexts (e.g. in ssh_helper.rb); see
   # https://relishapp.com/rspec/rspec-core/docs/example-groups/shared-context#background
@@ -39,7 +39,7 @@ RSpec.configure do |config|
   end
 
   # AVPlayer configuration, or rather deconfiguration
-  config.before(:each) do
+  config.before do
     AV::Config.send(:clear!) if defined?(AV::Config)
   end
 end
