@@ -2,32 +2,17 @@ require_relative 'boot'
 
 require 'rails'
 require 'active_model/railtie'
-require 'active_job/railtie'
 require 'action_controller/railtie'
 require 'action_view/railtie'
 require 'sprockets/railtie'
-require 'rails/test_unit/railtie'
 
-require_relative '../lib/docker'
-Docker::Secret.setup_environment!
-
-# Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
 module AvPlayer
   class Application < Rails::Application
 
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
-
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration can go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded after loading
-    # the framework and any gems in your application.
-
-    # Don't generate system test files.
-    config.generators.system_tests = nil
+    config.load_defaults 7.0
 
     # ############################################################
     # External services
@@ -38,10 +23,11 @@ module AvPlayer
 
     # Wowza server URL
     config.wowza_base_uri = ENV.fetch('LIT_WOWZA_BASE_URL', 'https://wowza.lib.berkeley.edu/')
+    # config.wowza_base_uri = ENV.fetch('LIT_WOWZA_BASE_URL', 'https://wowza.ucblib.org/') # staging
 
     # AV Player URL
     config.avplayer_base_uri = ENV.fetch('LIT_AVPLAYER_BASE_URL', 'https://avplayer.lib.berkeley.edu/') # production
-    # config.avplayer_base_uri = ENV.fetch('LIT_AVPLAYER_BASE_URL', 'https://avplayer-staging.swarm-ewh-staging.devlib.berkeley.edu/') # staging
+    # config.avplayer_base_uri = ENV.fetch('LIT_AVPLAYER_BASE_URL', 'https://avplayer.ucblib.org') # staging
 
     # Alma SRU hostname
     config.alma_sru_host = ENV.fetch('LIT_ALMA_SRU_HOST', 'berkeley.alma.exlibrisgroup.com')
