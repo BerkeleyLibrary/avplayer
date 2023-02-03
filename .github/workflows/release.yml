@@ -46,7 +46,7 @@ jobs:
     steps:
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: ${{ env.BASE_IMAGE_NAME }}
           tags:
@@ -62,7 +62,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Tag and push image
-        uses: akhilerm/tag-push-action@v2.0.0
+        uses: akhilerm/tag-push-action@v2.1.0
         with:
           src: ${{ env.BUILD_IMAGE }}
           dst: |
