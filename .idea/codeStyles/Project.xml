@@ -19,5 +19,10 @@
         <option name="TAB_SIZE" value="2" />
       </indentOptions>
     </codeStyleSettings>
+    <codeStyleSettings language="ruby">
+      <indentOptions>
+        <option name="USE_RELATIVE_INDENTS" value="false" />
+      </indentOptions>
+    </codeStyleSettings>
   </code_scheme>
 </component>
