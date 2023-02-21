@@ -4,9 +4,20 @@ The UC Berkeley Library audio/video player.
 
 ## Servers
 
-Staging: [avplayer-staging.swarm-ewh-staging.devlib.berkeley.edu](https://avplayer-staging.swarm-ewh-staging.devlib.berkeley.edu).
+Staging: [avplayer.ucblib.org](https://avplayer.ucblib.org/).
 
-Production: TBD
+Production: [avplayer.lib.berkeley.edu](https://avplayer.lib.berkeley.edu/)
+(Note: The production server does not display a home page.)
+
+### Logging
+
+Staging and production logs are aggregated in Amazon CloudWatch.
+
+- [staging](https://us-west-1.console.aws.amazon.com/cloudwatch/home?region=us-west-1#logStream:group=staging/avplayer/rails;streamFilter=typeLogStreamPrefix)
+- [production](https://us-west-1.console.aws.amazon.com/cloudwatch/home?region=us-west-1#logStream:group=production/avplayer/rails;streamFilter=typeLogStreamPrefix)
+
+You'll need to sign in with the IAM account alias `uc-berkeley-library-it`
+and then with your IAM user name and password (created by the DevOps team).
 
 ## Development
 
