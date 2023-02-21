@@ -58,18 +58,9 @@ module AvPlayer
 
     config.after_initialize do
       AvPlayer::BuildInfo.log_to(Rails.logger)
-
-      begin
-        av_config = BerkeleyLibrary::AV::Config.config
-        av_config.ensure_configured
-
-        config_data = BerkeleyLibrary::AV::Config::REQUIRED_SETTINGS
-          .each_with_object({}) { |attr, configs| configs[attr] = av_config.send(attr) }
-
-        Rails.logger.info('Configuration', data: config_data)
-      rescue StandardError => e
-        Rails.logger.error('Error reading AV configuration', e)
-      end
+      BerkeleyLibrary::AV::Config.log_settings!(to_logger: Rails.logger)
+    rescue StandardError => e
+      Rails.logger.error('Error logging build & config info', e)
     end
 
   end
