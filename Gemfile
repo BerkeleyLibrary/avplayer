@@ -30,7 +30,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'listen', '>= 3.0', '< 3.2'
+  gem 'listen', '>= 3.0'
   gem 'rubocop', '~> 1.26.0'
   gem 'rubocop-rails', '~> 2.13.2', require: false
   gem 'rubocop-rspec', '~> 2.4.0', require: false
