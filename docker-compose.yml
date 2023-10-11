@@ -1,15 +1,17 @@
+version: "3.8"
+
 services:
-  rails: &services-rails
-    build:
-      context: .
-      target: production
+  app:
+    build: .
+    environment:
+      - LIT_SHOW_HOMEPAGE=1
+      - RAILS_ENV=development
+      - RAILS_SERVE_STATIC_FILES=true
+      - SECRET_KEY_BASE=foobar
     ports:
-      - target: 3000
-        published: 3000
+      - 3000:3000
     restart: always
     volumes:
       # Note that this mounts the *entire* repo directory (including
       # files ignored in .dockerignore when building the image)
       - ./:/opt/app
-
-version: "3.7"
