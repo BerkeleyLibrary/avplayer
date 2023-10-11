@@ -138,9 +138,9 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-    listen (3.0.8)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
+    listen (3.8.0)
+      rb-fsevent (~> 0.10, >= 0.10.3)
+      rb-inotify (~> 0.9, >= 0.9.10)
     lograge (0.14.0)
       actionpack (>= 4)
       activesupport (>= 4)
@@ -367,7 +367,7 @@ DEPENDENCIES
   colorize
   dotenv-rails
   jbuilder (~> 2.7)
-  listen (>= 3.0, < 3.2)
+  listen (>= 3.0)
   non-stupid-digest-assets (~> 1.0)
   omniauth-cas (~> 2.0)
   puma (~> 5.3, >= 5.3.1)
