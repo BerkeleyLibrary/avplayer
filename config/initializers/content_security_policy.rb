@@ -56,6 +56,9 @@ Rails.application.config.content_security_policy do |policy|
     wowza_src_ezproxy.to_s,
     wowza_src_ezproxy_stg.to_s,
     # TODO: fewer CDNs?
+
+    'https://vjs.zencdn.net',
+    'https://unpkg.com',
     'https://cdn.jsdelivr.net',
     'https://cdn.dashjs.org',
     'https://p.typekit.net',

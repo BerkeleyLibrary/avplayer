@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root to: (Rails.application.config.show_homepage ? 'player#index' : redirect('/404.html'))
-
+  get '/videojs', to: 'player#videojs'
   # Omniauth automatically handles requests to /auth/:provider. We need only
   # implement the callback.
   get '/login', to: 'sessions#new', as: :login
