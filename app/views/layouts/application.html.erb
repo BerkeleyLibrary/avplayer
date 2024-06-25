@@ -34,6 +34,8 @@
 <main id="main">
   <%= yield %>
 </main>
+  <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
+  <script src="https://unpkg.com/videojs-contrib-dash/dist/videojs-dash.js"></script>
 <%= render(partial: 'layouts/footer') %>
 </body>
 <%= AvPlayer::BuildInfo.as_html_comment %>
