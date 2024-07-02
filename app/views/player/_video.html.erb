@@ -1,13 +1,13 @@
 <%# TODO: figure out how to programmatically set height with JavaScript, or something %>
 <%# should match app/assets/stylesheets/application.scss %>
-<video id="video-<%= index %>" width="100%" height="270" class="mejs__player" preload="<%= preload %>" data-mejsoptions='{"iconSprite": "/assets/icons/mejs-controls.svg"}' controls>
+<video id="video-<%= index %>" width="100%" height="270" preload="<%= preload %>" controls crossorigin="anonymous">
   <% if browser.platform.ios? || browser.device.ipad? %>
     <source src="<%= track.hls_uri %>" type="<%= BerkeleyLibrary::AV::Track::SOURCE_TYPE_HLS %>"/>
   <% else %>
     <source src="<%= track.mpeg_dash_uri %>" type="<%= BerkeleyLibrary::AV::Track::SOURCE_TYPE_MPEG_DASH %>"/>
     <% if (dash_vtt_uri = track.dash_vtt_uri) %>
       <%# TODO: should we also be adding a caption track for HLS streaming to iPhone/iPad? %>
-      <track default kind="captions" srclang="en" src="<%= dash_vtt_uri %>"/>
+      <track kind="captions" srclang="en" src="<%= dash_vtt_uri %>"/>
     <% end %>
   <% end %>
 </video>

@@ -31,6 +31,20 @@
       function rewrite_src_tags() {
           $("source,track").each(rewrite_src);
       }
+
+      function initialize_players() {
+          $("audio,video").mediaelementplayer({
+            iconSprite: "/assets/icons/mejs-controls.svg",
+            success: function (mediaElement, originalNode, instance) {
+                if (typeof dashjs !== "undefined") {
+                    // workaround for mediaelement/mediaelement#2964
+                    mediaElement.dashPlayer.updateSettings({
+                        streaming: { text: { defaultEnabled: false } },
+                    });
+                }
+            }
+          }
+      )}
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mediaelement@7.0.5/build/mediaelement-and-player.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@7.0.5/build/mediaelementplayer.css">
