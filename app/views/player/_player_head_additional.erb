@@ -34,6 +34,9 @@
 
       function initialize_players() {
           $("audio,video").mediaelementplayer({
+            // workaround for mediaelement/mediaelement#2963
+            // (when the HLS stream contains WebVTT captions)
+            hls: { enableWebVTT: false },
             iconSprite: "/assets/icons/mejs-controls.svg",
             success: function (mediaElement, originalNode, instance) {
                 if (typeof dashjs !== "undefined") {

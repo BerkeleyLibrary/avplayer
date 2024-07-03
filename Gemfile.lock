@@ -149,6 +149,7 @@ GEM
     loofah (2.21.4)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
+    m3u8 (0.8.2)
     mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
@@ -352,6 +353,7 @@ PLATFORMS
   aarch64-linux
   arm64-darwin-21
   arm64-darwin-22
+  arm64-darwin-23
   x86_64-darwin-19
   x86_64-linux
 
@@ -368,6 +370,7 @@ DEPENDENCIES
   dotenv-rails
   jbuilder (~> 2.7)
   listen (>= 3.0)
+  m3u8 (~> 0.8.2)
   non-stupid-digest-assets (~> 1.0)
   omniauth-cas (~> 2.0)
   puma (~> 5.3, >= 5.3.1)

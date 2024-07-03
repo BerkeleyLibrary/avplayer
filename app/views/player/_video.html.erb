@@ -3,10 +3,10 @@
 <video id="video-<%= index %>" width="100%" height="270" preload="<%= preload %>" controls crossorigin="anonymous">
   <% if browser.platform.ios? || browser.device.ipad? %>
     <source src="<%= track.hls_uri %>" type="<%= BerkeleyLibrary::AV::Track::SOURCE_TYPE_HLS %>"/>
+    <%# a separate track tag is not necessary here for captions as Wowza sends them as part of the HLS stream, and iOS will auto discover them %>
   <% else %>
     <source src="<%= track.mpeg_dash_uri %>" type="<%= BerkeleyLibrary::AV::Track::SOURCE_TYPE_MPEG_DASH %>"/>
     <% if (dash_vtt_uri = track.dash_vtt_uri) %>
-      <%# TODO: should we also be adding a caption track for HLS streaming to iPhone/iPad? %>
       <track kind="captions" srclang="en" src="<%= dash_vtt_uri %>"/>
     <% end %>
   <% end %>
