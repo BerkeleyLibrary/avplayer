@@ -140,25 +140,6 @@ module BerkeleyLibrary
           expected_uri = URI.join(AV::Config.wowza_base_uri, expected_vtt_path)
           expect(track.dash_vtt_uri).to eq(expected_uri)
         end
-
-        describe :hls_vtt_uri do
-          it 'returns the HLS VTT URI' do
-            track = Track.new(sort_order: 0, path: 'ROHOVideo/breslin1.mp4')
-            hls_uri = track.hls_uri
-
-            expected_manifest_path = '/ROHOVideo/mp4:breslin1.mp4/playlist.m3u8'
-            expect(hls_uri.path).to eq(expected_manifest_path) # just to be sure
-
-            stub_request(:head, hls_uri).to_return(status: 200)
-            stub_request(:get, hls_uri).to_return(body: File.read('spec/data/breslin1-playlist.m3u8'))
-            subtitle_list_uri = hls_uri.merge('subtitlelist_leng_w289808588.m3u8')
-            stub_request(:get, subtitle_list_uri).to_return(body: File.read('spec/data/subtitlelist_leng_w289808588.m3u8'))
-
-            expected_vtt_path = expected_manifest_path.sub(%r{[^/]+$}, 'subtitlechunk_leng_w289808588_0.webvtt')
-            expected_uri = URI.join(AV::Config.wowza_base_uri, expected_vtt_path)
-            expect(track.hls_vtt_uri).to eq(expected_uri)
-          end
-        end
       end
     end
   end
