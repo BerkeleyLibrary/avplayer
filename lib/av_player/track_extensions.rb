@@ -5,7 +5,7 @@ require 'berkeley_library/logging'
 
 module BerkeleyLibrary
   module AV
-    class Track # rubocop:disable Metrics/ClassLength
+    class Track
       include BerkeleyLibrary::Logging
 
       COLLECTION_RE = %r{(^[^/]+)/}
@@ -20,12 +20,6 @@ module BerkeleyLibrary
         return @hls_uri if instance_variable_defined?(:@hls_uri)
 
         @hls_uri ||= build_hls_uri
-      end
-
-      def hls_vtt_uri
-        return @hls_vtt_uri if instance_variable_defined?(:@hls_vtt_uri)
-
-        @hls_vtt_uri ||= find_hls_vtt_uri
       end
 
       def mpeg_dash_uri
@@ -74,27 +68,6 @@ module BerkeleyLibrary
         Track.mpeg_dash_uri_for(collection:, relative_path:)
       rescue URI::InvalidURIError => e
         log_invalid_uri(relative_path, e)
-      end
-
-      def find_hls_vtt_uri
-        return unless hls_uri_exists?
-        return unless (hls_manifest_uri = hls_uri)
-        return unless (hls_manifest = do_get(hls_manifest_uri, ignore_errors: true))
-        return unless (subtitle_list_uri = find_hls_subtitle_list_uri(hls_manifest))
-        return unless (hls_subtitle_list = do_get(subtitle_list_uri, ignore_errors: true))
-
-        vtt_playlist = M3u8::Playlist.read(hls_subtitle_list)
-        return unless (hls_vtt_path_relative = vtt_playlist.items.first.segment)
-
-        hls_uri.merge(hls_vtt_path_relative)
-      end
-
-      def find_hls_subtitle_list_uri(manifest)
-        return unless (playlist = M3u8::Playlist.read(manifest))
-        return unless (subtitle_list = playlist.items.find { |p| p.group_id == 'subs' })
-        return unless (subtitle_list_uri = subtitle_list.uri)
-
-        hls_uri.merge(subtitle_list_uri)
       end
 
       def find_dash_vtt_uri
