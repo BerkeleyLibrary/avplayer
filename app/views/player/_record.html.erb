@@ -5,7 +5,22 @@
 <section class="record">
 
   <h1><%= record.title %></h1>
-
+  <% #record.metadata.marc_record.class %>
+  <% transcripts = [] %>
+  <% eight56_fields = record.metadata.marc_record.fields(['856']) %>
+  <% if eight56_fields.any? %>
+    <% #eight56_fields.each {|f| f.to_hash } %>
+    <% eight56_fields.each do |f| %>
+      <% if f.indicator1 == '4' && f.indicator2 == '2' %>
+        <% subfields = f.subfields.each_with_object({}) {|sf, hash| hash[sf.code] = sf.value } %>
+        <% if subfields['u'] && subfields['y'] && subfields['y'].downcase.include?('transcript') %>
+          <% transcripts << subfields['u']  %>
+        <% end %>
+      <% end %>
+            
+    <% end %>
+  <% end %>
+  <% #byebug %>
   <% if record.tracks.empty? %>
     <p>No track information found.</p>
   <% else %>
@@ -85,6 +100,14 @@
             <% end %>
           </td>
         </tr>
+      <% end %>
+      <% if transcripts.any? %>
+        <tr>
+          <th><p>Transcripts</p></th>
+          <td>
+            <% transcripts.each do |transcript| %>
+              <%= link_to(File.basename(URI.parse(transcript).path), transcript) %>
+            <% end %>
       <% end %>
     <% end %>
     </tbody>

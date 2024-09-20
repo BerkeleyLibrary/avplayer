@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   app:
     build: .
@@ -15,3 +13,5 @@ services:
       # Note that this mounts the *entire* repo directory (including
       # files ignored in .dockerignore when building the image)
       - ./:/opt/app
+    tty: true
+    stdin_open: true
