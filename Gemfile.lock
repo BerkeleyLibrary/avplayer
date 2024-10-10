@@ -70,7 +70,7 @@ GEM
       public_suffix (>= 2.0.2, < 6.0)
     amazing_print (1.5.0)
     ast (2.4.2)
-    berkeley_library-av-core (0.4.1)
+    berkeley_library-av-core (0.4.2)
       berkeley_library-logging (~> 0.2)
       berkeley_library-marc (~> 0.2, >= 0.2.1)
       berkeley_library-util (~> 0.1, >= 0.1.1)
@@ -357,7 +357,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  berkeley_library-av-core (~> 0.4.1)
+  berkeley_library-av-core (~> 0.4.2)
   berkeley_library-docker (~> 0.2.0)
   berkeley_library-logging (~> 0.2)
   brakeman
