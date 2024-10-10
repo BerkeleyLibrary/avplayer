@@ -85,31 +85,6 @@
           </td>
         </tr>
       <% end %>
-
-      <% transcripts = [] %>
-      <% eight56_fields = record.metadata.marc_record.fields(['856']) %>
-      <% if eight56_fields.any? %>
-        <% #eight56_fields.each {|f| f.to_hash } %>
-        <% eight56_fields.each do |f| %>
-          <% if f.indicator1 == '4' && f.indicator2 == '2' %>
-            <% subfields = f.subfields.each_with_object({}) {|sf, hash| hash[sf.code] = sf.value } %>
-            <% if subfields['u'] && subfields['y'] && subfields['y'].downcase.include?('transcript') %>
-              <% transcripts << subfields  %>
-            <% end %>
-          <% end %>
-                
-        <% end %>
-      <% end %>
-      <% if transcripts.any? %>
-        <tr>
-          <th><p>Transcripts</p></th>
-          <td>
-            <% transcripts.each do |transcript| %>
-              <%= link_to(transcript['y'], transcript['u']) %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
     <% end %>
     </tbody>
   </table>
