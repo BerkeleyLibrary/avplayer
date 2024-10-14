@@ -1,3 +1,7 @@
+# 1.0.3 (2024-10-14)
+
+- Bumps av-core gem to add transcript links to record pages.
+
 # 1.0.2 (2024-07-08)
 
 - upgrade mediaelement.js
