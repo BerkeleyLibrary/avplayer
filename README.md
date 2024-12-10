@@ -41,3 +41,8 @@ You can view application output directly in the console by running
 ```sh
 docker-compose logs -f
 ```
+
+##  Additional documentation
+
+* [How the AV system works](https://docs.google.com/document/d/1xckZnP0MeRThHRtlV8asf_ehitWaXT5rXqxp1zVq4qU/edit)
+* [How to add media to the AV System](https://docs.google.com/document/d/1gRWsaSoerSvadNlYR-zbYOjgj0geLxV41bBC0rm5nHE/edit)
