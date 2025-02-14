@@ -1,3 +1,8 @@
+# 1.0.4 (2025-02-14)
+
+- AP-314: ensure dashjs loads when latest ≥ 5.0.0
+- switch to new shared github actions workflow
+
 # 1.0.3 (2024-10-14)
 
 - Bumps av-core gem to add transcript links to record pages.
