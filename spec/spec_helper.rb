@@ -1,11 +1,7 @@
 # ------------------------------------------------------------
 # Rails
 
-if (env = ENV['RAILS_ENV'])
-  abort("Can't run tests in environment #{env}") if env != 'test'
-else
-  ENV['RAILS_ENV'] = 'test'
-end
+ENV['RAILS_ENV'] = 'test'
 
 # ------------------------------------------------------------
 # Dependencies
