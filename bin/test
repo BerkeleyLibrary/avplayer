@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+require "fileutils"
+
+APP_ROOT = File.expand_path("..", __dir__)
+
+# Check test coverage when running rspec
+ENV['COVERAGE'] = '1'
+
+# Test commands (to be exec'd in order)
+TESTS = [
+  %w(bundle exec rspec -f html --out artifacts/rspec.html),
+  %w(bundle exec rubocop -f html --out artifacts/rubocop.html),
+]
+
+FileUtils.chdir APP_ROOT do
+  exit TESTS.reduce(true) { |passed, test| system(*test) && passed }
+end
