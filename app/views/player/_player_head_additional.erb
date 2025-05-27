@@ -38,6 +38,7 @@
             // (when the HLS stream contains WebVTT captions)
             hls: { enableWebVTT: false },
             iconSprite: "/assets/icons/mejs-controls.svg",
+            stretching: 'responsive',
             success: function (mediaElement, originalNode, instance) {
                 if (typeof dashjs !== "undefined") {
                     // workaround for mediaelement/mediaelement#2964
