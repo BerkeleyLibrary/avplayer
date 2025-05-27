@@ -320,33 +320,6 @@ strong {
 // ////////////////////////////////////////////////////////////
 // Media
 
-/*
- Browsers and/or MediaElement.js don't seem to honor these,
- but let's document it here anyway.
-*/
-
-video {
-  height: 270px !important; /* MediaElement.js default height */
-  width: 100%;
-}
-
-.mejs__container {
-  height: 270px !important;
-}
-
-.mejs__container-fullscreen {
-  height: 100% !important;
-}
-
-.mejs__container-fullscreen video {
-  height: 100% !important;
-}
-
-audio {
-  height: 40px;
-  width: 100%;
-}
-
 /// additional MediaElement.js styles
 
 .mejs__overlay-button {
