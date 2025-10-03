@@ -1,0 +1,170 @@
+name: Build / Test / Push
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+env:
+  DOCKER_METADATA_SET_OUTPUT_ENV: 'true'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.runner }}
+    outputs:
+      build-image-arm: ${{ steps.gen-output.outputs.image-arm64 }}
+      build-image-x64: ${{ steps.gen-output.outputs.image-x64 }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          # note Specifies a single tag to ensure the default doesn't add more than one.
+          #      The actual tag is not used, this is just used to sanitize the registry name
+          #      and produce labels.
+          tags: type=sha
+
+      - name: Sanitize registry repository name
+        id: get-reg
+        run: |
+          echo "registry=$(echo '${{ steps.meta.outputs.tags }}' | cut -f1 -d:)" | tee -a "$GITHUB_OUTPUT"
+
+      - name: Build/push the arch-specific image
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          # @todo GHA caching needs tuning, these tend not to hit. Perhaps switch to type=registry?
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          labels: ${{ steps.meta.outputs.labels }}
+          provenance: mode=max
+          sbom: true
+          tags: ${{ steps.get-reg.outputs.registry }}
+          outputs: type=image,push-by-digest=true,push=true
+
+      - name: Write arch-specific image digest to outputs
+        id: gen-output
+        run: |
+          echo "image-${RUNNER_ARCH,,}=${{ steps.get-reg.outputs.registry }}@${{ steps.build.outputs.digest }}" | tee -a "$GITHUB_OUTPUT"
+
+  merge:
+    runs-on: ubuntu-24.04
+    needs:
+      - build
+    env:
+      DOCKER_APP_IMAGE_ARM64: ${{ needs.build.outputs.build-image-arm }}
+      DOCKER_APP_IMAGE_X64: ${{ needs.build.outputs.build-image-x64 }}
+    outputs:
+      build-image: ${{ steps.meta.outputs.tags }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=sha,suffix=-build-${{ github.run_id }}_${{ github.run_attempt }}
+
+      - name: Push the multi-platform image
+        run: |
+          docker buildx imagetools create \
+            --tag "$DOCKER_METADATA_OUTPUT_TAGS" \
+            "$DOCKER_APP_IMAGE_ARM64" "$DOCKER_APP_IMAGE_X64"
+
+  test:
+    runs-on: ubuntu-24.04
+    needs:
+      - merge
+    env:
+      COMPOSE_FILE: docker-compose.yml:docker-compose.ci.yml
+      DOCKER_APP_IMAGE: ${{ needs.merge.outputs.build-image }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run the test script
+        run: |
+          docker compose run --rm --user root app chown -R avplayer:avplayer artifacts
+          docker compose up --detach --wait
+          docker compose exec app bin/test
+
+  push:
+    runs-on: ubuntu-24.04
+    needs:
+      - merge
+      - test
+    env:
+      DOCKER_APP_IMAGE: ${{ needs.merge.outputs.build-image }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Produce permanent image tags
+        id: branch-meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=sha
+            type=ref,event=branch
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Retag and push the image
+        run: |
+          docker pull "$DOCKER_APP_IMAGE"
+          echo "$DOCKER_METADATA_OUTPUT_TAGS" | tr ' ' '\n' | xargs -n1 docker tag "$DOCKER_APP_IMAGE"
+          docker push --all-tags "$(echo "$DOCKER_APP_IMAGE" | cut -f1 -d:)"

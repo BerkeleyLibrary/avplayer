@@ -5,6 +5,7 @@
 # Ignore git
 .git
 .gitignore
+.github
 
 # Ignore bundler config.
 .bundle
