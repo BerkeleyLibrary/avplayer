@@ -7,6 +7,7 @@ on:
   workflow_dispatch:
 
 env:
+  BUILD_SUFFIX: -build-${{ github.run_id }}_${{ github.run_attempt }}
   DOCKER_METADATA_SET_OUTPUT_ENV: 'true'
 
 jobs:
@@ -35,38 +36,42 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Docker meta
-        id: meta
+      - id: build-meta
+        name: Docker meta
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
-          # note Specifies a single tag to ensure the default doesn't add more than one.
-          #      The actual tag is not used, this is just used to sanitize the registry name
-          #      and produce labels.
-          tags: type=sha
+          tags: type=sha,suffix=${{ env.BUILD_SUFFIX }}
 
-      - name: Sanitize registry repository name
-        id: get-reg
+      # Build cache is shared among all builds of the same architecture
+      - id: cache-meta
+        name: Docker meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: type=raw,value=buildcache-${{ runner.arch }}
+
+      - id: get-registry
+        name: Get the sanitized registry name
         run: |
-          echo "registry=$(echo '${{ steps.meta.outputs.tags }}' | cut -f1 -d:)" | tee -a "$GITHUB_OUTPUT"
+          echo "registry=$(echo '${{ steps.build-meta.outputs.tags }}' | cut -f1 -d:)" | tee -a "$GITHUB_OUTPUT"
 
-      - name: Build/push the arch-specific image
-        id: build
+      - id: build
+        name: Build/push the arch-specific image
         uses: docker/build-push-action@v6
         with:
-          # @todo GHA caching needs tuning, these tend not to hit. Perhaps switch to type=registry?
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=registry,ref=${{ steps.cache-meta.outputs.tags }}
+          cache-to: type=registry,ref=${{ steps.cache-meta.outputs.tags }},mode=max
+          labels: ${{ steps.build-meta.outputs.labels }}
           provenance: mode=max
           sbom: true
-          tags: ${{ steps.get-reg.outputs.registry }}
+          tags: ${{ steps.get-registry.outputs.registry }}
           outputs: type=image,push-by-digest=true,push=true
 
-      - name: Write arch-specific image digest to outputs
-        id: gen-output
+      - id: gen-output
+        name: Write arch-specific image digest to outputs
         run: |
-          echo "image-${RUNNER_ARCH,,}=${{ steps.get-reg.outputs.registry }}@${{ steps.build.outputs.digest }}" | tee -a "$GITHUB_OUTPUT"
+          echo "image-${RUNNER_ARCH,,}=${{ steps.get-registry.outputs.registry }}@${{ steps.build.outputs.digest }}" | tee -a "$GITHUB_OUTPUT"
 
   merge:
     runs-on: ubuntu-24.04
