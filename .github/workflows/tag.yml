@@ -1,0 +1,34 @@
+name: Tag Docker image
+
+on:
+  workflow_call:
+    inputs:
+      # Image to be retagged. This must exist in the registry.
+      image:
+        type: string
+
+      # Space-separated list of fully qualified image tags (including registry address)
+      # Format matches the output of `docker/metadata-action`.
+      tags:
+        type: string
+
+env:
+  DOCKER_APP_IMAGE: ${{ inputs.image }}
+  DOCKER_METADATA_OUTPUT_TAGS: ${{ inputs.tags }}
+
+jobs:
+  tag:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Apply tags to the image
+        run: |
+          docker pull "$DOCKER_APP_IMAGE"
+          echo "$DOCKER_METADATA_OUTPUT_TAGS" | tr ' ' '\n' | xargs -n1 docker tag "$DOCKER_APP_IMAGE"
+          docker push --all-tags "$(echo "$DOCKER_APP_IMAGE" | cut -f1 -d:)"

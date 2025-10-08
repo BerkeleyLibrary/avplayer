@@ -1,0 +1,42 @@
+name: Extract image metadata
+
+on:
+  workflow_call:
+    outputs:
+      base-tag:
+        description: SHA-based tag for the built ref (org/repo:sha-1234567)
+        value: ${{ jobs.meta.outputs.base-tag }}
+      permatags:
+        description: Space-separated list of all tags to apply to the ref
+        value: ${{ jobs.meta.outputs.permatags }}
+
+jobs:
+  meta:
+    runs-on: ubuntu-24.04
+    outputs:
+      base-tag: ${{ steps.base-tag.outputs.tags }}
+      permatags: ${{ steps.permatags.outputs.tags }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - id: base-tag
+        name: Determine base tag (for git-tag builds)
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: type=sha
+
+      - id: permatags
+        name: Determine permatags
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=sha
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=ref,event=branch
+            type=ref,event=tag
+            type=semver,event=tag,pattern={{major}}
+            type=semver,event=tag,pattern={{major}}.{{minor}}
+            type=semver,event=tag,pattern={{version}}
