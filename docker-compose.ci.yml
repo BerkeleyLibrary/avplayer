@@ -4,8 +4,14 @@ services:
   app:
     build: !reset
     image: ${DOCKER_APP_IMAGE}
+    secrets:
+      - LIT_TIND_API_KEY
     volumes: !override
       - artifacts:/opt/app/artifacts
+
+secrets:
+  LIT_TIND_API_KEY:
+    environment: LIT_TIND_API_KEY
 
 volumes:
   artifacts:

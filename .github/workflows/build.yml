@@ -133,6 +133,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run the test script
+        env:
+          LIT_TIND_API_KEY: ${{ secrets.LIT_TIND_API_KEY }}
         run: |
           docker compose run --rm --user root app chown -R avplayer:avplayer artifacts
           docker compose up --detach --wait
