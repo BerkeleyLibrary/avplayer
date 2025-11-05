@@ -10,7 +10,7 @@ module BerkeleyLibrary
 
       COLLECTION_RE = %r{(^[^/]+)/}
 
-      SOURCE_TYPE_HLS = 'application/x-mpegURL'.freeze
+      SOURCE_TYPE_HLS = 'application/vnd.apple.mpegurl'.freeze
       SOURCE_TYPE_MPEG_DASH = 'application/dash+xml'.freeze
       DASH_VTT_XPATH = "//AdaptationSet[@mimeType='text/vtt']//BaseURL".freeze
 
