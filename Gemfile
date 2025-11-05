@@ -5,7 +5,7 @@ ruby_version_file = File.expand_path('.ruby-version', __dir__)
 ruby_version_exact = File.read(ruby_version_file).strip
 ruby ruby_version_exact
 
-gem 'berkeley_library-av-core', '~> 0.4.2'
+gem 'berkeley_library-av-core', '~> 0.4.3'
 gem 'berkeley_library-docker', '~> 0.2.0'
 gem 'berkeley_library-logging', '~> 0.2'
 gem 'browser', '~> 4.2'
