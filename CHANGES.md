@@ -1,3 +1,7 @@
+# 1.0.9 (unreleased)
+
+* AP-487: declare correct mime type for HLS streams
+
 # 1.0.8 (2025-11-04)
 
 * Bumps av-core to 0.4.3 which leverages the TIND API for metadata sourcing. The old method—using the public /search endpoint—no longer works due to TIND's server-side restrictions.
