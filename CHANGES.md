@@ -1,3 +1,22 @@
+# 1.0.9 (unreleased)
+
+* AP-487: declare correct mime type for HLS streams
+
+# 1.0.8 (2025-11-04)
+
+* Bumps av-core to 0.4.3 which leverages the TIND API for metadata sourcing. The old method—using the public /search endpoint—no longer works due to TIND's server-side restrictions.
+* Deployments must set LIT_TIND_API_KEY either as a Docker secret (/run/secrets/LIT_TIND_API_KEY) or directly in the environment to authenticate to the TIND API.
+
+# 1.0.7 (2025-10-21)
+
+* Updated build/release workflows: Switches to registry-based build caching (#12)
+
+# 1.0.6 (2025-05-23)
+
+* Vendor our own local copy of MediaElement.js.
+* Fix for full-screen video playback in Safari.
+* Revert "AP-314: ensure latest dash.js loads"
+
 # 1.0.4 (2025-02-14)
 
 - AP-314: ensure dashjs loads when latest ≥ 5.0.0
