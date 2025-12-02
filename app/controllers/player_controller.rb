@@ -1,6 +1,5 @@
 require 'active_record'
 require 'berkeley_library/av/core'
-require 'health/check'
 
 class PlayerController < ApplicationController
 
@@ -33,11 +32,6 @@ class PlayerController < ApplicationController
       record_id:,
       record: ex_record
     }
-  end
-
-  def health
-    check = Health::Check.new
-    render json: check, status: check.http_status_code
   end
 
   def preview

@@ -11,8 +11,7 @@ Rails.application.routes.draw do
   get '/:collection/:record_id', to: 'player#show', as: :player
 
   defaults format: 'json' do
-    # TODO: separate HealthController
-    get '/health', to: 'player#health'
+    get '/health', to: 'ok_computer/ok_computer#index'
   end
 
   # Expects query string: collection=<collection>&relative_path=<paths>, where
