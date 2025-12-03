@@ -11,6 +11,7 @@ gem 'berkeley_library-logging', '~> 0.2'
 gem 'browser', '~> 4.2'
 gem 'jbuilder', '~> 2.7'
 gem 'non-stupid-digest-assets', '~> 1.0' # Allow static pages (e.g. 404.html) to link to compiled assets
+gem 'okcomputer', '~> 1.19'
 gem 'omniauth-cas', '~> 2.0'
 gem 'puma', '~> 5.3', '>= 5.3.1'
 gem 'rails', '~> 7.0.4'
