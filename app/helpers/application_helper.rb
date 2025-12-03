@@ -8,7 +8,9 @@ module ApplicationHelper
   end
 
   def login_link(text = 'CalNet Login')
-    link_to(text, login_path(url: request.original_url))
+    form_tag('/auth/calnet', url: request.original_url, method: 'post', data: { turbo: false }) do
+      button_tag text, class: 'calnet_login'
+    end
   end
 
   def vpn_link

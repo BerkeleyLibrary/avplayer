@@ -2,7 +2,7 @@
 <%
   calnet_only = record&.calnet_only?
   access_methods = [].tap do |mm|
-    mm << login_link('log in with CalNet') unless authenticated?
+    mm << login_link('Log in with CalNet') unless authenticated?
     mm << vpn_link unless calnet_only || ucb_request?
   end
 %>
