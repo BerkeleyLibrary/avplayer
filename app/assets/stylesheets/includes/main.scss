@@ -226,7 +226,7 @@ section {
       }
     }
 
-    a, button.calnet_login {
+    a {
       &:hover {
         box-shadow: inset 0 -4px 0 $color-anchor-highlight;
       }
@@ -257,23 +257,26 @@ section {
   }
 
   &.restricted {
-    form {
-      button.calnet_login {
-        box-shadow: inset 0 -4pxq 0 $color-anchor-highlight;
+    form.auth {
+      margin-right: auto;
+      margin-bottom: 0.25rem;
 
-        &:hover {
-          background: $color-anchor-highlight;
-          border: 1px solid $color-anchor-highlight;
+      div.access_methods {
+        button.calnet_login {
+          box-shadow: inset 0 -4px 0 $color-anchor-highlight;
+
+          &:hover {
+            background: $color-anchor-highlight;
+            border: 1px solid $color-anchor-highlight;
+          }
         }
-      }
-    }
-    p {
-      a {
-        box-shadow: inset 0 -4px 0 $color-anchor-highlight;
+        a {
+          box-shadow: inset 0 -4px 0 $color-anchor-highlight;
 
-        &:hover {
-          background: $color-anchor-highlight;
-          border: 1px solid $color-anchor-highlight;
+          &:hover {
+            background: $color-anchor-highlight;
+            border: 1px solid $color-anchor-highlight;
+          }
         }
       }
     }
@@ -412,9 +415,8 @@ span {
 button.calnet_login {
   background: inherit;
   margin: inherit;
-  border: none;
-  line-height: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  text-decoration: inherit;
+  padding: inherit;
+  border: inherit;
+  font: inherit;
+  display: inline;
 }
