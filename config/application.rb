@@ -17,7 +17,7 @@ module AvPlayer
     # RAILS DEFAULTS
 
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.1
+    config.load_defaults 7.2
 
     # ############################################################
     # Application settings
