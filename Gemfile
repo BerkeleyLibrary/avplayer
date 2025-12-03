@@ -5,16 +5,17 @@ ruby_version_file = File.expand_path('.ruby-version', __dir__)
 ruby_version_exact = File.read(ruby_version_file).strip
 ruby ruby_version_exact
 
-gem 'berkeley_library-av-core', '~> 0.4.3'
+gem 'berkeley_library-av-core', '~> 0.5.0'
 gem 'berkeley_library-docker', '~> 0.2.0'
 gem 'berkeley_library-logging', '~> 0.2'
 gem 'browser', '~> 4.2'
 gem 'jbuilder', '~> 2.7'
-gem 'non-stupid-digest-assets', '~> 1.0' # Allow static pages (e.g. 404.html) to link to compiled assets
+gem 'nokogiri', '~> 1.18'
+# gem 'non-stupid-digest-assets', '~> 1.0' # Allow static pages (e.g. 404.html) to link to compiled assets
 gem 'okcomputer', '~> 1.19'
 gem 'omniauth-cas', '~> 2.0'
 gem 'puma', '~> 5.3', '>= 5.3.1'
-gem 'rails', '~> 7.0.4'
+gem 'rails', '~> 7.1.0'
 gem 'rest-client', '~> 2.1'
 gem 'sassc-rails', '~> 2.1'
 gem 'sprockets', '~> 4.0'
@@ -27,7 +28,7 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'colorize'
   gem 'dotenv-rails'
-  gem 'rspec-rails', '~> 5.0'
+  gem 'rspec-rails', '~> 7.0'
 end
 
 group :development do
