@@ -67,7 +67,7 @@ module BerkeleyLibrary
           track = Track.new(sort_order: 0, path: "coll/foo\tbar.mp4")
           allow(BerkeleyLibrary::Logging.logger).to receive(:warn).with(/foo\\tbar.mp4/) # from `build_hls_uri`
           expect(BerkeleyLibrary::Logging.logger).to receive(:warn).with("No HLS URI for track: #{track}") # from `hls_uri_exists?`
-          expect(track.exists?).to eq(false)
+          expect(track.exists?).to be(false)
         end
 
         it 'logs a warning and returns false in the event of a nil HTTP response' do
@@ -77,7 +77,7 @@ module BerkeleyLibrary
 
           # Shouldn't happen but let's be sure
           allow(Net::HTTP).to receive(:start).and_return(nil)
-          expect(track.exists?).to eq(false)
+          expect(track.exists?).to be(false)
         end
 
         it 'logs a warning and returns false in the event of a 404' do
@@ -87,7 +87,7 @@ module BerkeleyLibrary
           expect(BerkeleyLibrary::Logging.logger).to receive(:warn).with(msg_re)
 
           stub_request(:head, track.hls_uri).to_return(status: 404)
-          expect(track.exists?).to eq(false)
+          expect(track.exists?).to be(false)
         end
       end
 

@@ -24,39 +24,39 @@
 #   # config.content_security_policy_report_only = true
 # end
 
-Rails.application.configure do 
+Rails.application.configure do
   config.content_security_policy do |policy|
 
-  wowza_base = URI.parse(config.wowza_base_uri)
-  wowza_alt = case wowza_base.scheme
-              when 'http'
-                URI::HTTPS.build(host: wowza_base.host)
-              when 'https'
-                URI::HTTP.build(host: wowza_base.host)
-              else
-                raise "Unsupported scheme for Wowza base URI #{wowza_base}"
-              end
+    wowza_base = URI.parse(config.wowza_base_uri)
+    wowza_alt = case wowza_base.scheme
+                when 'http'
+                  URI::HTTPS.build(host: wowza_base.host)
+                when 'https'
+                  URI::HTTP.build(host: wowza_base.host)
+                else
+                  raise "Unsupported scheme for Wowza base URI #{wowza_base}"
+                end
 
-  wowza_host_ezproxy = "#{wowza_base.host.gsub('.', '-')}.libproxy.berkeley.du"
-  wowza_src_ezproxy = URI::HTTPS.build(host: wowza_host_ezproxy)
+    wowza_host_ezproxy = "#{wowza_base.host.gsub('.', '-')}.libproxy.berkeley.du"
+    wowza_src_ezproxy = URI::HTTPS.build(host: wowza_host_ezproxy)
 
-  wowza_host_ezproxy_stg = "#{wowza_base.host.gsub('.', '-')}.ibproxy-staging.berkeley.edu"
-  wowza_src_ezproxy_stg = URI::HTTPS.build(host: wowza_host_ezproxy_stg)
+    wowza_host_ezproxy_stg = "#{wowza_base.host.gsub('.', '-')}.ibproxy-staging.berkeley.edu"
+    wowza_src_ezproxy_stg = URI::HTTPS.build(host: wowza_host_ezproxy_stg)
 
-  policy.default_src(
-    :self,
-    :unsafe_inline,
-    wowza_base.to_s,
-    wowza_alt.to_s,
-    wowza_src_ezproxy.to_s,
-    wowza_src_ezproxy_stg.to_s,
-    # TODO: fewer CDNs?
-    'https://cdn.jsdelivr.net',
-    'https://cdn.dashjs.org',
-    'https://p.typekit.net',
-    'https://use.typekit.net',
-    'data:',
-    'blob:'
-  )
+    policy.default_src(
+      :self,
+      :unsafe_inline,
+      wowza_base.to_s,
+      wowza_alt.to_s,
+      wowza_src_ezproxy.to_s,
+      wowza_src_ezproxy_stg.to_s,
+      # TODO: fewer CDNs?
+      'https://cdn.jsdelivr.net',
+      'https://cdn.dashjs.org',
+      'https://p.typekit.net',
+      'https://use.typekit.net',
+      'data:',
+      'blob:'
+    )
   end
 end

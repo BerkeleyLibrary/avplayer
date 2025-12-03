@@ -29,7 +29,7 @@ class User
   # @param affiliations Affiliations per CalNet (attribute `berkeleyEduAffiliations` e.g.
   #        `EMPLOYEE-TYPE-FACULTY`, `STUDENT-TYPE-REGISTERED`).
   def initialize(uid: nil, affiliations: nil)
-    super(uid:, affiliations:)
+    super
   end
 
   # ------------------------------------------------------------
