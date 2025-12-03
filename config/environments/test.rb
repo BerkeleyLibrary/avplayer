@@ -42,7 +42,7 @@ Rails.application.configure do
   config.active_support.disallowed_deprecation_warnings = []
 
   # Raises error for missing translations.
-  # config.i178n.raise_on_missing_translations = true
+  # config.i18n.raise_on_missing_translations = true
 
   # Always display the home page in test
   config.show_homepage = '1'
