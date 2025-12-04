@@ -1,20 +1,20 @@
 module ApplicationHelper
   def calnet_link
-    authenticated? ? logout_link : login_link
+    authenticated? ? logout_link : login_button
   end
 
   def logout_link(text = 'CalNet Logout')
     link_to(text, logout_path)
   end
 
-  def login_link(text = 'CalNet Login')
-    form_tag('/auth/calnet', url: request.original_url, method: 'post', data: { turbo: false }) do
-      login_button text
-    end
+  def calnet_omniauth_authorize_path
+    '/auth/calnet'
   end
 
-  def login_button(text = 'CalNet Login')
-    button_tag text, class: 'calnet_login', role: 'link'
+  def login_button(text = 'CalNet Login', form_class: 'calnet_auth')
+    button_to(text, calnet_omniauth_authorize_path,
+              params: { url: request.original_url },
+              form_class:, data: { turbo: false })
   end
 
   def vpn_link

@@ -97,7 +97,7 @@ header {
     }
 
     ul {
-      a, button.calnet_login {
+      a, form.calnet_auth > button {
         color: black;
 
         &:hover {
@@ -257,24 +257,15 @@ section {
   }
 
   &.restricted {
-    form.auth {
+    div.access_methods {
       margin-right: auto;
       margin-bottom: 0.25rem;
 
-      div.access_methods {
-        button.calnet_login {
-          box-shadow: inset 0 -4px 0 $color-anchor-highlight;
+      a, form.calnet_auth > button {
+        box-shadow: inset 0 -4px 0 $color-anchor-highlight;
 
-          &:hover {
-            background: $color-anchor-highlight;
-          }
-        }
-        a {
-          box-shadow: inset 0 -4px 0 $color-anchor-highlight;
-
-          &:hover {
-            background: $color-anchor-highlight;
-          }
+        &:hover {
+          background: $color-anchor-highlight;
         }
       }
     }
@@ -410,11 +401,13 @@ span {
   // sass-lint:enable class-name-format
 }
 
-button.calnet_login {
-  background: inherit;
-  margin: inherit;
-  padding: inherit;
-  border: inherit;
-  font: inherit;
+form.calnet_auth {
   display: inline;
+  button {
+    background: inherit;
+    margin: inherit;
+    padding: inherit;
+    border: inherit;
+    font: inherit;
+  }
 }
