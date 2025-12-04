@@ -10,8 +10,8 @@ gem 'berkeley_library-docker', '~> 0.2.0'
 gem 'berkeley_library-logging', '~> 0.2'
 gem 'browser', '~> 4.2'
 gem 'jbuilder', '~> 2.13'
-gem 'nokogiri', '~> 1.18'
-# gem 'non-stupid-digest-assets', '~> 1.0' # Allow static pages (e.g. 404.html) to link to compiled assets
+gem 'mutex_m'
+gem 'non-stupid-digest-assets', '~> 1.0' # Allow static pages (e.g. 404.html) to link to compiled assets
 gem 'okcomputer', '~> 1.19'
 gem 'omniauth-cas', '~> 3.0'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
