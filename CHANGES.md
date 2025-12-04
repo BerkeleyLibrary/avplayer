@@ -1,5 +1,8 @@
-# 1.0.9 (unreleased)
+# 1.1.0 (unreleased)
 
+* AP-526: upgrade Ruby, Rails, and other dependencies
+  * includes changes to support omniauth-cas 3.x
+* AP-521: convert healthchecks to okcomputer
 * AP-487: declare correct mime type for HLS streams
 
 # 1.0.8 (2025-11-04)
