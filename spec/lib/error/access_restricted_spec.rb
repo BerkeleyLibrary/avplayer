@@ -21,8 +21,8 @@ module Error
           metadata:,
           tracks: BerkeleyLibrary::AV::Track.tracks_from(metadata.marc_record, collection:)
         )
-        expect(record.calnet_or_ip?).to eq(true) # just to be sure
-        expect(record.calnet_only?).to eq(false) # just to be sure
+        expect(record.calnet_or_ip?).to be(true) # just to be sure
+        expect(record.calnet_only?).to be(false) # just to be sure
 
         expected_message = format(AccessRestricted::MSG_FMT_UCB_ACCESS, record_id)
         expect { raise(AccessRestricted, record) }.to raise_error(AccessRestricted, expected_message)
@@ -38,8 +38,8 @@ module Error
           metadata:,
           tracks: BerkeleyLibrary::AV::Track.tracks_from(metadata.marc_record, collection:)
         )
-        expect(record.calnet_or_ip?).to eq(true) # just to be sure
-        expect(record.calnet_only?).to eq(true) # just to be sure
+        expect(record.calnet_or_ip?).to be(true) # just to be sure
+        expect(record.calnet_only?).to be(true) # just to be sure
 
         expected_message = format(AccessRestricted::MSG_FMT_CALNET_ONLY, record_id)
         expect { raise(AccessRestricted, record) }.to raise_error(AccessRestricted, expected_message)

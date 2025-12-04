@@ -30,7 +30,8 @@ module Error
     def message_for(record)
       rec_id = record.record_id
       return format(MSG_FMT_CALNET_ONLY, rec_id) if record.calnet_only?
-      return format(MSG_FMT_UCB_ACCESS, rec_id) if record.calnet_or_ip?
+
+      format(MSG_FMT_UCB_ACCESS, rec_id) if record.calnet_or_ip?
     end
   end
 end
