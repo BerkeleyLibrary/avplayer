@@ -2,19 +2,21 @@
 <%
   calnet_only = record&.calnet_only?
   access_methods = [].tap do |mm|
-    mm << login_link('log in with CalNet') unless authenticated?
+    mm << login_button('log in with CalNet') unless authenticated?
     mm << vpn_link unless calnet_only || ucb_request?
   end
 %>
 <section class="record restricted">
   <h1>Access to this record is restricted</h1>
 
-  <p>
+  <%= form_tag('/auth/calnet', url: request.original_url, method: 'post', data: { turbo: false }, class: 'auth') do %>
+  <div class="access_methods">
     The specified record is available to UC Berkeley users only.
     <% unless access_methods.empty? # should never happen %>
       For full access, <%= access_methods.join(', or ').html_safe %>.
     <% end %>
-  </p>
+  </div>
+  <% end %>
 
   <table>
     <thead>

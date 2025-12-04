@@ -27,8 +27,8 @@ RSpec.shared_examples 'access to the record is restricted' do |collection, recor
     expect(page).to have_content(collection)
     expect(page).to have_content(record_id)
 
-    show_url = player_url(collection:, record_id:)
-    expect(page).to have_link(href: login_path(url: show_url))
+    # show_url = player_url(collection:, record_id:)
+    expect(page).to have_css('button.calnet_login')
   end
 end
 

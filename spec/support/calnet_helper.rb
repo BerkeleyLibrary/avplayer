@@ -85,7 +85,6 @@ module CalnetHelper
 
   def log_in_with_omniauth(auth_hash)
     OmniAuth.config.mock_auth[:calnet] = auth_hash
-    without_redirects { do_get login_path }
 
     Rails.application.env_config['omniauth.auth'] = auth_hash
     do_get omniauth_callback_path(:calnet)
