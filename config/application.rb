@@ -22,7 +22,10 @@ module AvPlayer
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w[assets tasks])
+    #
+    # We exclude `av_player` because an initializer to loads it. Otherwise,
+    # autoloading blows up with a NameError for AvPlayer::TrackExtensions.
+    config.autoload_lib(ignore: %w[assets tasks av_player])
 
     # ############################################################
     # Application settings
