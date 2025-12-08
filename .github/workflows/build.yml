@@ -57,10 +57,21 @@ jobs:
         run: |
           echo "registry=$(echo '${{ steps.build-meta.outputs.tags }}' | cut -f1 -d:)" | tee -a "$GITHUB_OUTPUT"
 
+      - id: set_build_url
+        name: Set BUILD_URL
+        run: |
+          echo "build_url=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" | tee -a "$GITHUB_OUTPUT"
+
       - id: build
         name: Build/push the arch-specific image
         uses: docker/build-push-action@v6
         with:
+          build-args: |
+            BUILD_TIMESTAMP=${{ github.event.repository.updated_at }}
+            BUILD_URL=${{ steps.set_build_url.outputs.build_url }}
+            GIT_REF_NAME=${{ github.ref_name }}
+            GIT_SHA=${{ github.sha }}
+            GIT_REPOSITORY_URL=${{ github.repositoryUrl }}
           cache-from: type=registry,ref=${{ steps.cache-meta.outputs.tags }}
           cache-to: type=registry,ref=${{ steps.cache-meta.outputs.tags }},mode=max
           labels: ${{ steps.build-meta.outputs.labels }}
