@@ -1,5 +1,6 @@
-# 1.1.0 (unreleased)
+# 1.1.0 (2025-12-09)
 
+* AP-533: pass in image build arguments (#22)
 * AP-526: upgrade Ruby, Rails, and other dependencies
   * includes changes to support omniauth-cas 3.x
 * AP-521: convert healthchecks to okcomputer
