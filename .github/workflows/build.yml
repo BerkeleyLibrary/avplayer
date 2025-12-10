@@ -20,9 +20,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner:
-          - ubuntu-24.04
-          - ubuntu-24.04-arm
+        include:
+          - platform: linux/amd64
+            runner: ubuntu-24.04
+          - platform: linux/arm64
+            runner: ubuntu-24.04-arm
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -121,6 +123,10 @@ jobs:
           docker buildx imagetools create \
             --tag "$DOCKER_METADATA_OUTPUT_TAGS" \
             "$DOCKER_APP_IMAGE_ARM64" "$DOCKER_APP_IMAGE_X64"
+      - name: Inspect the multi-platform image
+        run: |
+          docker buildx imagetools inspect \
+            "$DOCKER_METADATA_OUTPUT_TAGS"
 
   test:
     runs-on: ubuntu-24.04
