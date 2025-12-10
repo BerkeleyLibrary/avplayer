@@ -68,6 +68,7 @@ jobs:
         name: Build/push the arch-specific image
         uses: docker/build-push-action@v6
         with:
+          platforms: ${{ matrix.platform }}
           build-args: |
             BUILD_TIMESTAMP=${{ github.event.repository.updated_at }}
             BUILD_URL=${{ steps.set_build_url.outputs.build_url }}
