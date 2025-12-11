@@ -124,10 +124,6 @@ jobs:
           docker buildx imagetools create \
             --tag "$DOCKER_METADATA_OUTPUT_TAGS" \
             "$DOCKER_APP_IMAGE_ARM64" "$DOCKER_APP_IMAGE_X64"
-      - name: Inspect the multi-platform image
-        run: |
-          docker buildx imagetools inspect \
-            "$DOCKER_METADATA_OUTPUT_TAGS"
 
   test:
     runs-on: ubuntu-24.04
@@ -189,5 +185,6 @@ jobs:
       - name: Retag and push the image
         run: |
           docker pull "$DOCKER_APP_IMAGE"
+          docker inspect "$DOCKER_APP_IMAGE"
           echo "$DOCKER_METADATA_OUTPUT_TAGS" | tr ' ' '\n' | xargs -n1 docker tag "$DOCKER_APP_IMAGE"
           docker push --all-tags "$(echo "$DOCKER_APP_IMAGE" | cut -f1 -d:)"
