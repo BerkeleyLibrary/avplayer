@@ -97,6 +97,8 @@ jobs:
       DOCKER_APP_IMAGE_X64: ${{ needs.build.outputs.build-image-x64 }}
     outputs:
       build-image: ${{ steps.meta.outputs.tags }}
+      build-image-arm: ${{ needs.build.outputs.build-image-arm }}
+      build-image-x64: ${{ needs.build.outputs.build-image-x64 }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -161,6 +163,8 @@ jobs:
       - test
     env:
       DOCKER_APP_IMAGE: ${{ needs.merge.outputs.build-image }}
+      DOCKER_APP_IMAGE_ARM64: ${{ needs.merge.outputs.build-image-arm }}
+      DOCKER_APP_IMAGE_X64: ${{ needs.merge.outputs.build-image-x64 }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -187,6 +191,6 @@ jobs:
 
       - name: Retag and push the image
         run: |
+          echo $
           docker buildx imagetools create \
-            $(jq -cr '.tags | map("--tag " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            "$(echo "$DOCKER_APP_IMAGE" | cut -f1 -d:)"
+            $(jq -cr '.tags | map("--tag " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") $DOCKER_APP_IMAGE_ARM64 $DOCKER_APP_IMAGE_X64
