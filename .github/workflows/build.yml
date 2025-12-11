@@ -191,6 +191,5 @@ jobs:
 
       - name: Retag and push the image
         run: |
-          echo $
           docker buildx imagetools create \
             $(jq -cr '.tags | map("--tag " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") $DOCKER_APP_IMAGE_ARM64 $DOCKER_APP_IMAGE_X64
