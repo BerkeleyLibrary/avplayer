@@ -148,6 +148,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set ARTIFACTS_DIR
+        run: echo "ARTIFACTS_DIR=${RUNNER_TEMP}/artifacts" >> $GITHUB_ENV
+
+      - name: Create the artifacts directory
+        run: mkdir -p "$ARTIFACTS_DIR"
+
       - name: Run the test script
         env:
           LIT_TIND_API_KEY: ${{ secrets.LIT_TIND_API_KEY }}
@@ -155,6 +161,22 @@ jobs:
           docker compose run --rm --user root app chown -R avplayer:avplayer artifacts
           docker compose up --detach --wait
           docker compose exec app bin/test
+
+      - name: Copy out artifacts
+        if: ${{ always() }}
+        run: |
+          docker compose cp app:/opt/app/artifacts "${ARTIFACTS_DIR}/"
+          docker compose logs | tee "${ARTIFACTS_DIR}/docker-services.log"
+          docker compose config | tee "${ARTIFACTS_DIR}/docker-compose.merged.yml"
+          docker events --json --since $TEST_START --until `date +%s` | tee "${ARTIFACTS_DIR}/docker-events.json"
+
+      - name: Upload test report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: avplayer Test Report (${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }})
+          path: ${{ env.ARTIFACTS_DIR }}
+          if-no-files-found: error
 
   push:
     runs-on: ubuntu-latest
