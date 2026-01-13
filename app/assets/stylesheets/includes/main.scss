@@ -60,24 +60,16 @@ header {
   div {
     &.branding {
       display: flex;
-      flex-direction: column;
-
-      a {
-        display: contents;
-      }
 
       img {
         &.header-logo {
-          display: block;
           height: 52px;
-          width: 315px;
         }
       }
 
       span {
         &.site-name {
           color: $color-site-name;
-          display: block;
           font-size: $font-size-large;
           letter-spacing: $margin-small;
           text-transform: uppercase;

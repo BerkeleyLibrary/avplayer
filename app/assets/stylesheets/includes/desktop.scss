@@ -18,10 +18,17 @@
       &.branding {
         flex-direction: row;
 
+        img {
+          &.header-logo {
+            vertical-align: middle;
+            width: 315px;
+          }
+        }
+
         span {
           &.site-name {
             padding-left: $margin;
-            padding-top: $sitename-baseline-adjust;
+            vertical-align: middle;
           }
         }
       }

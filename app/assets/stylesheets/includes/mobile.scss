@@ -16,6 +16,18 @@
         flex-direction: column;
         padding: $margin-2xl;
 
+        a {
+          text-align: center;
+        }
+
+        img {
+          &.header-logo {
+            display: block;
+            width: 100%;
+            max-width: 315px;
+          }
+        }
+
         span {
           &.site-name {
             padding-left: $margin-small;
