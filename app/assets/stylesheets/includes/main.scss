@@ -169,7 +169,9 @@ section {
     margin-bottom: $margin;
     width: 100%;
   }
+}
 
+article {
   &.record {
     align-items: center;
     display: flex;
@@ -225,7 +227,7 @@ section {
       }
     }
 
-    ul {
+    aside {
       &.track-info {
         display: flex;
         flex-direction: row;
@@ -234,8 +236,7 @@ section {
         list-style-type: none;
         margin-bottom: $margin-small;
 
-        li {
-          display: block;
+        div {
           padding-left: $margin-small;
 
           &:not(:last-of-type) {

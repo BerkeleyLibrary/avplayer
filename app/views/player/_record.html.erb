@@ -2,7 +2,7 @@
 
 <%= render(partial: 'player_head_additional') %>
 
-<section class="record">
+<article class="record">
 
   <h1><%= record.title %></h1>
 
@@ -23,14 +23,14 @@
         %>
         <%= render(partial: track.player_partial, locals: locals) %>
         <% if track.duration || !track.title.blank? %>
-          <ul class="track-info">
+          <aside class="track-info">
             <% unless track.title.blank? %>
-              <li><%= track.title %></li>
+              <div><%= track.title %></div>
             <% end %>
             <% if track.duration %>
-              <li><%= track.duration %></li>
+              <div><%= track.duration %></div>
             <% end %>
-          </ul>
+          </aside>
         <% end %>
       </section>
     <% end %>
@@ -90,7 +90,7 @@
     </tbody>
   </table>
 
-</section>
+</article>
 
 <!--
 <%= render(partial: 'debug', formats: :text, locals: { record: record }) %>
