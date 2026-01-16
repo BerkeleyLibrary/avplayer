@@ -1317,7 +1317,7 @@ Object.assign(_player2.default.prototype, {
 		    fullscreenTitle = (0, _general.isString)(t.options.fullscreenText) ? t.options.fullscreenText : _i18n2.default.t('mejs.fullscreen'),
 		    fullscreenBtn = _document2.default.createElement('div');
 		fullscreenBtn.className = t.options.classPrefix + 'button ' + t.options.classPrefix + 'fullscreen-button';
-		fullscreenBtn.innerHTML = (0, _generate.generateControlButton)(t.id, fullscreenTitle, fullscreenTitle, '' + t.media.options.iconSprite, ['icon-fullscreen', 'icon-unfullscreen'], '' + t.options.classPrefix);
+		fullscreenBtn.innerHTML = (0, _generate.generateControlButton)(t.id, fullscreenTitle, fullscreenTitle, '' + t.media.options.iconSprite, ['icon-fullscreen', 'icon-unfullscreen'], '' + t.options.classPrefix, null, '', false);
 		t.addControlElement(fullscreenBtn, 'fullscreen');
 
 		fullscreenBtn.addEventListener('click', function () {
@@ -1476,6 +1476,7 @@ Object.assign(_player2.default.prototype, {
 		if (t.fullscreenBtn) {
 			(0, _dom.removeClass)(t.fullscreenBtn, t.options.classPrefix + 'fullscreen');
 			(0, _dom.addClass)(t.fullscreenBtn, t.options.classPrefix + 'unfullscreen');
+			t.fullscreenBtn.querySelector('button').setAttribute('aria-pressed', true);
 		}
 
 		t.setControlsSize();
@@ -1539,6 +1540,7 @@ Object.assign(_player2.default.prototype, {
 		if (t.fullscreenBtn) {
 			(0, _dom.removeClass)(t.fullscreenBtn, t.options.classPrefix + 'unfullscreen');
 			(0, _dom.addClass)(t.fullscreenBtn, t.options.classPrefix + 'fullscreen');
+			t.fullscreenBtn.querySelector('button').setAttribute('aria-pressed', false);
 		}
 
 		t.setControlsSize();
