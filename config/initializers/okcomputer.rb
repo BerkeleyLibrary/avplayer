@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
+require 'berkeley_library/util/uris/head_check'
+
 # Health check configuration
 
 OkComputer.logger = Rails.logger
-OkComputer.check_in_parallel = true
+OkComputer.check_in_parallel = !Rails.env.test?
 
 ALMA_TEST_ID = 'b23305522'
 TIND_TEST_ID = '(pacradio)01469'
@@ -26,24 +28,8 @@ class TindCheck < OkComputer::Check
   end
 end
 
-class HeadCheck < OkComputer::HttpCheck
-  def perform_request
-    Timeout.timeout(request_timeout) do
-      options = { read_timeout: request_timeout }
-
-      if basic_auth_options.any?
-        options[:http_basic_authentication] = basic_auth_options
-      end
-
-      RestClient.head(url.to_s, options)
-    end
-  rescue => e
-    raise ConnectionFailed, e
-  end
-end
-
 # Ensure Alma API is working.
-OkComputer::Registry.register 'alma-metadata', HeadCheck.new(ALMA_TEST_URL)
+OkComputer::Registry.register 'alma-metadata', BerkeleyLibrary::Util::HeadCheck.new(ALMA_TEST_URL)
 
 # Ensure TIND API is working. This cannot use `OkComputer::HttpCheck`
 # out of the box as we can't yet inject headers into the request without
@@ -51,4 +37,4 @@ OkComputer::Registry.register 'alma-metadata', HeadCheck.new(ALMA_TEST_URL)
 OkComputer::Registry.register 'tind-metadata', TindCheck.new
 
 # Ensure Wowza is working
-OkComputer::Registry.register 'wowza-streaming', HeadCheck.new(WOWZA_TEST_URL)
+OkComputer::Registry.register 'wowza-streaming', BerkeleyLibrary::Util::HeadCheck.new(WOWZA_TEST_URL)
