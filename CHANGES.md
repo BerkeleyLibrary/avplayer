@@ -1,3 +1,7 @@
+# Current Changelog moved to GitHub releases page
+
+* https://github.com/BerkeleyLibrary/avplayer/releases
+
 # 1.1.0 (2025-12-09)
 
 * AP-533: pass in image build arguments (#22)
