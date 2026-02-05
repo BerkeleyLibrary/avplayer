@@ -8,6 +8,7 @@ ruby ruby_version_exact
 gem 'berkeley_library-av-core', '~> 0.5.0'
 gem 'berkeley_library-docker', '~> 0.2.0'
 gem 'berkeley_library-logging', '~> 0.2'
+gem 'berkeley_library-util', '~> 0.3'
 gem 'browser', '~> 4.2'
 gem 'jbuilder', '~> 2.13'
 gem 'mutex_m'

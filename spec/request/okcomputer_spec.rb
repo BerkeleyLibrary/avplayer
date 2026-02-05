@@ -2,11 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'OKComputer', type: :request do
   before do
-    stub_sru_request('b23305522')
+    stub_sru_head_request('b23305522')
 
-    hls_manifest = File.read('spec/data/playlist.m3u8')
     manifest_url = 'https://wowza.lib.berkeley.edu/Pacifica/mp3:PRA_NHPRC1_AZ1084_00_000_00.mp3/playlist.m3u8'
-    stub_request(:get, manifest_url).to_return(status: 200, body: hls_manifest)
+    stub_request(:head, manifest_url).to_return(status: 200)
 
     record_id = '(pacradio)01469'
     tind_url = BerkeleyLibrary::AV::Metadata::Source::TIND.marc_uri_for(record_id)
@@ -20,6 +19,7 @@ RSpec.describe 'OKComputer', type: :request do
 
   it 'returns all checks to /health' do
     get '/health'
+
     expect(response).to have_http_status :ok
     expect(response.parsed_body.keys).to match_array %w[
       alma-metadata

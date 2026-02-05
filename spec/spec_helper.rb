@@ -72,6 +72,11 @@ def stub_sru_request(record_id, body: nil)
   stub_request(:get, sru_url).to_return(status: 200, body: body || File.new(alma_sru_data_path_for(record_id)))
 end
 
+def stub_sru_head_request(record_id)
+  sru_url = alma_sru_url_for(record_id)
+  stub_request(:head, sru_url).to_return(status: 200)
+end
+
 def alma_marc_record_for(record_id)
   marc_xml_path = alma_sru_data_path_for(record_id)
   MARC::XMLReader.new(marc_xml_path).first

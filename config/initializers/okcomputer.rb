@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'berkeley_library/util/uris/head_check'
+
 # Health check configuration
 
 OkComputer.logger = Rails.logger
@@ -27,7 +29,7 @@ class TindCheck < OkComputer::Check
 end
 
 # Ensure Alma API is working.
-OkComputer::Registry.register 'alma-metadata', OkComputer::HttpCheck.new(ALMA_TEST_URL)
+OkComputer::Registry.register 'alma-metadata', BerkeleyLibrary::Util::HeadCheck.new(ALMA_TEST_URL)
 
 # Ensure TIND API is working. This cannot use `OkComputer::HttpCheck`
 # out of the box as we can't yet inject headers into the request without
@@ -35,4 +37,4 @@ OkComputer::Registry.register 'alma-metadata', OkComputer::HttpCheck.new(ALMA_TE
 OkComputer::Registry.register 'tind-metadata', TindCheck.new
 
 # Ensure Wowza is working
-OkComputer::Registry.register 'wowza-streaming', OkComputer::HttpCheck.new(WOWZA_TEST_URL)
+OkComputer::Registry.register 'wowza-streaming', BerkeleyLibrary::Util::HeadCheck.new(WOWZA_TEST_URL)
