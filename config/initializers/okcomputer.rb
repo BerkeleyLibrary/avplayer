@@ -5,7 +5,7 @@ require 'berkeley_library/util/uris/head_check'
 # Health check configuration
 
 OkComputer.logger = Rails.logger
-OkComputer.check_in_parallel = !Rails.env.test?
+OkComputer.check_in_parallel = true
 
 ALMA_TEST_ID = 'b23305522'
 TIND_TEST_ID = '(pacradio)01469'
