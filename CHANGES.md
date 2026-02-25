@@ -1,3 +1,6 @@
+# 1.1.6 (2026-02-25)
+* DP-2314 remove twitter/x logo and links.
+
 # 1.1.5 (2026-02-05)
 
 * AP-536 Change some OkComputer healthchecks to HEAD requests
