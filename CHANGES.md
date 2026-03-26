@@ -1,3 +1,7 @@
+# 1.1.7 (2026-03-26)
+* add puma delayed_stop plugin
+* update Ruby dependencies for security updates
+
 # 1.1.6 (2026-02-25)
 * DP-2314 remove twitter/x logo and links.
 
