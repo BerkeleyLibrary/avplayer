@@ -34,6 +34,9 @@ workers ENV.fetch('PUMA_WORKERS', 2).to_i
 # process behavior so workers use less memory.
 preload_app!
 
+# enable the delayed_stop plugin to intercept signals
+plugin :delayed_stop
+
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
 
