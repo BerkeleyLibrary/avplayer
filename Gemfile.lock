@@ -240,6 +240,8 @@ GEM
     public_suffix (7.0.0)
     puma (5.6.7)
       nio4r (~> 2.0)
+    puma-plugin-delayed_stop (0.1.2)
+      puma (>= 5.0, < 8)
     racc (1.8.1)
     rack (2.2.21)
     rack-protection (3.2.0)
@@ -445,6 +447,7 @@ DEPENDENCIES
   omniauth-cas (~> 3.0)
   omniauth-rails_csrf_protection (~> 1.0)
   puma (~> 5.3, >= 5.3.1)
+  puma-plugin-delayed_stop (~> 0.1.2)
   rails (~> 8.0.4)
   rest-client (~> 2.1)
   rspec (~> 3.10)
@@ -465,7 +468,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 3.3.10p183
+   ruby 3.3.11p205
 
 BUNDLED WITH
    2.5.22

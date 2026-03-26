@@ -3,6 +3,7 @@ services:
     build: .
     environment:
       - LIT_SHOW_HOMEPAGE=1
+      - PUMA_DELAYED_STOP_DRAIN_SECONDS=1
       - RAILS_ENV=development
       - RAILS_SERVE_STATIC_FILES=true
       - SECRET_KEY_BASE=foobar
@@ -15,3 +16,5 @@ services:
       - ./:/opt/app
     tty: true
     stdin_open: true
+    stop_grace_period: 30s
+    stop_signal: SIGQUIT
