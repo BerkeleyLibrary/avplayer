@@ -4,7 +4,7 @@
 # The base stage scaffolds elements which are common to building and running
 # the application, such as installing ca-certificates, creating the app user,
 # and installing runtime system dependencies.
-FROM ruby:3.3-slim AS base
+FROM ruby:3.3.11-slim AS base
 
 # ------------------------------------------------------------
 # Declarative metadata
@@ -93,7 +93,7 @@ FROM base AS development
 USER root
 
 # Install system packages needed to build gems with C extensions.
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     g++ \
     make
 
@@ -102,9 +102,6 @@ RUN apt-get install -y --no-install-recommends \
 
 # Drop back to $APP_USER.
 USER $APP_USER
-
-# Workaround for certificate issue pulling av_core gem from git.lib.berkeley.edu
-ENV GIT_SSL_NO_VERIFY=1
 
 # Install gems. We don't enforce the validity of the Gemfile.lock until the
 # final (production) stage.
