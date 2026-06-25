@@ -16,10 +16,10 @@ gem 'non-stupid-digest-assets', '~> 1.0' # Allow static pages (e.g. 404.html) to
 gem 'okcomputer', '~> 1.19'
 gem 'omniauth-cas', '~> 3.0'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
-gem 'puma', '~> 5.6', '>= 5.6.8'
+gem 'puma', '~> 6.0'
 gem 'puma-plugin-delayed_stop', '~> 0.1.2'
-gem 'rack', '~> 2.2', '>= 2.2.23'
-gem 'rails', '~> 8.0.5'
+gem 'rack', '~> 3.2.6'
+gem 'rails', '~> 8.1.3'
 gem 'rest-client', '~> 2.1'
 gem 'sassc-rails', '~> 2.1'
 gem 'sprockets', '~> 4.0'
@@ -37,11 +37,11 @@ end
 
 group :development do
   gem 'listen', '>= 3.0'
-  gem 'rubocop', '~> 1.81.7'
-  gem 'rubocop-rails', '~> 2.34.2', require: false
-  gem 'rubocop-rspec', '~> 3.8.0', require: false
+  gem 'rubocop', '~> 1.88.0'
+  gem 'rubocop-rails', '~> 2.35.5', require: false
+  gem 'rubocop-rspec', '~> 3.10.2', require: false
   gem 'rubocop-rspec_rails', require: false
-  gem 'ruby-prof', '~> 1.4', require: false
+  gem 'ruby-prof', '~> 2.0', require: false
   gem 'web-console', '>= 4.1.0'
 end
 
