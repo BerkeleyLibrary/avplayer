@@ -4,7 +4,7 @@
 # The base stage scaffolds elements which are common to building and running
 # the application, such as installing ca-certificates, creating the app user,
 # and installing runtime system dependencies.
-FROM ruby:3.3.11-slim AS base
+FROM ruby:3.4.9-slim AS base
 
 # ------------------------------------------------------------
 # Declarative metadata
@@ -96,6 +96,9 @@ USER root
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     g++ \
     make
+
+# Base image ships with an older version of bundler
+RUN gem install bundler --version 4.0.15
 
 # ------------------------------------------------------------
 # Install Ruby gems
