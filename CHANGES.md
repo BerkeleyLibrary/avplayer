@@ -1,3 +1,11 @@
+# 1.2.0 (2026-06-26)
+* AP-757: Update to Rails 8.1, Ruby 3.4, and other dependencies
+
+# 1.1.8 (2026-06-22)
+* dockerfile fixes and enhancements
+* gemfile: updates for security fixes
+* AP-740: switch to shared build workflows
+
 # 1.1.7 (2026-03-26)
 * add puma delayed_stop plugin
 * update Ruby dependencies for security updates
