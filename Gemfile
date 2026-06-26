@@ -16,7 +16,7 @@ gem 'non-stupid-digest-assets', '~> 1.0' # Allow static pages (e.g. 404.html) to
 gem 'okcomputer', '~> 1.19'
 gem 'omniauth-cas', '~> 3.0'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
-gem 'puma', '~> 6.0'
+gem 'puma', '>= 6.0', '< 8'
 gem 'puma-plugin-delayed_stop', '~> 0.1.2'
 gem 'rack', '~> 3.2.6'
 gem 'rails', '~> 8.1.3'
@@ -29,7 +29,7 @@ gem 'typesafe_enum', '~> 0.2'
 group :development, :test do
   gem 'brakeman'
   gem 'bundle-audit'
-  gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'byebug', platforms: %i[mri windows]
   gem 'colorize'
   gem 'dotenv-rails'
   gem 'rspec-rails', '~> 8.0'
