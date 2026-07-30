@@ -1,3 +1,6 @@
+# 1.2.1 (2026-07-29)
+* AP-803: Update to Rails 8.1.3.1 for security patches
+
 # 1.2.0 (2026-06-26)
 * AP-757: Update to Rails 8.1, Ruby 3.4, and other dependencies
 
