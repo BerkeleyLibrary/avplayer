@@ -1,3 +1,8 @@
+# 1.2.2 (unreleased)
+* AP-808: Migrate from Sprockets to Propshaft
+  We don't need a JS runtime at all, so this involved a lot of cleanup.
+* Update JSON gem for security patch
+
 # 1.2.1 (2026-07-29)
 * AP-803: Update to Rails 8.1.3.1 for security patches
 

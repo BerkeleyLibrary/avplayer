@@ -4,7 +4,7 @@
 # The base stage scaffolds elements which are common to building and running
 # the application, such as installing ca-certificates, creating the app user,
 # and installing runtime system dependencies.
-FROM ruby:3.4.9-slim AS base
+FROM ruby:3.4-slim AS base
 
 # ------------------------------------------------------------
 # Declarative metadata
@@ -38,27 +38,6 @@ RUN apt-get install -y --no-install-recommends \
     git \
     gpg \
     libyaml-dev
-
-# Install Node.js and Yarn from their own repositories
-
-# Add Node.js package repository (version 16 LTS release) & install Node.js
-# -- note that the Node.js setup script takes care of updating the package list
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
-    && apt-get install -y --no-install-recommends nodejs
-
-# Add Yarn package repository, update package list, & install Yarn
-RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null \
-    && echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list \
-    && apt-get update -qq \
-    && apt-get install -y --no-install-recommends yarn
-
-# Remove packages we only needed as part of the Node.js / Yarn repository
-# setup and installation -- note that the Node.js setup scripts installs
-# a full version of Python, but at runtime we only need a minimal version
-RUN apt-mark manual python3-minimal \
-    && apt-get autoremove --purge -y \
-      curl \
-      python3
 
 # ------------------------------------------------------------
 # Run configuration
@@ -113,13 +92,6 @@ RUN bundle config set --local path /usr/local/bundle
 RUN bundle install
 
 # ------------------------------------------------------------
-# Install JS packages
-
-# Install JS packages
-COPY --chown=$APP_USER:$APP_USER package.json yarn.lock ./
-RUN yarn install
-
-# ------------------------------------------------------------
 # Copy codebase
 
 # Copy the rest of the codebase. We do this after installing packages so that
@@ -129,6 +101,7 @@ COPY --chown=$APP_USER:$APP_USER . .
 
 # ------------------------------------------------------------
 # Development configuration
+RUN bundle exec rails dartsass:build
 
 # Show the home page
 ENV LIT_SHOW_HOMEPAGE=1
@@ -160,16 +133,11 @@ COPY --from=development --chown=$APP_USER /usr/local/bundle /usr/local/bundle
 RUN bundle config set frozen 'true'
 RUN bundle install --local
 
-# Ensure JS modules are installed and yarn.lock is synced
-RUN yarn install --immutable
-
 # ------------------------------------------------------------
 # Precompile production assets
 
 # Pre-compile assets so we don't have to do it after deployment.
-# NOTE: dummy SECRET_KEY_BASE to prevent spurious initializer issues
-#       -- see https://github.com/rails/rails/issues/32947
-RUN SECRET_KEY_BASE=1 rails assets:precompile --trace
+RUN SECRET_KEY_BASE_DUMMY=1 rails assets:precompile --trace
 
 # ------------------------------------------------------------
 # Preserve build arguments

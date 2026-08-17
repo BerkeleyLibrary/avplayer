@@ -1,6 +1,8 @@
 services:
   app:
-    build: .
+    build:
+      context: .
+      target: development
     environment:
       - LIT_SHOW_HOMEPAGE=1
       - PUMA_DELAYED_STOP_DRAIN_SECONDS=1
