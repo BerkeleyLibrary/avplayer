@@ -1,4 +1,4 @@
-# 1.2.2 (unreleased)
+# 1.2.2 (2026-08-18)
 * AP-808: Migrate from Sprockets to Propshaft
   We don't need a JS runtime at all, so this involved a lot of cleanup.
 * Update JSON gem for security patch
