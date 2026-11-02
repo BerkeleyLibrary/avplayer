@@ -2,6 +2,8 @@
 
 The UC Berkeley Library audio/video player.
 
+**NOTE**: This service has been decommissioned as of 2026-11-02.
+
 ## Servers
 
 Staging: [avplayer.ucblib.org](https://avplayer.ucblib.org/).
